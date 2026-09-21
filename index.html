@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XeroAI — Trade at the speed of the signal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#08090c">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="icons/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-grid"></div>
+
+<nav class="nav" id="nav">
+  <div class="container nav-inner">
+    <a href="#" class="logo">
+      <span class="logo-mark"></span>
+      XeroAI
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#">Features</a></li>
+      <li><a href="#how-it-works">How it Works</a></li>
+      <li><a href="#">Pricing</a></li>
+      <li><a href="#">FAQ</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button type="button" class="btn btn-ghost pwa-install-btn" data-pwa-install hidden>Install App</button>
+      <a href="login.html" class="link-btn">Log in</a>
+      <a href="signup.html" class="btn btn-primary">Start free</a>
+      <button class="nav-toggle" aria-label="Menu"><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+
+    <div class="eyebrow">
+      <span class="dot"></span>
+      LIVE — AI EXECUTION ENGINE
+    </div>
+
+    <h1>
+      <span class="line"><span>Trade at the speed</span></span>
+      <span class="line"><span>of the <span class="accent">signal.</span></span></span>
+    </h1>
+
+    <p class="sub">
+      Connect your broker or exchange with a secure API key. XeroAI scans markets around the clock and executes automatically the moment conditions match your strategy and risk settings.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="signup.html" class="btn btn-primary">Start free 5-day trial</a>
+      <a href="#" class="btn btn-ghost">
+        <span class="btn-play-icon"><svg viewBox="0 0 8 8" fill="currentColor"><polygon points="0,0 8,4 0,8"/></svg></span>
+        See it in action
+      </a>
+    </div>
+
+    <p class="trial-note">No credit card required · Pay‑as‑you‑use after your trial</p>
+
+    <div class="trust">
+      <p>Connects via secure API with</p>
+      <div class="trust-logos">
+        <span>Deriv</span>
+        <span>HFM</span>
+        <span>Exness</span>
+        <span>IC Markets</span>
+        <span>Binance</span>
+        <span>Bybit</span>
+      </div>
+      <p class="more-soon">+ more exchanges coming soon</p>
+    </div>
+
+    <div class="ledger-wrap">
+      <div class="ledger">
+        <div class="ledger-head">
+          <div class="ledger-head-title">
+            <span class="dot"></span>
+            EXECUTION LEDGER — LIVE
+          </div>
+          <div class="ledger-traffic"><span></span><span></span><span></span></div>
+        </div>
+
+        <div class="flow">
+          <div class="flow-node">
+            <div class="node-dot">◆</div>
+            <span class="label">Signal</span>
+          </div>
+          <div class="flow-line"></div>
+          <div class="flow-node">
+            <div class="node-dot">⛊</div>
+            <span class="label">Risk Engine</span>
+          </div>
+          <div class="flow-line"></div>
+          <div class="flow-node">
+            <div class="node-dot">✓</div>
+            <span class="label">Executed</span>
+          </div>
+        </div>
+
+        <div class="ledger-rows" id="ledgerRows"></div>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<section class="thinks" id="how-it-works">
+  <div class="container">
+
+    <div class="thinks-head">
+      <span class="eyebrow-label">AI DECISION LOOP</span>
+      <h2>How XeroAI Thinks Before Every Trade</h2>
+      <p>No guesswork, no manual clicks. Every trade passes through the same six checks — automatically, in milliseconds.</p>
+    </div>
+
+    <div class="process">
+      <div class="spine"><div class="spine-progress" id="spineProgress"></div></div>
+
+      <div class="steps" id="steps">
+
+        <div class="step" tabindex="0" role="button" aria-label="Step 1 of 6: Market Opportunity">
+          <div class="node">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="6" y1="3" x2="6" y2="21"/><rect x="4" y="9" width="4" height="6" rx="1"/>
+              <line x1="12" y1="2" x2="12" y2="22"/><rect x="10" y="6" width="4" height="9" rx="1"/>
+              <line x1="18" y1="5" x2="18" y2="19"/><rect x="16" y="10" width="4" height="5" rx="1"/>
+            </svg>
+          </div>
+          <div class="card">
+            <span class="step-index">01</span>
+            <h3>Market Opportunity</h3>
+            <p>Price action shifts across your connected markets — XeroAI is already watching.</p>
+          </div>
+        </div>
+
+        <div class="step" tabindex="0" role="button" aria-label="Step 2 of 6: AI Detects Pattern">
+          <div class="node">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M12 3v3M12 18v3M3 12h3M18 12h3M6.3 6.3l2 2M15.7 15.7l2 2M17.7 6.3l-2 2M8.3 15.7l-2 2"/>
+            </svg>
+          </div>
+          <div class="card">
+            <span class="step-index">02</span>
+            <h3>AI Detects Pattern</h3>
+            <p>Pattern recognition flags a setup that matches your configured strategy.</p>
+          </div>
+        </div>
+
+        <div class="step" tabindex="0" role="button" aria-label="Step 3 of 6: Risk Engine Validates">
+          <div class="node">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/>
+              <path d="M9 12l2 2 4-4"/>
+            </svg>
+          </div>
+          <div class="card">
+            <span class="step-index">03</span>
+            <h3>Risk Engine Validates</h3>
+            <p>Position size, exposure, and drawdown are checked against your rules.</p>
+          </div>
+        </div>
+
+        <div class="step" tabindex="0" role="button" aria-label="Step 4 of 6: Broker API Connected">
+          <div class="node">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 2.5v4M15 2.5v4"/>
+              <path d="M6 6.5h12l-1 5a5 5 0 0 1-10 0l-1-5z"/>
+              <path d="M12 15.5V21"/>
+            </svg>
+          </div>
+          <div class="card">
+            <span class="step-index">04</span>
+            <h3>Broker API Connected</h3>
+            <p>A secure API call reaches your broker or exchange — no manual clicks.</p>
+          </div>
+        </div>
+
+        <div class="step" tabindex="0" role="button" aria-label="Step 5 of 6: Trade Executed">
+          <div class="node">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/>
+            </svg>
+          </div>
+          <div class="card">
+            <span class="step-index">05</span>
+            <h3>Trade Executed</h3>
+            <p>The trade fires in milliseconds, inside the limits you set.</p>
+          </div>
+        </div>
+
+        <div class="step" tabindex="0" role="button" aria-label="Step 6 of 6: Dashboard Updates Live">
+          <div class="node">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 20V11M10 20V4M16 20v-6M22 20v-9"/>
+            </svg>
+          </div>
+          <div class="card">
+            <span class="step-index">06</span>
+            <h3>Dashboard Updates Live</h3>
+            <p>Positions, P&amp;L, and history update on your dashboard in real time.</p>
+
+            <div class="mini-dash">
+              <span class="mini-dash-badge">REAL-TIME</span>
+              <div class="mini-dash-top">
+                <span class="mini-dash-label">Live P&amp;L</span>
+                <span class="mini-dash-counter" id="pnlCounter">+$0.00</span>
+              </div>
+              <div class="bars" id="miniBars">
+                <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="trust-features" id="why-trust">
+  <div class="container">
+
+    <div class="trust-head">
+      <span class="eyebrow-label">SECURITY &amp; TRANSPARENCY</span>
+      <h2>Why Traders Trust XeroAI</h2>
+      <p>XeroAI is built on three principles: security, transparency, and control. You always know what's happening with your account — and you're always the one in charge.</p>
+    </div>
+
+    <div class="trust-grid">
+
+      <div class="trust-card">
+        <div class="trust-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 10.5 12 4l9 6.5"/>
+            <path d="M5 10v9M19 10v9M9 19v-6h6v6"/>
+            <path d="M3 19h18"/>
+          </svg>
+        </div>
+        <h3>Your Funds Stay With Your Broker</h3>
+        <p>XeroAI never holds, moves, or takes custody of your capital. Your money remains in your own broker or exchange account at all times.</p>
+      </div>
+
+      <div class="trust-card">
+        <div class="trust-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="8" cy="15" r="4"/>
+            <path d="M11 12l9-9M17 3l3 3M14 6l2.5 2.5"/>
+          </svg>
+        </div>
+        <h3>Secure API Connections</h3>
+        <p>Every link uses encrypted, permissioned API keys — never your login credentials, and never withdrawal access.</p>
+      </div>
+
+      <div class="trust-card">
+        <div class="trust-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 12 8.5 8.5" class="dial-needle"/>
+            <circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
+        <h3>You Control Your Risk</h3>
+        <p>Set your own position sizing, exposure, and drawdown limits. The AI operates strictly inside the boundaries you define.</p>
+      </div>
+
+      <div class="trust-card">
+        <div class="trust-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="3.5" width="16" height="17" rx="2.5"/>
+            <path d="M8 8h8M8 12h8M8 16h5"/>
+          </svg>
+        </div>
+        <h3>Transparent Trade History</h3>
+        <p>Every trade, signal, and execution is logged and visible on your dashboard — nothing happens in a black box.</p>
+      </div>
+
+      <div class="trust-card">
+        <div class="trust-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 2.5v4M15 2.5v4"/>
+            <path d="M6 6.5h12l-1 5a5 5 0 0 1-10 0l-1-5z" class="plug-body"/>
+            <path d="M12 15.5V21"/>
+            <path d="M4 4l16 16" class="unplug-slash"/>
+          </svg>
+        </div>
+        <h3>Disconnect Anytime</h3>
+        <p>Revoke API access or pause automation in a single click. No lock-in, no waiting period, no questions asked.</p>
+      </div>
+
+      <div class="trust-card">
+        <div class="trust-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/>
+            <path d="M12 8v4.5M12 15.2v.1"/>
+          </svg>
+        </div>
+        <h3>Enterprise-Grade Security</h3>
+        <p>Data is encrypted in transit and at rest, with continuous monitoring built to enterprise security standards.</p>
+      </div>
+
+    </div>
+
+    <div class="trust-banner">
+      <div class="trust-banner-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/>
+          <path d="M9 12l2 2 4-4"/>
+        </svg>
+      </div>
+      <p><strong>XeroAI never takes custody of your funds.</strong> Your capital always remains in your own broker or exchange account.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="features" id="features">
+  <div class="container">
+
+    <div class="features-head">
+      <span class="eyebrow-label">PLATFORM CAPABILITIES</span>
+      <h2>Powerful Features. Intelligent Automation.</h2>
+      <p>Every layer of XeroAI works together — detection, validation, execution, and reporting — without you lifting a finger.</p>
+    </div>
+
+    <div class="features-grid">
+
+      <!-- 1. AI Pattern Recognition -->
+      <div class="feature-card" data-feature="pattern">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12h4l2-7 4 14 2-7h6"/>
+          </svg>
+        </div>
+        <h3>AI Pattern Recognition</h3>
+        <p>Detects recurring price patterns across your connected markets, in real time, around the clock.</p>
+
+        <div class="feature-demo demo-pattern">
+          <div class="mini-candles">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="signal-badge">
+            <span class="signal-dot"></span>
+            <span>Signal detected</span>
+          </div>
+          <div class="demo-stat-row">
+            <span class="demo-stat-label">Confidence</span>
+            <span class="demo-stat-value" data-target="94.2" data-suffix="%" data-decimals="1">0%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Automated Trade Execution -->
+      <div class="feature-card" data-feature="execution">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/>
+          </svg>
+        </div>
+        <h3>Automated Trade Execution</h3>
+        <p>Orders are placed the instant conditions align — no manual clicks, no delays, no missed entries.</p>
+
+        <div class="feature-demo demo-execution">
+          <div class="exec-flow">
+            <span class="exec-node">API</span>
+            <span class="exec-line"><i></i></span>
+            <span class="exec-node">Broker</span>
+          </div>
+          <div class="exec-status">
+            <span class="exec-dot"></span>
+            <span class="exec-status-text">Sending order…</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Intelligent Risk Engine -->
+      <div class="feature-card" data-feature="risk">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 18a8 8 0 0 1 16 0"/><path d="M12 18 16 10"/>
+            <circle cx="12" cy="18" r="1.3" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
+        <h3>Intelligent Risk Engine</h3>
+        <p>Every trade is validated against your sizing, exposure, and drawdown rules before it ever fires.</p>
+
+        <div class="feature-demo demo-risk">
+          <ul class="risk-checks">
+            <li><span class="check-dot"></span>Position sizing</li>
+            <li><span class="check-dot"></span>Exposure limits</li>
+            <li><span class="check-dot"></span>Drawdown validated</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 4. Multi-Broker & Exchange Support -->
+      <div class="feature-card" data-feature="brokers">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="M2 12l10 5 10-5"/><path d="M2 17l10 5 10-5"/>
+          </svg>
+        </div>
+        <h3>Multi-Broker &amp; Exchange Support</h3>
+        <p>Connect Deriv, HFM, Exness, IC Markets, Binance, Bybit, and more from one place.</p>
+
+        <div class="feature-demo demo-brokers">
+          <div class="broker-chips">
+            <span>Deriv</span><span>HFM</span><span>Exness</span><span>Binance</span><span>Bybit</span>
+          </div>
+          <div class="broker-status">
+            <span class="status-dot"></span>
+            <span class="status-text">Connecting…</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Live Portfolio Dashboard -->
+      <div class="feature-card" data-feature="portfolio">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/><path d="M7 13l2.5-3L12 12l2-4 3 3"/>
+          </svg>
+        </div>
+        <h3>Live Portfolio Dashboard</h3>
+        <p>Positions, P&amp;L, and win rate refresh automatically — one screen for everything happening across your accounts.</p>
+
+        <div class="feature-demo demo-portfolio">
+          <div class="portfolio-row">
+            <span class="portfolio-label">P&amp;L</span>
+            <span class="demo-stat-value" data-target="1284.50" data-prefix="+$" data-decimals="2">+$0.00</span>
+          </div>
+          <div class="portfolio-row">
+            <span class="portfolio-label">Win Rate</span>
+            <span class="demo-stat-value" data-target="78" data-suffix="%" data-decimals="0">0%</span>
+          </div>
+          <div class="portfolio-row">
+            <span class="portfolio-label">Open Trades</span>
+            <span class="demo-stat-value" data-target="6" data-decimals="0">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Performance Analytics -->
+      <div class="feature-card" data-feature="analytics">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 17l6-6 4 4 8-8"/><path d="M15 6h6v6"/>
+          </svg>
+        </div>
+        <h3>Performance Analytics</h3>
+        <p>Track monthly growth, win/loss stats, and your full profit curve — all generated automatically.</p>
+
+        <div class="feature-demo demo-analytics">
+          <svg class="analytics-chart" viewBox="0 0 160 56" preserveAspectRatio="none" aria-hidden="true">
+            <path class="chart-path" d="M2,48 L26,40 L50,44 L74,28 L98,32 L122,14 L158,6" fill="none" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <div class="analytics-stat">
+            <span class="demo-stat-value" data-target="184" data-prefix="+" data-suffix="%" data-decimals="0">+0%</span>
+            <span class="analytics-caption">Monthly growth</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="features-divider" aria-hidden="true"></div>
+    <p class="features-statement">Everything happens automatically. You stay in control.</p>
+
+  </div>
+</section>
+
+<!-- ============ SUPPORTED BROKERS & EXCHANGES ============ -->
+<section class="brokers" id="brokers">
+  <div class="container">
+
+    <div class="section-head">
+      <span class="eyebrow-label">INTEGRATIONS</span>
+      <h2>Connect To The Platforms You Already Trust</h2>
+      <p>Whether you trade Forex, Synthetic Indices, Crypto, CFDs or Commodities, XeroAI connects securely to your preferred broker or exchange using encrypted API connections.</p>
+    </div>
+
+    <div class="brokers-grid">
+      <div class="broker-card reveal-up" style="--d:0ms"><div class="broker-card-top"><span class="broker-logo">DRV</span><span class="badge-pill badge-ready"><span class="dot"></span>API Ready</span></div><h3>Deriv</h3><span class="broker-type">Broker</span></div>
+      <div class="broker-card reveal-up" style="--d:60ms"><div class="broker-card-top"><span class="broker-logo">HFM</span><span class="badge-pill badge-ready"><span class="dot"></span>API Ready</span></div><h3>HFM</h3><span class="broker-type">Broker</span></div>
+      <div class="broker-card reveal-up" style="--d:120ms"><div class="broker-card-top"><span class="broker-logo">EXN</span><span class="badge-pill badge-ready"><span class="dot"></span>API Ready</span></div><h3>Exness</h3><span class="broker-type">Broker</span></div>
+      <div class="broker-card reveal-up" style="--d:180ms"><div class="broker-card-top"><span class="broker-logo">ICM</span><span class="badge-pill badge-ready"><span class="dot"></span>API Ready</span></div><h3>IC Markets</h3><span class="broker-type">Broker</span></div>
+      <div class="broker-card reveal-up" style="--d:0ms"><div class="broker-card-top"><span class="broker-logo">BIN</span><span class="badge-pill badge-ready"><span class="dot"></span>API Ready</span></div><h3>Binance</h3><span class="broker-type">Exchange</span></div>
+      <div class="broker-card reveal-up" style="--d:60ms"><div class="broker-card-top"><span class="broker-logo">BYB</span><span class="badge-pill badge-ready"><span class="dot"></span>API Ready</span></div><h3>Bybit</h3><span class="broker-type">Exchange</span></div>
+    </div>
+
+    <div class="broker-network reveal-up">
+      <div class="network-line">
+        <i class="pulse pulse-l1"></i><i class="pulse pulse-l2"></i>
+        <i class="pulse pulse-r1"></i><i class="pulse pulse-r2"></i>
+      </div>
+      <div class="xeroai-core">
+        <span class="core-ring"></span>
+        <span class="core-ring core-ring-2"></span>
+        <div class="core-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2 3 7v10l9 5 9-5V7l-9-5z"/><path d="M12 12 3 7M12 12v10M12 12l9-5"/>
+          </svg>
+        </div>
+        <span class="core-label">XeroAI Core</span>
+      </div>
+    </div>
+
+    <p class="brokers-more">More broker and exchange integrations are coming soon.</p>
+
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section class="pricing" id="pricing">
+  <div class="container">
+
+    <div class="section-head">
+      <span class="eyebrow-label">SIMPLE PRICING</span>
+      <h2>Start Free. <span class="accent-text">Pay Only When You Trade.</span></h2>
+      <p>No subscriptions. No hidden charges. Only pay for the automation you actually use.</p>
+    </div>
+
+    <div class="pricing-grid">
+
+      <div class="pricing-card reveal-up">
+        <span class="pricing-kicker">Get Started</span>
+        <h3>5-Day Free Trial</h3>
+        <p class="pricing-price">Free<span>for 5 days</span></p>
+        <ul class="check-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Unlimited Dashboard</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Connect One Broker</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>AI Pattern Detection</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Automated Trade Execution</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Risk Engine</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Live Analytics</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>No Credit Card Required</li>
+        </ul>
+        <a href="signup.html" class="btn btn-ghost pricing-btn">Start Free Trial</a>
+      </div>
+
+      <div class="pricing-card pricing-card-highlight reveal-up">
+        <span class="pricing-recommended">Recommended</span>
+        <span class="pricing-kicker">After Your Trial</span>
+        <h3>Pay As You Use</h3>
+        <p class="pricing-price">Flexible<span>no fixed monthly fee</span></p>
+        <ul class="check-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Unlimited Automation</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Multiple Broker Connections</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Advanced AI Models</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Priority Trade Execution</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Premium Support</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Xero Pay Integration <span class="badge-pill badge-soon">Coming Soon</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Future AI Upgrades</li>
+        </ul>
+        <a href="signup.html" class="btn btn-primary pricing-btn">Continue With XeroAI</a>
+      </div>
+
+    </div>
+
+    <div class="pricing-badges">
+      <div class="mini-badge reveal-up" style="--d:0ms">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        No Monthly Fees
+      </div>
+      <div class="mini-badge reveal-up" style="--d:90ms">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 12h6"/></svg>
+        Cancel Anytime
+      </div>
+      <div class="mini-badge reveal-up" style="--d:180ms">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/></svg>
+        Enterprise Security
+      </div>
+      <div class="mini-badge reveal-up" style="--d:270ms">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 3l3 3M14 6l2.5 2.5"/></svg>
+        Secure API Connections
+      </div>
+    </div>
+
+    <div class="features-divider" aria-hidden="true"></div>
+
+    <div class="pricing-philosophy reveal-up">
+      <h3>Built For Traders. <span class="accent-text">Not Subscriptions.</span></h3>
+      <p>XeroAI succeeds when traders actively use the platform — not by locking users into expensive monthly plans. Our Pay-As-You-Use model aligns our success with yours, making professional AI trading automation more accessible.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ XERO PAY ============ -->
+<section class="xeropay" id="xero-pay">
+  <div class="container">
+
+    <div class="section-head">
+      <span class="eyebrow-label">EXPANDING THE ECOSYSTEM</span>
+      <h2>Meet Xero Pay</h2>
+      <p>The payment engine that will power the future of the XeroAI ecosystem.</p>
+      <span class="badge-pill badge-soon badge-soon-lg">COMING SOON</span>
+      <p class="xeropay-disclaimer">Xero Pay is currently under development. It is not yet available, and everything shown below is an early concept preview of what's planned.</p>
+    </div>
+
+    <div class="xeropay-capabilities">
+      <div class="capability-chip reveal-up" style="--d:0ms"><span class="badge-pill badge-planned">Planned</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg><span>Pay for XeroAI usage</span></div>
+      <div class="capability-chip reveal-up" style="--d:40ms"><span class="badge-pill badge-planned">Planned</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="9" r="5"/><circle cx="15" cy="15" r="5"/></svg><span>Manage automation credits</span></div>
+      <div class="capability-chip reveal-up" style="--d:80ms"><span class="badge-pill badge-planned">Planned</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/><path d="M16 12h3"/></svg><span>Wallet balance</span></div>
+      <div class="capability-chip reveal-up" style="--d:120ms"><span class="badge-pill badge-planned">Planned</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.6 5.9L21 9l-4.5 4.4L17.6 20 12 17l-5.6 3 1.1-6.6L3 9l6.4-1.1L12 2z"/></svg><span>Rewards for active users</span></div>
+      <div class="capability-chip reveal-up" style="--d:160ms"><span class="badge-pill badge-planned">Planned</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9l9-5 9 5v12"/><path d="M9 21v-6h6v6"/></svg><span>Business payments</span></div>
+      <div class="capability-chip reveal-up" style="--d:200ms"><span class="badge-pill badge-planned">Planned</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span>Global transfers</span></div>
+      <div class="capability-chip reveal-up" style="--d:240ms"><span class="badge-pill badge-planned">Planned</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h10M7 8a3 3 0 1 1 6 0M7 16h10M17 16a3 3 0 1 1-6 0"/></svg><span>Multi-currency support</span></div>
+      <div class="capability-chip reveal-up" style="--d:280ms"><span class="badge-pill badge-planned">Planned</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg><span>Debit card integration</span></div>
+      <div class="capability-chip reveal-up" style="--d:320ms"><span class="badge-pill badge-planned">Planned</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg><span>Instant settlements</span></div>
+    </div>
+
+    <div class="wallet-mock reveal-up">
+      <span class="wallet-mock-badge">CONCEPT PREVIEW — COMING SOON</span>
+
+      <div class="wallet-particles" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+
+      <div class="wallet-top">
+        <span class="wallet-label">Wallet Balance</span>
+        <span class="wallet-balance demo-stat-value" data-target="1250" data-prefix="$" data-decimals="2">$0.00</span>
+      </div>
+
+      <div class="wallet-cards" aria-hidden="true">
+        <div class="wallet-payment-card card-1"><span></span></div>
+        <div class="wallet-payment-card card-2"><span></span></div>
+        <div class="wallet-payment-card card-3"><span></span></div>
+      </div>
+
+      <div class="wallet-graph">
+        <svg viewBox="0 0 300 60" preserveAspectRatio="none" aria-hidden="true">
+          <path class="chart-path wallet-chart-path" d="M2,46 L40,38 L78,42 L116,24 L154,30 L192,14 L230,20 L268,8 L298,10" fill="none" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </div>
+
+      <ul class="wallet-transactions">
+        <li><span>Automation Credit Top-up</span><span class="tx-in">+$50.00</span></li>
+        <li><span>XeroAI Usage</span><span class="tx-out">−$12.40</span></li>
+        <li><span>Referral Reward</span><span class="tx-in">+$5.00</span></li>
+      </ul>
+      <p class="wallet-sample-note">Sample data — for illustration only.</p>
+    </div>
+
+    <div class="payflow">
+      <div class="payflow-node"><span class="payflow-dot"></span><span>User</span></div>
+      <div class="payflow-line"><i></i></div>
+      <div class="payflow-node"><span class="payflow-dot"></span><span>Xero Pay</span></div>
+      <div class="payflow-line"><i></i></div>
+      <div class="payflow-node"><span class="payflow-dot"></span><span>XeroAI Platform</span></div>
+      <div class="payflow-line"><i></i></div>
+      <div class="payflow-node"><span class="payflow-dot"></span><span>Broker / Exchange</span></div>
+    </div>
+
+    <div class="roadmap">
+      <span class="roadmap-year">2026</span>
+      <div class="roadmap-track">
+        <div class="roadmap-fill" id="roadmapFill"></div>
+        <div class="roadmap-node reveal-up" style="--d:0ms"><span class="roadmap-dot"></span><span class="roadmap-label">Xero Pay Launch</span></div>
+        <div class="roadmap-node reveal-up" style="--d:100ms"><span class="roadmap-dot"></span><span class="roadmap-label">Wallet</span></div>
+        <div class="roadmap-node reveal-up" style="--d:200ms"><span class="roadmap-dot"></span><span class="roadmap-label">Automation Credits</span></div>
+        <div class="roadmap-node reveal-up" style="--d:300ms"><span class="roadmap-dot"></span><span class="roadmap-label">Global Payments</span></div>
+        <div class="roadmap-node reveal-up" style="--d:400ms"><span class="roadmap-dot"></span><span class="roadmap-label">Business Accounts</span></div>
+        <div class="roadmap-node reveal-up" style="--d:500ms"><span class="roadmap-dot"></span><span class="roadmap-label">Debit Card</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+<!-- ============ FREQUENTLY ASKED QUESTIONS ============ -->
+<section class="faq" id="faq">
+  <div class="container">
+
+    <div class="section-head reveal-up">
+      <span class="eyebrow-label">SUPPORT</span>
+      <h2>Frequently Asked Questions</h2>
+      <p>Everything you need to know before getting started with XeroAI.</p>
+    </div>
+
+    <div class="faq-list">
+
+      <div class="faq-card reveal-up" style="--d:0ms">
+        <button class="faq-card-head" id="faq-q-1" aria-expanded="false" aria-controls="faq-a-1">
+          <span class="faq-index">01</span>
+          <span class="faq-card-question">What is XeroAI?</span>
+          <span class="faq-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+        </button>
+        <div class="faq-card-body" id="faq-a-1" role="region" aria-labelledby="faq-q-1">
+          <div class="faq-card-body-inner"><p>XeroAI is an AI-powered trading automation platform. It connects to your existing broker or exchange account, continuously scans the markets, and executes trades automatically when conditions match the strategy and risk settings you configure. XeroAI is not a broker and does not provide trading signals.</p></div>
+        </div>
+      </div>
+
+      <div class="faq-card reveal-up" style="--d:40ms">
+        <button class="faq-card-head" id="faq-q-2" aria-expanded="false" aria-controls="faq-a-2">
+          <span class="faq-index">02</span>
+          <span class="faq-card-question">How does the 5-Day Free Trial work?</span>
+          <span class="faq-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+        </button>
+        <div class="faq-card-body" id="faq-a-2" role="region" aria-labelledby="faq-q-2">
+          <div class="faq-card-body-inner"><p>Every new account starts with a free 5-day trial with full access to the dashboard and automation features. No credit card is required to begin.</p></div>
+        </div>
+      </div>
+
+      <div class="faq-card reveal-up" style="--d:80ms">
+        <button class="faq-card-head" id="faq-q-3" aria-expanded="false" aria-controls="faq-a-3">
+          <span class="faq-index">03</span>
+          <span class="faq-card-question">How does Pay-As-You-Use work?</span>
+          <span class="faq-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+        </button>
+        <div class="faq-card-body" id="faq-a-3" role="region" aria-labelledby="faq-q-3">
+          <div class="faq-card-body-inner"><p>After your trial ends, you continue on a flexible Pay-As-You-Use subscription. There are no fixed monthly fees — you pay only for the automation you actively use.</p></div>
+        </div>
+      </div>
+
+      <div class="faq-card reveal-up" style="--d:120ms">
+        <button class="faq-card-head" id="faq-q-4" aria-expanded="false" aria-controls="faq-a-4">
+          <span class="faq-index">04</span>
+          <span class="faq-card-question">Which brokers and exchanges are supported?</span>
+          <span class="faq-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+        </button>
+        <div class="faq-card-body" id="faq-a-4" role="region" aria-labelledby="faq-q-4">
+          <div class="faq-card-body-inner"><p>XeroAI connects to Deriv, HFM, Exness, and IC Markets brokers, as well as exchanges including Binance and Bybit — with more integrations planned.</p></div>
+        </div>
+      </div>
+
+      <div class="faq-card reveal-up" style="--d:160ms">
+        <button class="faq-card-head" id="faq-q-5" aria-expanded="false" aria-controls="faq-a-5">
+          <span class="faq-index">05</span>
+          <span class="faq-card-question">How secure are my API keys?</span>
+          <span class="faq-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+        </button>
+        <div class="faq-card-body" id="faq-a-5" role="region" aria-labelledby="faq-q-5">
+          <div class="faq-card-body-inner"><p>API connections use encrypted, permissioned keys that never include withdrawal access or your account login. Keys can be revoked at any time from your dashboard.</p></div>
+        </div>
+      </div>
+
+      <div class="faq-card reveal-up" style="--d:200ms">
+        <button class="faq-card-head" id="faq-q-6" aria-expanded="false" aria-controls="faq-a-6">
+          <span class="faq-index">06</span>
+          <span class="faq-card-question">Do I need coding experience?</span>
+          <span class="faq-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+        </button>
+        <div class="faq-card-body" id="faq-a-6" role="region" aria-labelledby="faq-q-6">
+          <div class="faq-card-body-inner"><p>No. XeroAI is built for traders, not developers. Strategies and risk settings are configured through the dashboard — no coding required.</p></div>
+        </div>
+      </div>
+
+      <div class="faq-card reveal-up" style="--d:240ms">
+        <button class="faq-card-head" id="faq-q-7" aria-expanded="false" aria-controls="faq-a-7">
+          <span class="faq-index">07</span>
+          <span class="faq-card-question">Can I cancel anytime?</span>
+          <span class="faq-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+        </button>
+        <div class="faq-card-body" id="faq-a-7" role="region" aria-labelledby="faq-q-7">
+          <div class="faq-card-body-inner"><p>Yes. You can pause automation or disconnect your broker at any time, with no lock-in period.</p></div>
+        </div>
+      </div>
+
+      <div class="faq-card reveal-up" style="--d:280ms">
+        <button class="faq-card-head" id="faq-q-8" aria-expanded="false" aria-controls="faq-a-8">
+          <span class="faq-index">08</span>
+          <span class="faq-card-question">Is Xero Pay available today?</span>
+          <span class="faq-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+        </button>
+        <div class="faq-card-body" id="faq-a-8" role="region" aria-labelledby="faq-q-8">
+          <div class="faq-card-body-inner"><p>Xero Pay is currently under development and will launch in a future update.</p></div>
+        </div>
+      </div>
+
+      <div class="faq-card reveal-up" style="--d:320ms">
+        <button class="faq-card-head" id="faq-q-9" aria-expanded="false" aria-controls="faq-a-9">
+          <span class="faq-index">09</span>
+          <span class="faq-card-question">How does XeroAI protect my funds?</span>
+          <span class="faq-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+        </button>
+        <div class="faq-card-body" id="faq-a-9" role="region" aria-labelledby="faq-q-9">
+          <div class="faq-card-body-inner"><p>XeroAI never takes custody of your funds. Your capital always remains in your own broker or exchange account, and every trade stays within the risk limits you define.</p></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="features" id="about">
+  <div class="container">
+
+    <div class="section-head">
+      <span class="eyebrow-label">ABOUT XEROAI</span>
+      <h2>Built By Traders, <span class="accent-text">For Traders.</span></h2>
+      <p>XeroAI was founded to close the gap between institutional-grade trading automation and everyday retail traders. We believe access to disciplined, round-the-clock market execution shouldn't require a quant team or a six-figure budget.</p>
+    </div>
+
+    <div class="pricing-philosophy reveal-up">
+      <h3>Our Approach. <span class="accent-text">Non-Custodial By Design.</span></h3>
+      <p>XeroAI never takes custody of your funds or your broker login credentials. We connect through permissioned, encrypted API keys, monitor markets continuously, and execute trades strictly within the strategy and risk limits you configure — while your capital always stays in your own broker or exchange account. We are an independent software platform, not a broker, fund manager, or financial adviser.</p>
+    </div>
+
+    <div class="pricing-badges">
+      <div class="mini-badge reveal-up" style="--d:0ms">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/></svg>
+        Non-Custodial Platform
+      </div>
+      <div class="mini-badge reveal-up" style="--d:90ms">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 3l3 3M14 6l2.5 2.5"/></svg>
+        Encrypted API Connections
+      </div>
+      <div class="mini-badge reveal-up" style="--d:180ms">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        Independent Software Platform
+      </div>
+      <div class="mini-badge reveal-up" style="--d:270ms">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 12h6"/></svg>
+        No Lock-In, Cancel Anytime
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="pricing" id="contact">
+  <div class="container">
+
+    <div class="section-head">
+      <span class="eyebrow-label">GET IN TOUCH</span>
+      <h2>We're Here <span class="accent-text">To Help.</span></h2>
+      <p>Whether you have a question about your account, a partnership idea, or a media inquiry, our team typically responds within one business day.</p>
+    </div>
+
+    <ul class="check-list reveal-up" style="max-width:480px;margin:0 auto;">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Support: support@xeroai.io</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Sales &amp; Partnerships: sales@xeroai.io</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Press &amp; Media: press@xeroai.io</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Security Reports: security@xeroai.io</li>
+    </ul>
+
+    <div class="cta-buttons" style="justify-content:center;margin-top:32px;">
+      <a href="mailto:support@xeroai.io" class="btn btn-primary cta-btn-lg">Email Support</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ FINAL CALL TO ACTION ============ -->
+<section class="cta-final" id="get-started">
+  <div class="container">
+    <div class="cta-panel reveal-up">
+      <div class="cta-panel-glow" aria-hidden="true"></div>
+      <div class="cta-particles" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+
+      <div class="cta-panel-content">
+        <span class="eyebrow-label">GET STARTED</span>
+        <h2>Start Trading Smarter Today</h2>
+        <p>Join traders using intelligent automation to monitor markets, execute strategies, and manage risk — all from one secure platform.</p>
+
+        <div class="cta-buttons">
+          <a href="signup.html" class="btn btn-primary cta-btn-lg">Start Your Free 5-Day Trial</a>
+        </div>
+
+        <div class="cta-trust-row">
+          <span class="mini-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            No Credit Card Required
+          </span>
+          <span class="mini-badge" style="--d:120ms">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            Secure API Connections
+          </span>
+          <span class="mini-badge" style="--d:240ms">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            Pay Only When You Trade
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="footer-divider" aria-hidden="true"><i></i></div>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container">
+
+    <div class="footer-brand-row reveal-up">
+      <a href="#" class="logo footer-logo">
+        <span class="logo-mark"></span>
+        XeroAI
+      </a>
+      <p>AI-powered trading automation built for modern traders.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4l7.5 8.5L4.5 20h2.3l6-6.8 4.8 6.8H21l-7.8-9L20 4h-2.3l-5.6 6.3L7.2 4H4z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.1c.5-1 1.9-2 3.9-2 4.1 0 4.9 2.7 4.9 6.2V21h-4v-5.6c0-1.3 0-3.1-1.9-3.1s-2.2 1.5-2.2 3v5.7H9z"/></svg></a>
+        <a href="#" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.5 3.5 2.7 10.9c-.9.4-.9 1.6.1 1.9l4.6 1.5 1.8 5.6c.3.9 1.4 1.1 2 .4l2.5-2.7 4.6 3.4c.8.6 2 .2 2.2-.8l3.1-15.4c.3-1.1-.8-2.1-1.9-1.7zM8.6 14.6l9-6.8c.2-.1.4.1.2.3l-7.3 7.1c-.3.3-.5.7-.5 1.1l-.2 2.3-1.2-3z"/></svg></a>
+        <a href="#" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.5-1.1-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.7.4-1.1.6-1.4-2.3-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.6 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.3.2 2.3.1 2.6.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.6-.5-5.3c-.3-1-1.1-1.8-2.1-2C18.5 4.2 12 4.2 12 4.2s-6.5 0-8.4.5c-1 .2-1.8 1-2 2C1 8.4 1 12 1 12s0 3.6.5 5.3c.3 1 1.1 1.8 2.1 2 1.9.5 8.4.5 8.4.5s6.5 0 8.4-.5c1-.2 1.8-1 2-2 .6-1.7.6-5.3.6-5.3zM9.7 15.5v-7l6.1 3.5-6.1 3.5z"/></svg></a>
+      </div>
+    </div>
+
+    <div class="footer-links-grid">
+      <nav class="footer-col reveal-up" style="--d:0ms" aria-label="Product">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#brokers">Supported Brokers</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#xero-pay">Xero Pay</a></li>
+          <li><a href="#xero-pay">Roadmap</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-col reveal-up" style="--d:60ms" aria-label="Company">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Partners</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-col reveal-up" style="--d:120ms" aria-label="Resources">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="documentation.html">Documentation</a></li>
+          <li><a href="#">API</a></li>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Community</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-col reveal-up" style="--d:180ms" aria-label="Legal">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+          <li><a href="cookies.html">Cookies</a></li>
+          <li><a href="security.html">Security</a></li>
+          <li><a href="compliance.html">Compliance</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 Xero Software Inc. All Rights Reserved.</p>
+    </div>
+
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connect Your Trading Account — XeroAI Onboarding</title>
+<meta name="description" content="Step 3 of 4 — securely connect your broker or exchange using your API credentials.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/auth.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#08090c">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="icons/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+</head>
+<body class="auth-body ob2-body ob2-scroll">
+
+  <div class="ob2-bg" aria-hidden="true">
+    <canvas id="networkCanvas"></canvas>
+  </div>
+  <div class="ob2-particles" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="ob2-shell">
+
+    <header class="ob2-topbar">
+      <a href="index.html" class="logo">
+        <span class="logo-mark"></span>
+        XeroAI
+      </a>
+
+      <div class="ob2-progress" role="progressbar" aria-valuenow="3" aria-valuemin="1" aria-valuemax="4" aria-label="Onboarding progress">
+        <span class="ob2-progress-label">Step 3 of 4</span>
+        <div class="ob2-progress-track">
+          <div class="ob2-progress-fill" id="ob2ProgressFill" data-target="75"></div>
+        </div>
+        <span class="ob2-progress-pct" id="ob2ProgressPct">0%</span>
+      </div>
+    </header>
+
+    <main class="ob2-main ob2-main-scroll">
+      <div class="ob2-card ob2-card-wide reveal-ob2">
+
+        <div class="ob2-card-head">
+          <h1>Connect Your Trading Account</h1>
+          <p>Securely connect your broker or exchange using your API credentials. Your credentials are encrypted and only used to execute trades on your behalf.</p>
+        </div>
+
+        <div class="ob2-tab-groups">
+          <div class="ob2-tab-group">
+            <span class="ob2-tab-group-label">Forex</span>
+            <div class="ob2-tab-row" role="tablist" aria-label="Forex brokers">
+              <button type="button" class="ob2-tab active" data-platform="deriv" role="tab" aria-selected="true" id="tab-deriv" aria-controls="form-deriv">Deriv</button>
+              <button type="button" class="ob2-tab" data-platform="hfm" role="tab" aria-selected="false" id="tab-hfm" aria-controls="form-hfm">HFM</button>
+              <button type="button" class="ob2-tab" data-platform="exness" role="tab" aria-selected="false" id="tab-exness" aria-controls="form-exness">Exness</button>
+            </div>
+          </div>
+          <div class="ob2-tab-group">
+            <span class="ob2-tab-group-label">Crypto</span>
+            <div class="ob2-tab-row" role="tablist" aria-label="Crypto exchanges">
+              <button type="button" class="ob2-tab" data-platform="binance" role="tab" aria-selected="false" id="tab-binance" aria-controls="form-binance">Binance</button>
+              <button type="button" class="ob2-tab" data-platform="bybit" role="tab" aria-selected="false" id="tab-bybit" aria-controls="form-bybit">Bybit</button>
+              <button type="button" class="ob2-tab" data-platform="okx" role="tab" aria-selected="false" id="tab-okx" aria-controls="form-okx">OKX</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="ob2-connect-panel">
+
+          <form class="ob2-connect-form active" data-form="deriv" id="form-deriv" role="tabpanel" aria-labelledby="tab-deriv" novalidate>
+            <div class="field">
+              <label for="derivAppId">App ID</label>
+              <input type="text" id="derivAppId" value="1089" readonly aria-readonly="true" class="field-readonly">
+              <p class="field-hint">Identifies the XeroAI application to Deriv (sent as the <code>Deriv-App-ID</code> header) — this is fixed by XeroAI, not something you need to enter. <strong>1089</strong> is Deriv's public test App ID; it will be replaced with XeroAI's own registered App ID before going live.</p>
+            </div>
+            <div class="field">
+              <label for="derivToken">API Token</label>
+              <input type="password" id="derivToken" autocomplete="off" placeholder="Enter your Deriv API token">
+              <p class="field-hint">A Deriv Personal Access Token (PAT) generated from your Deriv account, with the <strong>trade</strong> scope enabled.</p>
+              <span class="field-error"></span>
+            </div>
+            <button type="submit" class="btn btn-primary ob2-connect-btn">
+              <span class="btn-label">Connect Deriv</span>
+              <span class="btn-spinner" aria-hidden="true"></span>
+              <span class="btn-success" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+            </button>
+            <p class="ob2-connect-status" aria-live="polite"></p>
+          </form>
+
+          <form class="ob2-connect-form" data-form="hfm" id="form-hfm" role="tabpanel" aria-labelledby="tab-hfm" novalidate hidden>
+            <div class="field">
+              <label for="hfmLogin">MT5 Login ID</label>
+              <input type="text" id="hfmLogin" autocomplete="off" placeholder="e.g. 40123456">
+              <span class="field-error"></span>
+            </div>
+            <div class="field">
+              <label for="hfmPassword">MT5 Password</label>
+              <input type="password" id="hfmPassword" autocomplete="off" placeholder="••••••••">
+              <span class="field-error"></span>
+            </div>
+            <div class="field">
+              <label for="hfmServer">Server Name</label>
+              <input type="text" id="hfmServer" autocomplete="off" placeholder="e.g. HFMarketsGlobal-Live">
+              <span class="field-error"></span>
+            </div>
+            <button type="submit" class="btn btn-primary ob2-connect-btn">
+              <span class="btn-label">Connect HFM</span>
+              <span class="btn-spinner" aria-hidden="true"></span>
+              <span class="btn-success" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+            </button>
+            <p class="ob2-connect-status" aria-live="polite"></p>
+          </form>
+
+          <form class="ob2-connect-form" data-form="exness" id="form-exness" role="tabpanel" aria-labelledby="tab-exness" novalidate hidden>
+            <div class="field">
+              <label for="exnLogin">MT5 Login ID</label>
+              <input type="text" id="exnLogin" autocomplete="off" placeholder="e.g. 80123456">
+              <span class="field-error"></span>
+            </div>
+            <div class="field">
+              <label for="exnPassword">MT5 Password</label>
+              <input type="password" id="exnPassword" autocomplete="off" placeholder="••••••••">
+              <span class="field-error"></span>
+            </div>
+            <div class="field">
+              <label for="exnServer">Server Name</label>
+              <input type="text" id="exnServer" autocomplete="off" placeholder="e.g. Exness-MT5Real8">
+              <span class="field-error"></span>
+            </div>
+            <button type="submit" class="btn btn-primary ob2-connect-btn">
+              <span class="btn-label">Connect Exness</span>
+              <span class="btn-spinner" aria-hidden="true"></span>
+              <span class="btn-success" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+            </button>
+            <p class="ob2-connect-status" aria-live="polite"></p>
+          </form>
+
+          <form class="ob2-connect-form" data-form="binance" id="form-binance" role="tabpanel" aria-labelledby="tab-binance" novalidate hidden>
+            <div class="field">
+              <label for="binKey">API Key</label>
+              <input type="text" id="binKey" autocomplete="off" placeholder="Enter your Binance API key">
+              <span class="field-error"></span>
+            </div>
+            <div class="field">
+              <label for="binSecret">Secret Key</label>
+              <input type="password" id="binSecret" autocomplete="off" placeholder="Enter your Binance secret key">
+              <span class="field-error"></span>
+            </div>
+            <button type="submit" class="btn btn-primary ob2-connect-btn">
+              <span class="btn-label">Connect Binance</span>
+              <span class="btn-spinner" aria-hidden="true"></span>
+              <span class="btn-success" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+            </button>
+            <p class="ob2-connect-status" aria-live="polite"></p>
+          </form>
+
+          <form class="ob2-connect-form" data-form="bybit" id="form-bybit" role="tabpanel" aria-labelledby="tab-bybit" novalidate hidden>
+            <div class="field">
+              <label for="bybKey">API Key</label>
+              <input type="text" id="bybKey" autocomplete="off" placeholder="Enter your Bybit API key">
+              <span class="field-error"></span>
+            </div>
+            <div class="field">
+              <label for="bybSecret">Secret Key</label>
+              <input type="password" id="bybSecret" autocomplete="off" placeholder="Enter your Bybit secret key">
+              <span class="field-error"></span>
+            </div>
+            <button type="submit" class="btn btn-primary ob2-connect-btn">
+              <span class="btn-label">Connect Bybit</span>
+              <span class="btn-spinner" aria-hidden="true"></span>
+              <span class="btn-success" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+            </button>
+            <p class="ob2-connect-status" aria-live="polite"></p>
+          </form>
+
+          <form class="ob2-connect-form" data-form="okx" id="form-okx" role="tabpanel" aria-labelledby="tab-okx" novalidate hidden>
+            <div class="field">
+              <label for="okxKey">API Key</label>
+              <input type="text" id="okxKey" autocomplete="off" placeholder="Enter your OKX API key">
+              <span class="field-error"></span>
+            </div>
+            <div class="field">
+              <label for="okxSecret">Secret Key</label>
+              <input type="password" id="okxSecret" autocomplete="off" placeholder="Enter your OKX secret key">
+              <span class="field-error"></span>
+            </div>
+            <div class="field">
+              <label for="okxPassphrase">Passphrase</label>
+              <input type="password" id="okxPassphrase" autocomplete="off" placeholder="Enter your OKX passphrase">
+              <span class="field-error"></span>
+            </div>
+            <button type="submit" class="btn btn-primary ob2-connect-btn">
+              <span class="btn-label">Connect OKX</span>
+              <span class="btn-spinner" aria-hidden="true"></span>
+              <span class="btn-success" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+            </button>
+            <p class="ob2-connect-status" aria-live="polite"></p>
+          </form>
+
+        </div>
+
+        <div class="ob2-security-card">
+          <div class="ob2-security-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <div class="ob2-security-content">
+            <h4>Your Security Matters</h4>
+            <ul>
+              <li>API credentials are encrypted before transmission.</li>
+              <li>XeroAI never requests withdrawal permissions.</li>
+              <li>You remain in full control of your trading account.</li>
+              <li>You can disconnect your account at any time from the dashboard.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="ob2-actions">
+          <a href="onboarding-step2.html" class="btn btn-secondary ob2-btn">&larr; Back</a>
+          <button type="button" class="btn btn-primary ob2-btn ob2-continue" id="ob2Continue" disabled aria-disabled="true" data-next="onboarding-step4.html">
+            <span class="btn-label">Continue &rarr;</span>
+            <span class="btn-spinner" aria-hidden="true"></span>
+            <span class="btn-success" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </span>
+          </button>
+        </div>
+        <p class="ob2-connect-hint" id="ob2ConnectHint">Connect at least one account to continue.</p>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/pwa.js"></script>
+</body>
+</html>

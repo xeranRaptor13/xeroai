@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subscription — XeroAI</title>
+<meta name="description" content="Manage your XeroAI subscription and payments.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#08090c">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="icons/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+</head>
+<body class="dash-body app-body">
+
+  <div class="app-sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="app-shell" id="appShell">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="app-sidebar" id="appSidebar">
+
+      <div class="sidebar-top">
+        <a href="dashboard.html" class="dash-logo sidebar-logo">
+          <span class="dash-logo-mark"></span>
+          <span class="sidebar-logo-text">XeroAI</span>
+        </a>
+        <button type="button" class="sidebar-collapse-btn" id="sidebarCollapseBtn" aria-label="Collapse sidebar" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Primary">
+        <a href="dashboard.html" class="sidebar-link" data-tooltip="Dashboard">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="5" rx="2"/><rect x="13" y="12" width="8" height="9" rx="2"/><rect x="3" y="15" width="8" height="6" rx="2"/></svg></span>
+          <span class="sidebar-label">Dashboard</span>
+        </a>
+        <a href="trading.html" class="sidebar-link" data-tooltip="Trading">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l4-4 3 3 5-6 4 4"/><path d="M3 21h18"/></svg></span>
+          <span class="sidebar-label">Trading</span>
+        </a>
+        <a href="analytics.html" class="sidebar-link" data-tooltip="Analytics">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V11M10 20V4M16 20v-7M22 20V13"/></svg></span>
+          <span class="sidebar-label">Analytics</span>
+        </a>
+        <a href="subscription.html" class="sidebar-link active" data-tooltip="Subscription">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/><path d="M16 12h3"/></svg></span>
+          <span class="sidebar-label">Subscription</span>
+        </a>
+        <a href="settings.html" class="sidebar-link" data-tooltip="Settings">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></span>
+          <span class="sidebar-label">Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <a href="#" class="sidebar-link" data-tooltip="Help" data-placeholder="true">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 4.9.8c0 1.7-2.4 1.7-2.4 3.4"/><path d="M12 17v.1"/></svg></span>
+          <span class="sidebar-label">Help</span>
+        </a>
+        <a href="login.html" class="sidebar-link sidebar-logout" data-tooltip="Logout">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></span>
+          <span class="sidebar-label">Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN COLUMN ============ -->
+    <div class="app-main">
+
+      <header class="app-topbar">
+        <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+
+        <div class="topbar-welcome">Welcome, <strong>Trader</strong></div>
+
+        <div class="topbar-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="text" placeholder="Search markets, trades, settings…" aria-label="Search">
+        </div>
+
+        <div class="topbar-right">
+          <button type="button" class="pwa-install-btn" data-pwa-install hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            Install App
+          </button>
+          <span class="topbar-datetime" id="topbarDatetime"></span>
+
+          <button type="button" class="topbar-icon-btn" id="notifBtn" aria-label="Notifications">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+            <span class="notif-dot"></span>
+          </button>
+
+          <div class="topbar-avatar" aria-label="Account">TR</div>
+        </div>
+      </header>
+
+      <main class="app-content">
+
+        <section class="dash-hero reveal-dash">
+          <h1>Subscription</h1>
+          <p>Manage your XeroAI subscription and payments.</p>
+        </section>
+
+        <div class="settings-banner reveal-dash">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v.1M12 11v5"/></svg>
+          <p>This page is not yet connected to a backend. Receipt submissions, status changes, and Telegram delivery shown here are simulated for demonstration.</p>
+        </div>
+
+        <!-- ============ SUBSCRIPTION STATUS ============ -->
+        <div class="subscription-status-card reveal-dash">
+          <div class="subscription-status-top">
+            <div class="sub-status-block">
+              <span class="engine-stat-label">Current Status</span>
+              <span class="badge-pill badge-online sub-status-badge" id="subStatusBadge"><span class="dot"></span>Free Trial Active</span>
+            </div>
+            <div class="sub-status-block">
+              <span class="engine-stat-label">Account ID</span>
+              <span class="engine-stat-value mono-cell" id="subAccountId">—</span>
+            </div>
+          </div>
+
+          <div class="trial-progress-block" id="trialProgressBlock">
+            <div class="trial-progress-head">
+              <span>5-Day Free Trial</span>
+              <span>2 Days Used &middot; 3 Days Remaining</span>
+            </div>
+            <div class="progress-bar-track">
+              <div class="progress-bar-fill" data-bar-target="40"></div>
+            </div>
+          </div>
+
+          <div class="subscription-info-grid">
+            <div class="engine-stat">
+              <span class="engine-stat-label">Trial Started</span>
+              <span class="engine-stat-value">July 12, 2026</span>
+            </div>
+            <div class="engine-stat">
+              <span class="engine-stat-label">Trial Ends</span>
+              <span class="engine-stat-value">July 17, 2026</span>
+            </div>
+            <div class="engine-stat">
+              <span class="engine-stat-label">Days Remaining</span>
+              <span class="engine-stat-value">3 Days</span>
+            </div>
+            <div class="engine-stat">
+              <span class="engine-stat-label">AI Engine Access</span>
+              <span class="engine-stat-value engine-stat-good" id="subEngineAccess">Unlocked (Trial)</span>
+            </div>
+          </div>
+
+          <a href="#submitReceiptSection" class="step-btn step-btn-primary sub-activate-btn rippleable" id="goToReceiptBtn">
+            <span class="step-btn-label">Submit Payment Receipt</span>
+          </a>
+        </div>
+
+        <div class="overview-row overview-row-secondary">
+
+          <!-- After Trial Information -->
+          <div class="info-card reveal-dash">
+            <div class="info-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v.1M12 11v5"/></svg>
+            </div>
+            <div class="info-card-content">
+              <h4>What happens after my free trial?</h4>
+              <p>After your 5-day free trial expires, the AI Trading Engine will pause until your payment is confirmed. Transfer your subscription fee to the Opay account below, submit your receipt, and the account owner will review and approve it manually — your AI Engine unlocks as soon as that happens.</p>
+            </div>
+          </div>
+
+          <!-- Security Verification -->
+          <div class="info-card reveal-dash">
+            <div class="info-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
+            </div>
+            <div class="info-card-content">
+              <h4>Secure Subscription Verification</h4>
+              <ul class="platform-conn-tags sub-security-list">
+                <li>Every payment is manually verified against the Opay business account before approval.</li>
+                <li>Clearing browser data, cookies, or cache will not reset your free trial or payment status.</li>
+                <li>Always include your Account ID as the transfer narration so your payment can be matched to your receipt.</li>
+                <li>Only a receipt confirmed and approved by the XeroAI team will unlock the AI Engine.</li>
+                <li>This protects the fairness and security of the XeroAI platform for all users.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ============ PAYMENT INSTRUCTIONS ============ -->
+        <section class="payment-instructions-section" id="paymentInstructionsSection">
+
+          <div class="monitor-table-card reveal-dash">
+            <h3>Payment Instructions</h3>
+            <p class="payment-history-subtitle">Transfer your subscription fee to the account below, then submit your receipt.</p>
+
+            <div class="payment-instructions-grid">
+              <div class="payment-instr-row">
+                <span class="engine-stat-label">Bank / Platform</span>
+                <span class="engine-stat-value">Opay</span>
+              </div>
+              <div class="payment-instr-row">
+                <span class="engine-stat-label">Account Name</span>
+                <span class="engine-stat-value">XeroAI Technologies</span>
+              </div>
+              <div class="payment-instr-row">
+                <span class="engine-stat-label">Account Number</span>
+                <span class="engine-stat-value mono-cell" id="opayAccountNumber">8123456789</span>
+                <button type="button" class="btn-copy-inline rippleable" id="copyOpayBtn" aria-label="Copy account number">Copy</button>
+              </div>
+              <div class="payment-instr-row">
+                <span class="engine-stat-label">Amount Due</span>
+                <span class="engine-stat-value">&#8358;5,000 <span class="daily-plan-demo-tag">Demonstration price only</span></span>
+              </div>
+            </div>
+
+            <p class="demo-footer-note">Important: include your Account ID (shown above) as the transfer narration or description so your payment can be matched to your receipt.</p>
+          </div>
+
+        </section>
+
+        <!-- ============ SUBMIT PAYMENT RECEIPT ============ -->
+        <section class="submit-receipt-section" id="submitReceiptSection">
+
+          <div class="monitor-table-card reveal-dash">
+            <h3>Submit Payment Receipt</h3>
+            <p class="payment-history-subtitle">Upload your receipt after transferring to the account above.</p>
+
+            <form id="receiptForm" class="receipt-form">
+              <div class="settings-field-grid">
+                <div class="settings-field">
+                  <label for="receiptAccountId">Account ID</label>
+                  <input type="text" id="receiptAccountId" readonly>
+                </div>
+                <div class="settings-field">
+                  <label for="receiptReference">Transaction Reference</label>
+                  <input type="text" id="receiptReference" placeholder="e.g. Opay transaction ID" required>
+                </div>
+              </div>
+
+              <div class="settings-field receipt-upload-field">
+                <label for="receiptFile">Receipt (screenshot or PDF)</label>
+                <div class="receipt-dropzone" id="receiptDropzone">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+                  <span id="receiptFileLabel">Click to choose a file, or drag it here</span>
+                  <input type="file" id="receiptFile" accept="image/*,.pdf" hidden>
+                </div>
+              </div>
+
+              <div class="settings-field">
+                <label for="receiptNotes">Notes (optional)</label>
+                <textarea id="receiptNotes" rows="3" placeholder="Anything the reviewer should know"></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary rippleable" id="receiptSubmitBtn">Submit Receipt</button>
+              <p class="receipt-form-note" id="receiptFormNote">Submitting your receipt does not charge you again — it only notifies the XeroAI team for review.</p>
+            </form>
+          </div>
+
+        </section>
+
+        <!-- ============ SUBMISSION HISTORY ============ -->
+        <section class="payment-history-section" id="paymentHistorySection">
+
+          <div class="monitor-table-card reveal-dash">
+            <h3>Submission History</h3>
+            <p class="payment-history-subtitle">Every receipt you've submitted and its review status.</p>
+
+            <div class="monitor-table-scroll">
+              <table class="monitor-table payment-history-table" id="submissionHistoryTable">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Reference</th>
+                    <th>File</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="submissionHistoryBody">
+                  <tr>
+                    <td colspan="4" class="wallet-empty-row">No receipts submitted yet.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p class="demo-footer-note">Once connected to Firestore, this table and your status above will update automatically as receipts are reviewed.</p>
+          </div>
+
+        </section>
+
+        <!-- ============ DEMO CONTROLS (remove before launch) ============ -->
+        <section class="demo-controls-section reveal-dash" id="demoControlsSection">
+          <div class="demo-controls-head">
+            <span class="badge-pill badge-waiting"><span class="dot"></span>Demo Controls — remove before launch</span>
+          </div>
+          <p>There's no real backend or Telegram bot wired up yet, so nothing above can actually be approved by anyone. Use these buttons to stand in for that manual review and see how the rest of the app reacts — including the AI Engine on/off toggle on the Trading page, which stays locked until a receipt here is "approved."</p>
+          <div class="demo-controls-actions">
+            <button type="button" class="btn btn-primary rippleable" id="demoApproveBtn">Simulate: Approve Latest Receipt</button>
+            <button type="button" class="btn-danger-outline rippleable" id="demoRejectBtn">Simulate: Reject Latest Receipt</button>
+            <button type="button" class="btn-copy-inline rippleable" id="demoResetBtn">Reset to Trial</button>
+          </div>
+        </section>
+
+
+      </main>
+
+      <footer class="app-footer">
+        <span>XeroAI Dashboard</span>
+        <span>Version 1.0</span>
+      </footer>
+    </div>
+
+    <!-- ============ RIGHT PANEL ============ -->
+    <aside class="app-right-panel">
+
+      <div class="right-panel-section reveal-dash">
+        <h3>Recent Notifications</h3>
+        <ul class="right-panel-list">
+          <li>
+            <span class="rp-dot rp-dot-blue"></span>
+            <span class="rp-text">Your account setup is complete.</span>
+            <span class="rp-time">Just now</span>
+          </li>
+          <li>
+            <span class="rp-dot rp-dot-green"></span>
+            <span class="rp-text">Deriv connected successfully.</span>
+            <span class="rp-time">2m ago</span>
+          </li>
+          <li>
+            <span class="rp-dot rp-dot-gold"></span>
+            <span class="rp-text">Your free trial is active.</span>
+            <span class="rp-time">Today</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="right-panel-section reveal-dash">
+        <h3>Latest Activity</h3>
+        <ul class="right-panel-list">
+          <li>
+            <span class="rp-dot rp-dot-blue"></span>
+            <span class="rp-text">Onboarding completed.</span>
+            <span class="rp-time">Today</span>
+          </li>
+          <li>
+            <span class="rp-dot rp-dot-blue"></span>
+            <span class="rp-text">Binance connected.</span>
+            <span class="rp-time">Today</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="right-panel-section reveal-dash">
+        <h3>System Status</h3>
+        <ul class="right-panel-status">
+          <li><span class="sys-dot"></span>API Gateway <em>Operational</em></li>
+          <li><span class="sys-dot"></span>AI Engine <em>Operational</em></li>
+          <li><span class="sys-dot"></span>Broker Sync <em>Operational</em></li>
+        </ul>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <script src="js/dashboard.js"></script>
+  <script src="js/subscription.js"></script>
+  <script src="js/pwa.js"></script>
+</body>
+</html>

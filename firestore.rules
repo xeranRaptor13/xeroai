@@ -1,0 +1,22 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Each user can read their own profile and create it at signup.
+    // Updates are restricted to a small set of self-editable fields —
+    // subscriptionStatus, trialEndDate, and accountId must NOT be
+    // client-writable, or any signed-in user could open dev tools and
+    // approve their own subscription. Those fields should only ever be
+    // changed by a trusted backend (e.g. a Cloud Function using the
+    // Admin SDK, which bypasses these rules) once you build the real
+    // Opay/Telegram approval action.
+    match /users/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update: if request.auth != null && request.auth.uid == userId
+        && request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly(['fullName', 'phone']);
+      allow delete: if false;
+    }
+  }
+}

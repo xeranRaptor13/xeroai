@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choose Your Trading Market — XeroAI Onboarding</title>
+<meta name="description" content="Step 1 of 4 — choose the trading market you want XeroAI to automate.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/auth.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#08090c">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="icons/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+</head>
+<body class="auth-body ob2-body">
+
+  <div class="ob2-bg" aria-hidden="true">
+    <canvas id="networkCanvas"></canvas>
+  </div>
+  <div class="ob2-particles" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="ob2-shell">
+
+    <header class="ob2-topbar">
+      <a href="index.html" class="logo">
+        <span class="logo-mark"></span>
+        XeroAI
+      </a>
+
+      <div class="ob2-progress" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="4" aria-label="Onboarding progress">
+        <span class="ob2-progress-label">Step 1 of 4</span>
+        <div class="ob2-progress-track">
+          <div class="ob2-progress-fill" id="ob2ProgressFill" data-target="25"></div>
+        </div>
+        <span class="ob2-progress-pct" id="ob2ProgressPct">0%</span>
+      </div>
+    </header>
+
+    <main class="ob2-main">
+      <div class="ob2-card reveal-ob2">
+
+        <div class="ob2-card-head">
+          <h1>Choose Your Trading Market</h1>
+          <p>Select the market you want XeroAI to automate. You can add more markets later from your dashboard.</p>
+        </div>
+
+        <div class="ob2-market-row" role="radiogroup" aria-label="Trading market">
+
+          <button type="button" class="ob2-market-card selected" data-market="synthetic" role="radio" aria-checked="true" tabindex="0">
+            <span class="ob2-selected-badge">Selected</span>
+            <span class="ob2-check" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </span>
+            <div class="ob2-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c2-5 4-5 5 0s3 5 5 0 3-5 5 0 3 5 5 0"/></svg>
+            </div>
+            <h3>Synthetic Indices</h3>
+            <p>Continuous synthetic markets available 24/7.</p>
+          </button>
+
+          <button type="button" class="ob2-market-card is-disabled" data-market="crypto" role="radio" aria-checked="false" aria-disabled="true" tabindex="-1">
+            <span class="ob2-coming-soon-badge">Coming Soon</span>
+            <span class="ob2-check" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </span>
+            <div class="ob2-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.3 8.2h3.6a2 2 0 0 1 0 4H9.3m0 0h3.9a2 2 0 0 1 0 4H9.3m0-8v9"/></svg>
+            </div>
+            <h3>Crypto</h3>
+            <p>Spot and futures trading across major exchanges.</p>
+          </button>
+
+          <button type="button" class="ob2-market-card is-disabled" data-market="forex" role="radio" aria-checked="false" aria-disabled="true" tabindex="-1">
+            <span class="ob2-coming-soon-badge">Coming Soon</span>
+            <span class="ob2-check" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </span>
+            <div class="ob2-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l4-4 3 3 5-6 4 4"/><path d="M3 21h18"/></svg>
+            </div>
+            <h3>Currency Trading</h3>
+            <p>Major, minor and exotic currency pairs.</p>
+          </button>
+
+        </div>
+
+        <div class="ob2-actions">
+          <a href="login.html" class="btn btn-secondary ob2-btn">Back</a>
+          <button type="button" class="btn btn-primary ob2-btn ob2-continue" id="ob2Continue" data-next="onboarding-step2.html">
+            <span class="btn-label">Continue →</span>
+            <span class="btn-spinner" aria-hidden="true"></span>
+            <span class="btn-success" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </span>
+          </button>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/pwa.js"></script>
+</body>
+</html>

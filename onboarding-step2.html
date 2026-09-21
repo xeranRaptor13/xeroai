@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choose Your Trading Platform — XeroAI Onboarding</title>
+<meta name="description" content="Step 2 of 4 — connect the broker or exchange XeroAI will trade on.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/auth.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#08090c">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="icons/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+</head>
+<body class="auth-body ob2-body ob2-scroll">
+
+  <div class="ob2-bg" aria-hidden="true">
+    <canvas id="networkCanvas"></canvas>
+  </div>
+  <div class="ob2-particles" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="ob2-shell">
+
+    <header class="ob2-topbar">
+      <a href="index.html" class="logo">
+        <span class="logo-mark"></span>
+        XeroAI
+      </a>
+
+      <div class="ob2-progress" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="4" aria-label="Onboarding progress">
+        <span class="ob2-progress-label">Step 2 of 4</span>
+        <div class="ob2-progress-track">
+          <div class="ob2-progress-fill" id="ob2ProgressFill" data-target="50"></div>
+        </div>
+        <span class="ob2-progress-pct" id="ob2ProgressPct">0%</span>
+      </div>
+    </header>
+
+    <main class="ob2-main ob2-main-scroll">
+      <div class="ob2-card ob2-card-wide reveal-ob2">
+
+        <div class="ob2-card-head">
+          <h1>Choose Your Trading Platform</h1>
+          <p>Connect the broker or exchange that XeroAI will trade on. You can always connect additional platforms later from your dashboard.</p>
+        </div>
+
+        <section class="ob2-platform-group">
+          <h2 class="ob2-group-title">Forex Brokers</h2>
+          <div class="ob2-platform-grid">
+
+            <button type="button" class="ob2-platform-card" data-platform="Deriv" role="checkbox" aria-checked="false">
+              <div class="ob2-platform-top">
+                <span class="ob2-platform-logo">DRV</span>
+                <span class="ob2-check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                </span>
+              </div>
+              <span class="ob2-selected-badge">Selected</span>
+              <h3>Deriv</h3>
+              <ul class="ob2-platform-tags">
+                <li>Synthetic Indices</li>
+                <li>Forex</li>
+                <li>Multipliers</li>
+              </ul>
+              <div class="ob2-platform-footer">
+                <span class="ob2-api-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  API Integration Ready
+                </span>
+                <span class="badge-pill badge-ready"><span class="dot"></span>Supported</span>
+              </div>
+            </button>
+
+            <button type="button" class="ob2-platform-card is-disabled" data-platform="HFM" role="checkbox" aria-checked="false" aria-disabled="true">
+              <div class="ob2-platform-top">
+                <span class="ob2-platform-logo">HFM</span>
+                <span class="ob2-check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                </span>
+              </div>
+              <span class="ob2-selected-badge">Selected</span>
+              <h3>HFM</h3>
+              <ul class="ob2-platform-tags">
+                <li>Forex</li>
+              </ul>
+              <div class="ob2-platform-footer">
+                <span class="ob2-api-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  API Integration Ready
+                </span>
+                <span class="badge-pill badge-waiting"><span class="dot"></span>Coming Soon</span>
+              </div>
+            </button>
+
+            <button type="button" class="ob2-platform-card is-disabled" data-platform="Exness" role="checkbox" aria-checked="false" aria-disabled="true">
+              <div class="ob2-platform-top">
+                <span class="ob2-platform-logo">EXN</span>
+                <span class="ob2-check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                </span>
+              </div>
+              <span class="ob2-selected-badge">Selected</span>
+              <h3>Exness</h3>
+              <ul class="ob2-platform-tags">
+                <li>Forex</li>
+              </ul>
+              <div class="ob2-platform-footer">
+                <span class="ob2-api-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  API Integration Ready
+                </span>
+                <span class="badge-pill badge-waiting"><span class="dot"></span>Coming Soon</span>
+              </div>
+            </button>
+
+          </div>
+        </section>
+
+        <section class="ob2-platform-group">
+          <h2 class="ob2-group-title">Crypto Exchanges</h2>
+          <div class="ob2-platform-grid">
+
+            <button type="button" class="ob2-platform-card is-disabled" data-platform="Binance" role="checkbox" aria-checked="false" aria-disabled="true">
+              <div class="ob2-platform-top">
+                <span class="ob2-platform-logo">BIN</span>
+                <span class="ob2-check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                </span>
+              </div>
+              <span class="ob2-selected-badge">Selected</span>
+              <h3>Binance</h3>
+              <ul class="ob2-platform-tags">
+                <li>Spot Trading</li>
+                <li>Futures Trading</li>
+              </ul>
+              <div class="ob2-platform-footer">
+                <span class="ob2-api-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  API Integration Ready
+                </span>
+                <span class="badge-pill badge-waiting"><span class="dot"></span>Coming Soon</span>
+              </div>
+            </button>
+
+            <button type="button" class="ob2-platform-card is-disabled" data-platform="Bybit" role="checkbox" aria-checked="false" aria-disabled="true">
+              <div class="ob2-platform-top">
+                <span class="ob2-platform-logo">BYB</span>
+                <span class="ob2-check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                </span>
+              </div>
+              <span class="ob2-selected-badge">Selected</span>
+              <h3>Bybit</h3>
+              <ul class="ob2-platform-tags">
+                <li>Spot Trading</li>
+                <li>Futures Trading</li>
+              </ul>
+              <div class="ob2-platform-footer">
+                <span class="ob2-api-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  API Integration Ready
+                </span>
+                <span class="badge-pill badge-waiting"><span class="dot"></span>Coming Soon</span>
+              </div>
+            </button>
+
+            <button type="button" class="ob2-platform-card is-disabled" data-platform="OKX" role="checkbox" aria-checked="false" aria-disabled="true">
+              <div class="ob2-platform-top">
+                <span class="ob2-platform-logo">OKX</span>
+                <span class="ob2-check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                </span>
+              </div>
+              <span class="ob2-selected-badge">Selected</span>
+              <h3>OKX</h3>
+              <ul class="ob2-platform-tags">
+                <li>Spot Trading</li>
+                <li>Futures Trading</li>
+              </ul>
+              <div class="ob2-platform-footer">
+                <span class="ob2-api-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  API Integration Ready
+                </span>
+                <span class="badge-pill badge-waiting"><span class="dot"></span>Coming Soon</span>
+              </div>
+            </button>
+
+          </div>
+        </section>
+
+        <div class="ob2-summary">
+          <h4>Selected Platforms</h4>
+          <div class="ob2-summary-list" id="ob2SummaryList">
+            <span class="ob2-summary-empty">No platform selected.</span>
+          </div>
+        </div>
+
+        <div class="ob2-actions">
+          <a href="onboarding-step1.html" class="btn btn-secondary ob2-btn">&larr; Back</a>
+          <button type="button" class="btn btn-primary ob2-btn ob2-continue" id="ob2Continue" disabled aria-disabled="true" data-next="onboarding-step3.html">
+            <span class="btn-label">Continue &rarr;</span>
+            <span class="btn-spinner" aria-hidden="true"></span>
+            <span class="btn-success" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </span>
+          </button>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/pwa.js"></script>
+</body>
+</html>

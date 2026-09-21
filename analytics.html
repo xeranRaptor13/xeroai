@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analytics — XeroAI</title>
+<meta name="description" content="Track your XeroAI trading performance, profitability, and trade quality.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#08090c">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="icons/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+</head>
+<body class="dash-body app-body">
+
+  <div class="app-sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="app-shell" id="appShell">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="app-sidebar" id="appSidebar">
+
+      <div class="sidebar-top">
+        <a href="dashboard.html" class="dash-logo sidebar-logo">
+          <span class="dash-logo-mark"></span>
+          <span class="sidebar-logo-text">XeroAI</span>
+        </a>
+        <button type="button" class="sidebar-collapse-btn" id="sidebarCollapseBtn" aria-label="Collapse sidebar" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Primary">
+        <a href="dashboard.html" class="sidebar-link" data-tooltip="Dashboard">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="5" rx="2"/><rect x="13" y="12" width="8" height="9" rx="2"/><rect x="3" y="15" width="8" height="6" rx="2"/></svg></span>
+          <span class="sidebar-label">Dashboard</span>
+        </a>
+        <a href="trading.html" class="sidebar-link" data-tooltip="Trading">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l4-4 3 3 5-6 4 4"/><path d="M3 21h18"/></svg></span>
+          <span class="sidebar-label">Trading</span>
+        </a>
+        <a href="analytics.html" class="sidebar-link active" data-tooltip="Analytics">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V11M10 20V4M16 20v-7M22 20V13"/></svg></span>
+          <span class="sidebar-label">Analytics</span>
+        </a>
+        <a href="subscription.html" class="sidebar-link" data-tooltip="Subscription">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/><path d="M16 12h3"/></svg></span>
+          <span class="sidebar-label">Subscription</span>
+        </a>
+        <a href="settings.html" class="sidebar-link" data-tooltip="Settings">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></span>
+          <span class="sidebar-label">Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <a href="#" class="sidebar-link" data-tooltip="Help" data-placeholder="true">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 4.9.8c0 1.7-2.4 1.7-2.4 3.4"/><path d="M12 17v.1"/></svg></span>
+          <span class="sidebar-label">Help</span>
+        </a>
+        <a href="login.html" class="sidebar-link sidebar-logout" data-tooltip="Logout">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></span>
+          <span class="sidebar-label">Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN COLUMN ============ -->
+    <div class="app-main">
+
+      <header class="app-topbar">
+        <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+
+        <div class="topbar-welcome">Welcome, <strong>Trader</strong></div>
+
+        <div class="topbar-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="text" placeholder="Search markets, trades, settings…" aria-label="Search">
+        </div>
+
+        <div class="topbar-right">
+          <button type="button" class="pwa-install-btn" data-pwa-install hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            Install App
+          </button>
+          <span class="topbar-datetime" id="topbarDatetime"></span>
+
+          <button type="button" class="topbar-icon-btn" id="notifBtn" aria-label="Notifications">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+            <span class="notif-dot"></span>
+          </button>
+
+          <div class="topbar-avatar" aria-label="Account">TR</div>
+        </div>
+      </header>
+
+      <main class="app-content">
+
+        <section class="dash-hero reveal-dash">
+          <h1>Analytics</h1>
+          <p>Track your trading performance, profitability, and trade quality.</p>
+        </section>
+
+        <div class="range-filter-bar reveal-dash">
+          <div class="range-filter" role="tablist" aria-label="Analytics time range">
+            <button type="button" class="range-filter-btn" data-range="today" role="tab" aria-selected="false">Today</button>
+            <button type="button" class="range-filter-btn" data-range="week" role="tab" aria-selected="false">Week</button>
+            <button type="button" class="range-filter-btn active" data-range="month" role="tab" aria-selected="true">Month</button>
+            <button type="button" class="range-filter-btn" data-range="all" role="tab" aria-selected="false">All Time</button>
+          </div>
+          <span class="range-filter-note" id="rangeFilterNote"></span>
+        </div>
+
+        <section class="performance-overview" id="performanceOverview">
+
+          <div class="section-heading reveal-dash">
+            <h2>Performance Analytics</h2>
+            <p>Track your trading performance and AI effectiveness through detailed analytics.</p>
+          </div>
+
+          <!-- Performance Summary Cards -->
+          <div class="performance-summary-grid">
+            <div class="trading-stat-card reveal-dash" style="--d:0ms">
+              <span class="trading-stat-label">Total Trades</span>
+              <span class="trading-stat-value" data-counter data-target="245">0</span>
+            </div>
+            <div class="trading-stat-card reveal-dash" style="--d:60ms">
+              <span class="trading-stat-label">Winning Trades</span>
+              <span class="trading-stat-value" data-counter data-target="218">0</span>
+            </div>
+            <div class="trading-stat-card reveal-dash" style="--d:120ms">
+              <span class="trading-stat-label">Losing Trades</span>
+              <span class="trading-stat-value" data-counter data-target="27">0</span>
+            </div>
+            <div class="trading-stat-card reveal-dash" style="--d:180ms">
+              <span class="trading-stat-label">Win Rate</span>
+              <span class="trading-stat-value" data-counter data-target="89" data-suffix="%">0</span>
+            </div>
+            <div class="trading-stat-card reveal-dash" style="--d:240ms">
+              <span class="trading-stat-label">Net Profit</span>
+              <span class="trading-stat-value trading-stat-profit" data-counter data-target="4850" data-prefix="+$" data-decimals="2">+$0.00</span>
+            </div>
+            <div class="trading-stat-card reveal-dash" style="--d:300ms">
+              <span class="trading-stat-label">Average AI Confidence</span>
+              <span class="trading-stat-value" data-counter data-target="94" data-suffix="%">0</span>
+            </div>
+          </div>
+
+          <div class="overview-row overview-row-secondary">
+
+            <!-- Weekly Performance Chart -->
+            <div class="chart-card reveal-dash">
+              <h3>Weekly Performance</h3>
+              <div class="chart-canvas-wrap">
+                <canvas id="weeklyPerformanceChart" aria-label="Weekly profit and loss chart" role="img"></canvas>
+              </div>
+              <div class="chart-legend">
+                <span><i class="legend-swatch legend-swatch-green"></i>Profit</span>
+                <span><i class="legend-swatch legend-swatch-red"></i>Loss</span>
+              </div>
+            </div>
+
+            <!-- Monthly Performance Snapshot -->
+            <div class="daily-summary-card reveal-dash">
+              <h3>Monthly Performance Snapshot</h3>
+              <div class="daily-summary-row">
+                <span class="daily-summary-label">Best Trading Day</span>
+                <span class="daily-summary-value">Wednesday</span>
+              </div>
+              <div class="daily-summary-row">
+                <span class="daily-summary-label">Highest Daily Profit</span>
+                <span class="daily-summary-value pnl-positive">+$620</span>
+              </div>
+              <div class="daily-summary-row">
+                <span class="daily-summary-label">Average Daily Profit</span>
+                <span class="daily-summary-value pnl-positive">+$315</span>
+              </div>
+              <div class="daily-summary-row">
+                <span class="daily-summary-label">Longest Winning Streak</span>
+                <span class="daily-summary-value">18 Trades</span>
+              </div>
+              <div class="daily-summary-row">
+                <span class="daily-summary-label">Current Winning Streak</span>
+                <span class="daily-summary-value">7 Trades</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Trading Distribution -->
+          <div class="performance-card reveal-dash">
+            <h3>Trading Distribution</h3>
+
+            <div class="performance-row">
+              <div class="performance-row-head">
+                <span>Forex</span>
+                <span>40%</span>
+              </div>
+              <div class="progress-bar-track">
+                <div class="progress-bar-fill" data-bar-target="40"></div>
+              </div>
+            </div>
+
+            <div class="performance-row">
+              <div class="performance-row-head">
+                <span>Synthetic Indices</span>
+                <span>35%</span>
+              </div>
+              <div class="progress-bar-track">
+                <div class="progress-bar-fill" data-bar-target="35"></div>
+              </div>
+            </div>
+
+            <div class="performance-row">
+              <div class="performance-row-head">
+                <span>Cryptocurrency</span>
+                <span>25%</span>
+              </div>
+              <div class="progress-bar-track">
+                <div class="progress-bar-fill" data-bar-target="25"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Trading Activity Heatmap -->
+          <div class="heatmap-card reveal-dash">
+            <div class="heatmap-head">
+              <h3>Trading Activity Heatmap</h3>
+              <div class="heatmap-legend">
+                <span>Less</span>
+                <span class="heatmap-legend-gradient"></span>
+                <span>More</span>
+              </div>
+            </div>
+            <div class="heatmap-scroll">
+              <div class="heatmap-grid" id="heatmapGrid" role="img" aria-label="Trading activity heatmap by day and hour"></div>
+            </div>
+          </div>
+
+          <!-- Performance Insights -->
+          <div class="info-card reveal-dash">
+            <div class="info-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V11M10 20V4M16 20v-7M22 20V13"/></svg>
+            </div>
+            <div class="info-card-content">
+              <h4>Performance Insights</h4>
+              <p>The AI trading engine has maintained a consistently high win rate while identifying favorable opportunities across Forex, Synthetic Indices, and Cryptocurrency markets. Current performance indicates stable execution with excellent trade quality.</p>
+            </div>
+          </div>
+
+          <p class="demo-footer-note">Performance statistics currently use demonstration data. Real trading analytics will become available after connecting the XeroAI backend and live trading engine.</p>
+
+        </section>
+
+        <!-- ============ PROFIT ANALYTICS (Module 3B) ============ -->
+        <section class="profit-analytics" id="profitAnalytics">
+
+          <div class="section-heading reveal-dash">
+            <h2>Profit Analytics</h2>
+            <p>Analyze your profitability across different trading platforms and markets.</p>
+          </div>
+
+          <!-- Profit Summary Cards -->
+          <div class="performance-summary-grid">
+            <div class="trading-stat-card reveal-dash" style="--d:0ms">
+              <span class="trading-stat-label">Today's Profit</span>
+              <span class="trading-stat-value trading-stat-profit" data-counter data-target="325.40" data-prefix="+$" data-decimals="2">+$0.00</span>
+            </div>
+            <div class="trading-stat-card reveal-dash" style="--d:60ms">
+              <span class="trading-stat-label">Weekly Profit</span>
+              <span class="trading-stat-value trading-stat-profit" data-counter data-target="2180.75" data-prefix="+$" data-decimals="2">+$0.00</span>
+            </div>
+            <div class="trading-stat-card reveal-dash" style="--d:120ms">
+              <span class="trading-stat-label">Monthly Profit</span>
+              <span class="trading-stat-value trading-stat-profit" data-counter data-target="8420.60" data-prefix="+$" data-decimals="2">+$0.00</span>
+            </div>
+            <div class="trading-stat-card reveal-dash" style="--d:180ms">
+              <span class="trading-stat-label">Total Profit</span>
+              <span class="trading-stat-value trading-stat-profit" data-counter data-target="24875.20" data-prefix="+$" data-decimals="2">+$0.00</span>
+            </div>
+            <div class="trading-stat-card reveal-dash" style="--d:240ms">
+              <span class="trading-stat-label">Best Trade</span>
+              <span class="trading-stat-value trading-stat-profit" data-counter data-target="412.80" data-prefix="+$" data-decimals="2">+$0.00</span>
+            </div>
+            <div class="trading-stat-card reveal-dash" style="--d:300ms">
+              <span class="trading-stat-label">Average Profit per Trade</span>
+              <span class="trading-stat-value trading-stat-profit" data-counter data-target="18.65" data-prefix="+$" data-decimals="2">+$0.00</span>
+            </div>
+          </div>
+
+          <!-- Trade Quality -->
+          <div class="platform-group">
+            <h4 class="platform-group-title">Trade Quality</h4>
+            <div class="performance-summary-grid">
+              <div class="trading-stat-card reveal-dash" style="--d:0ms">
+                <span class="trading-stat-label">Win / Loss Ratio</span>
+                <span class="trading-stat-value" data-counter data-target="8.07" data-decimals="2" data-suffix=" : 1">0</span>
+              </div>
+              <div class="trading-stat-card reveal-dash" style="--d:60ms">
+                <span class="trading-stat-label">Profit Factor</span>
+                <span class="trading-stat-value" data-counter data-target="4.15" data-decimals="2">0</span>
+              </div>
+              <div class="trading-stat-card reveal-dash" style="--d:120ms">
+                <span class="trading-stat-label">Average Win</span>
+                <span class="trading-stat-value trading-stat-profit" data-counter data-target="26.40" data-prefix="+$" data-decimals="2">+$0.00</span>
+              </div>
+              <div class="trading-stat-card reveal-dash" style="--d:180ms">
+                <span class="trading-stat-label">Average Loss</span>
+                <span class="trading-stat-value trading-stat-loss" data-counter data-target="18.90" data-prefix="&minus;$" data-decimals="2">&minus;$0.00</span>
+              </div>
+              <div class="trading-stat-card reveal-dash" style="--d:240ms">
+                <span class="trading-stat-label">Largest Win</span>
+                <span class="trading-stat-value trading-stat-profit" data-counter data-target="412.80" data-prefix="+$" data-decimals="2">+$0.00</span>
+              </div>
+              <div class="trading-stat-card reveal-dash" style="--d:300ms">
+                <span class="trading-stat-label">Largest Loss</span>
+                <span class="trading-stat-value trading-stat-loss" data-counter data-target="86.20" data-prefix="&minus;$" data-decimals="2">&minus;$0.00</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Profit by Platform -->
+          <div class="platform-group">
+            <h4 class="platform-group-title">Profit by Platform</h4>
+            <div class="platform-profit-grid">
+
+              <div class="platform-profit-card reveal-dash">
+                <div class="platform-profit-top">
+                  <span class="platform-profit-logo">DRV</span>
+                  <span class="platform-profit-value pnl-positive">+$7,850</span>
+                </div>
+                <h3>Deriv</h3>
+                <div class="progress-bar-track"><div class="progress-bar-fill" data-bar-target="31.6"></div></div>
+                <span class="platform-profit-pct">31.6% of total profit</span>
+              </div>
+
+              <div class="platform-profit-card reveal-dash">
+                <div class="platform-profit-top">
+                  <span class="platform-profit-logo">HFM</span>
+                  <span class="platform-profit-value pnl-positive">+$3,420</span>
+                </div>
+                <h3>HFM</h3>
+                <div class="progress-bar-track"><div class="progress-bar-fill" data-bar-target="13.7"></div></div>
+                <span class="platform-profit-pct">13.7% of total profit</span>
+              </div>
+
+              <div class="platform-profit-card reveal-dash">
+                <div class="platform-profit-top">
+                  <span class="platform-profit-logo">EXN</span>
+                  <span class="platform-profit-value pnl-positive">+$2,180</span>
+                </div>
+                <h3>Exness</h3>
+                <div class="progress-bar-track"><div class="progress-bar-fill" data-bar-target="8.8"></div></div>
+                <span class="platform-profit-pct">8.8% of total profit</span>
+              </div>
+
+              <div class="platform-profit-card reveal-dash">
+                <div class="platform-profit-top">
+                  <span class="platform-profit-logo">BIN</span>
+                  <span class="platform-profit-value pnl-positive">+$5,960</span>
+                </div>
+                <h3>Binance</h3>
+                <div class="progress-bar-track"><div class="progress-bar-fill" data-bar-target="24.0"></div></div>
+                <span class="platform-profit-pct">24.0% of total profit</span>
+              </div>
+
+              <div class="platform-profit-card reveal-dash">
+                <div class="platform-profit-top">
+                  <span class="platform-profit-logo">BYB</span>
+                  <span class="platform-profit-value pnl-positive">+$3,910</span>
+                </div>
+                <h3>Bybit</h3>
+                <div class="progress-bar-track"><div class="progress-bar-fill" data-bar-target="15.7"></div></div>
+                <span class="platform-profit-pct">15.7% of total profit</span>
+              </div>
+
+              <div class="platform-profit-card reveal-dash">
+                <div class="platform-profit-top">
+                  <span class="platform-profit-logo">OKX</span>
+                  <span class="platform-profit-value pnl-positive">+$1,555</span>
+                </div>
+                <h3>OKX</h3>
+                <div class="progress-bar-track"><div class="progress-bar-fill" data-bar-target="6.3"></div></div>
+                <span class="platform-profit-pct">6.3% of total profit</span>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="overview-row overview-row-secondary">
+
+            <!-- Profit by Market -->
+            <div class="performance-card reveal-dash">
+              <h3>Profit by Market</h3>
+
+              <div class="performance-row">
+                <div class="performance-row-head">
+                  <span>Synthetic Indices</span>
+                  <span>45%</span>
+                </div>
+                <div class="progress-bar-track">
+                  <div class="progress-bar-fill" data-bar-target="45"></div>
+                </div>
+              </div>
+
+              <div class="performance-row">
+                <div class="performance-row-head">
+                  <span>Forex</span>
+                  <span>30%</span>
+                </div>
+                <div class="progress-bar-track">
+                  <div class="progress-bar-fill" data-bar-target="30"></div>
+                </div>
+              </div>
+
+              <div class="performance-row">
+                <div class="performance-row-head">
+                  <span>Cryptocurrency</span>
+                  <span>25%</span>
+                </div>
+                <div class="progress-bar-track">
+                  <div class="progress-bar-fill" data-bar-target="25"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Profit Distribution (doughnut) -->
+            <div class="chart-card reveal-dash">
+              <h3>Profit Distribution</h3>
+              <div class="doughnut-wrap">
+                <canvas id="profitDoughnutChart" aria-label="Profit distribution by market" role="img"></canvas>
+              </div>
+              <div class="doughnut-legend">
+                <span><i class="legend-swatch legend-swatch-gold"></i>Synthetic Indices &mdash; 45%</span>
+                <span><i class="legend-swatch legend-swatch-blue"></i>Forex &mdash; 30%</span>
+                <span><i class="legend-swatch legend-swatch-green"></i>Cryptocurrency &mdash; 25%</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Monthly Profit Trend -->
+          <div class="chart-card reveal-dash">
+            <h3>Monthly Profit Trend</h3>
+            <div class="chart-canvas-wrap chart-canvas-wrap-line">
+              <canvas id="monthlyProfitChart" aria-label="Monthly profit trend over the last twelve months" role="img"></canvas>
+            </div>
+          </div>
+
+          <!-- Best Performing Assets -->
+          <div class="monitor-table-card reveal-dash">
+            <h3>Best Performing Assets</h3>
+            <div class="monitor-table-scroll">
+              <table class="monitor-table">
+                <thead>
+                  <tr>
+                    <th>Asset</th>
+                    <th>Platform</th>
+                    <th>Total Trades</th>
+                    <th>Win Rate</th>
+                    <th>Profit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Volatility 75</td>
+                    <td>Deriv</td>
+                    <td class="mono-cell">85</td>
+                    <td class="mono-cell">94%</td>
+                    <td class="mono-cell pnl-positive">+$2,540</td>
+                  </tr>
+                  <tr>
+                    <td>BTC/USDT</td>
+                    <td>Binance</td>
+                    <td class="mono-cell">61</td>
+                    <td class="mono-cell">91%</td>
+                    <td class="mono-cell pnl-positive">+$1,880</td>
+                  </tr>
+                  <tr>
+                    <td>EUR/USD</td>
+                    <td>Exness</td>
+                    <td class="mono-cell">53</td>
+                    <td class="mono-cell">88%</td>
+                    <td class="mono-cell pnl-positive">+$1,240</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- AI Profit Insight -->
+          <div class="info-card reveal-dash">
+            <div class="info-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+            </div>
+            <div class="info-card-content">
+              <h4>AI Profit Insight</h4>
+              <p>XeroAI has consistently identified profitable opportunities across supported markets while maintaining disciplined risk management. Profit is spread across multiple platforms and asset classes rather than concentrated in any single market, reflecting a balanced and risk-aware approach to automation.</p>
+            </div>
+          </div>
+
+          <p class="demo-footer-note">Profit analytics currently use demonstration data. Live profit reporting will be available after backend integration and live broker connections.</p>
+
+        </section>
+
+      </main>
+
+      <footer class="app-footer">
+        <span>XeroAI Dashboard</span>
+        <span>Version 1.0</span>
+      </footer>
+    </div>
+
+    <!-- ============ RIGHT PANEL ============ -->
+    <aside class="app-right-panel">
+
+      <div class="right-panel-section reveal-dash">
+        <h3>Recent Notifications</h3>
+        <ul class="right-panel-list">
+          <li>
+            <span class="rp-dot rp-dot-blue"></span>
+            <span class="rp-text">Your account setup is complete.</span>
+            <span class="rp-time">Just now</span>
+          </li>
+          <li>
+            <span class="rp-dot rp-dot-green"></span>
+            <span class="rp-text">Deriv connected successfully.</span>
+            <span class="rp-time">2m ago</span>
+          </li>
+          <li>
+            <span class="rp-dot rp-dot-gold"></span>
+            <span class="rp-text">Your free trial is active.</span>
+            <span class="rp-time">Today</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="right-panel-section reveal-dash">
+        <h3>Latest Activity</h3>
+        <ul class="right-panel-list">
+          <li>
+            <span class="rp-dot rp-dot-blue"></span>
+            <span class="rp-text">Onboarding completed.</span>
+            <span class="rp-time">Today</span>
+          </li>
+          <li>
+            <span class="rp-dot rp-dot-blue"></span>
+            <span class="rp-text">Binance connected.</span>
+            <span class="rp-time">Today</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="right-panel-section reveal-dash">
+        <h3>System Status</h3>
+        <ul class="right-panel-status">
+          <li><span class="sys-dot"></span>API Gateway <em>Operational</em></li>
+          <li><span class="sys-dot"></span>AI Engine <em>Operational</em></li>
+          <li><span class="sys-dot"></span>Broker Sync <em>Operational</em></li>
+        </ul>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <script src="js/dashboard.js"></script>
+  <script src="js/analytics.js"></script>
+  <script src="js/pwa.js"></script>
+</body>
+</html>

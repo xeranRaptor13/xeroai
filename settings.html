@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings — XeroAI</title>
+<meta name="description" content="Manage your XeroAI account, profile, security and preferences.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#08090c">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="icons/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+</head>
+<body class="dash-body app-body">
+
+  <div class="app-sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="app-shell" id="appShell">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="app-sidebar" id="appSidebar">
+
+      <div class="sidebar-top">
+        <a href="dashboard.html" class="dash-logo sidebar-logo">
+          <span class="dash-logo-mark"></span>
+          <span class="sidebar-logo-text">XeroAI</span>
+        </a>
+        <button type="button" class="sidebar-collapse-btn" id="sidebarCollapseBtn" aria-label="Collapse sidebar" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Primary">
+        <a href="dashboard.html" class="sidebar-link" data-tooltip="Dashboard">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="5" rx="2"/><rect x="13" y="12" width="8" height="9" rx="2"/><rect x="3" y="15" width="8" height="6" rx="2"/></svg></span>
+          <span class="sidebar-label">Dashboard</span>
+        </a>
+        <a href="trading.html" class="sidebar-link" data-tooltip="Trading">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l4-4 3 3 5-6 4 4"/><path d="M3 21h18"/></svg></span>
+          <span class="sidebar-label">Trading</span>
+        </a>
+        <a href="analytics.html" class="sidebar-link" data-tooltip="Analytics">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V11M10 20V4M16 20v-7M22 20V13"/></svg></span>
+          <span class="sidebar-label">Analytics</span>
+        </a>
+        <a href="subscription.html" class="sidebar-link" data-tooltip="Subscription">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/><path d="M16 12h3"/></svg></span>
+          <span class="sidebar-label">Subscription</span>
+        </a>
+        <a href="settings.html" class="sidebar-link active" data-tooltip="Settings">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></span>
+          <span class="sidebar-label">Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <a href="#" class="sidebar-link" data-tooltip="Help" data-placeholder="true">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 4.9.8c0 1.7-2.4 1.7-2.4 3.4"/><path d="M12 17v.1"/></svg></span>
+          <span class="sidebar-label">Help</span>
+        </a>
+        <a href="login.html" class="sidebar-link sidebar-logout" data-tooltip="Logout">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></span>
+          <span class="sidebar-label">Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN COLUMN ============ -->
+    <div class="app-main">
+
+      <header class="app-topbar">
+        <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+
+        <div class="topbar-welcome">Welcome, <strong>Trader</strong></div>
+
+        <div class="topbar-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="text" placeholder="Search markets, trades, settings…" aria-label="Search">
+        </div>
+
+        <div class="topbar-right">
+          <button type="button" class="pwa-install-btn" data-pwa-install hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            Install App
+          </button>
+          <span class="topbar-datetime" id="topbarDatetime"></span>
+
+          <button type="button" class="topbar-icon-btn" id="notifBtn" aria-label="Notifications">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+            <span class="notif-dot"></span>
+          </button>
+
+          <div class="topbar-avatar" aria-label="Account">TR</div>
+        </div>
+      </header>
+
+      <main class="app-content">
+
+        <section class="dash-hero reveal-dash">
+          <h1>Settings</h1>
+          <p>Manage your XeroAI account, profile, security and preferences.</p>
+        </section>
+
+        <section class="settings-modules-container" id="settingsModulesContainer">
+
+          <div class="settings-banner reveal-dash">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>
+            <p>This page isn't connected to a backend yet — changes here are for design purposes only and won't be saved once you leave or refresh.</p>
+          </div>
+
+          <div class="settings-layout reveal-dash">
+
+            <nav class="settings-tabs" role="tablist" aria-label="Settings sections">
+              <button type="button" class="settings-tab active" data-tab="profile" role="tab" aria-selected="true" id="tab-profile" aria-controls="panel-profile">
+                <span class="settings-tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg></span>
+                Profile
+              </button>
+              <button type="button" class="settings-tab" data-tab="security" role="tab" aria-selected="false" id="tab-security" aria-controls="panel-security">
+                <span class="settings-tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/></svg></span>
+                Security
+              </button>
+              <button type="button" class="settings-tab" data-tab="notifications" role="tab" aria-selected="false" id="tab-notifications" aria-controls="panel-notifications">
+                <span class="settings-tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></span>
+                Notifications
+              </button>
+              <button type="button" class="settings-tab settings-tab-danger" data-tab="danger" role="tab" aria-selected="false" id="tab-danger" aria-controls="panel-danger">
+                <span class="settings-tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 2.5 18a1.8 1.8 0 0 0 1.6 2.7h15.8a1.8 1.8 0 0 0 1.6-2.7L13.7 3.9a1.8 1.8 0 0 0-3.4 0z"/></svg></span>
+                Danger Zone
+              </button>
+            </nav>
+
+            <div class="settings-panels">
+
+              <!-- ============ PROFILE ============ -->
+              <section class="settings-panel active" id="panel-profile" role="tabpanel" aria-labelledby="tab-profile">
+                <div class="settings-card">
+                  <div class="settings-card-head">
+                    <h3>Profile</h3>
+                    <p>Your personal details and how XeroAI identifies your account.</p>
+                  </div>
+
+                  <div class="settings-avatar-row">
+                    <div class="settings-avatar">TR</div>
+                    <div>
+                      <button type="button" class="btn-manage-connection" disabled>Change Photo</button>
+                      <p class="settings-avatar-hint">JPG or PNG. Photo uploads aren't wired up yet.</p>
+                    </div>
+                  </div>
+
+                  <div class="settings-field-grid">
+                    <div class="settings-field">
+                      <label for="stFullName">Full Name</label>
+                      <input type="text" id="stFullName" placeholder="Jane Trader">
+                    </div>
+                    <div class="settings-field">
+                      <label for="stEmail">Email <span class="settings-verified-badge">Verified</span></label>
+                      <input type="email" id="stEmail" placeholder="you@example.com">
+                    </div>
+                    <div class="settings-field">
+                      <label for="stPhone">Phone Number</label>
+                      <input type="tel" id="stPhone" placeholder="+1 (555) 000-0000">
+                    </div>
+                    <div class="settings-field">
+                      <label for="stCountry">Country</label>
+                      <select id="stCountry">
+                        <option>Nigeria</option>
+                        <option>United States</option>
+                        <option>United Kingdom</option>
+                        <option>South Africa</option>
+                        <option>United Arab Emirates</option>
+                        <option>Other</option>
+                      </select>
+                    </div>
+                    <div class="settings-field">
+                      <label for="stTimezone">Timezone</label>
+                      <select id="stTimezone">
+                        <option>(GMT+1) West Africa Time</option>
+                        <option>(GMT+0) London</option>
+                        <option>(GMT-5) New York</option>
+                        <option>(GMT+4) Dubai</option>
+                        <option>(GMT+8) Singapore</option>
+                      </select>
+                    </div>
+                    <div class="settings-field">
+                      <label for="stDefaultMarket">Default Market</label>
+                      <select id="stDefaultMarket">
+                        <option>Currency Trading</option>
+                        <option>Crypto</option>
+                        <option>Synthetic Indices</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="settings-save-row">
+                    <button type="button" class="btn-settings-save" data-save-target="profile">Save Changes</button>
+                    <span class="settings-save-note" data-save-note="profile"></span>
+                  </div>
+                </div>
+              </section>
+
+              <!-- ============ SECURITY ============ -->
+              <section class="settings-panel" id="panel-security" role="tabpanel" aria-labelledby="tab-security" hidden>
+
+                <div class="settings-card">
+                  <div class="settings-card-head">
+                    <h3>Change Password</h3>
+                    <p>Use a strong, unique password you don't use anywhere else.</p>
+                  </div>
+                  <div class="settings-field-grid">
+                    <div class="settings-field settings-field-full">
+                      <label for="stCurrentPass">Current Password</label>
+                      <input type="password" id="stCurrentPass" placeholder="••••••••" autocomplete="current-password">
+                    </div>
+                    <div class="settings-field">
+                      <label for="stNewPass">New Password</label>
+                      <input type="password" id="stNewPass" placeholder="••••••••" autocomplete="new-password">
+                    </div>
+                    <div class="settings-field">
+                      <label for="stConfirmPass">Confirm New Password</label>
+                      <input type="password" id="stConfirmPass" placeholder="••••••••" autocomplete="new-password">
+                    </div>
+                  </div>
+                  <div class="settings-save-row">
+                    <button type="button" class="btn-settings-save" data-save-target="password">Update Password</button>
+                    <span class="settings-save-note" data-save-note="password"></span>
+                  </div>
+                </div>
+
+                <div class="settings-card">
+                  <div class="settings-toggle-row">
+                    <div>
+                      <h4>Two-Factor Authentication</h4>
+                      <p>Add an extra layer of security with a one-time code at sign-in.</p>
+                    </div>
+                    <label class="toggle-switch">
+                      <input type="checkbox" id="stTwoFactor">
+                      <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                    </label>
+                  </div>
+                  <div class="settings-toggle-row">
+                    <div>
+                      <h4>Login Alerts</h4>
+                      <p>Get notified by email whenever a new device signs in.</p>
+                    </div>
+                    <label class="toggle-switch">
+                      <input type="checkbox" id="stLoginAlerts" checked>
+                      <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="settings-card">
+                  <div class="settings-card-head">
+                    <h3>Active Sessions</h3>
+                    <p>Devices currently signed in to your account.</p>
+                  </div>
+                  <ul class="settings-session-list">
+                    <li class="settings-session-item">
+                      <div class="settings-session-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                      </div>
+                      <div class="settings-session-info">
+                        <strong>This Device</strong>
+                        <span>Chrome · Active now</span>
+                      </div>
+                      <span class="badge-pill badge-online"><span class="dot"></span>Current</span>
+                    </li>
+                  </ul>
+                  <div class="settings-save-row">
+                    <button type="button" class="btn-manage-connection" id="stSignOutAll">Sign Out of All Other Sessions</button>
+                  </div>
+                </div>
+
+              </section>
+
+              <!-- ============ NOTIFICATIONS ============ -->
+              <section class="settings-panel" id="panel-notifications" role="tabpanel" aria-labelledby="tab-notifications" hidden>
+
+                <div class="settings-card">
+                  <div class="settings-card-head">
+                    <h3>Notification Channels</h3>
+                    <p>Choose where XeroAI should send you updates.</p>
+                  </div>
+                  <div class="settings-toggle-row">
+                    <div><h4>Email</h4><p>Sent to the address on your profile.</p></div>
+                    <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+                  </div>
+                  <div class="settings-toggle-row">
+                    <div><h4>SMS</h4><p>Sent to your phone number on file.</p></div>
+                    <label class="toggle-switch"><input type="checkbox"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+                  </div>
+                  <div class="settings-toggle-row">
+                    <div><h4>Telegram</h4><p>Connect a Telegram bot to receive real-time alerts.</p></div>
+                    <label class="toggle-switch"><input type="checkbox"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+                  </div>
+                  <div class="settings-toggle-row">
+                    <div><h4>In-App</h4><p>Show alerts in the Recent Notifications panel.</p></div>
+                    <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+                  </div>
+                </div>
+
+                <div class="settings-card">
+                  <div class="settings-card-head">
+                    <h3>Notify Me About</h3>
+                    <p>Choose which events trigger a notification.</p>
+                  </div>
+                  <div class="settings-toggle-row">
+                    <div><h4>Trade Executed</h4><p>Every time the AI Engine opens or closes a position.</p></div>
+                    <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+                  </div>
+                  <div class="settings-toggle-row">
+                    <div><h4>Risk Limit Reached</h4><p>Daily loss limit, drawdown, or position size cap hit.</p></div>
+                    <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+                  </div>
+                  <div class="settings-toggle-row">
+                    <div><h4>Automation Paused</h4><p>Whenever the AI Engine stops trading for any reason.</p></div>
+                    <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+                  </div>
+                  <div class="settings-toggle-row">
+                    <div><h4>Connection Lost</h4><p>A broker or exchange connection drops or a key expires.</p></div>
+                    <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+                  </div>
+                  <div class="settings-toggle-row">
+                    <div><h4>Billing &amp; Account</h4><p>Trial ending, payment issues, and account updates.</p></div>
+                    <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+                  </div>
+                </div>
+
+                <div class="settings-save-row">
+                  <button type="button" class="btn-settings-save" data-save-target="notifications">Save Preferences</button>
+                  <span class="settings-save-note" data-save-note="notifications"></span>
+                </div>
+
+              </section>
+
+              <!-- ============ DANGER ZONE ============ -->
+              <section class="settings-panel" id="panel-danger" role="tabpanel" aria-labelledby="tab-danger" hidden>
+
+                <div class="settings-card settings-card-danger">
+                  <div class="settings-danger-row">
+                    <div>
+                      <h4>Disconnect All Platforms</h4>
+                      <p>Immediately revoke every connected broker/exchange API key. Automation will stop.</p>
+                    </div>
+                    <button type="button" class="btn-danger-outline" data-danger-action="disconnect">Disconnect All</button>
+                  </div>
+                  <div class="settings-danger-row">
+                    <div>
+                      <h4>Export My Data</h4>
+                      <p>Download a copy of your account, trade history and settings data.</p>
+                    </div>
+                    <button type="button" class="btn-manage-connection" data-danger-action="export">Request Export</button>
+                  </div>
+                  <div class="settings-danger-row">
+                    <div>
+                      <h4>Delete Account</h4>
+                      <p>Permanently delete your XeroAI account and all associated data. This can't be undone.</p>
+                    </div>
+                    <button type="button" class="btn-danger-filled" data-danger-action="delete">Delete Account</button>
+                  </div>
+                </div>
+
+              </section>
+
+            </div>
+          </div>
+
+        </section>
+
+
+      </main>
+
+      <footer class="app-footer">
+        <span>XeroAI Dashboard</span>
+        <span>Version 1.0</span>
+      </footer>
+    </div>
+
+    <!-- ============ RIGHT PANEL ============ -->
+    <aside class="app-right-panel">
+
+      <div class="right-panel-section reveal-dash">
+        <h3>Recent Notifications</h3>
+        <ul class="right-panel-list">
+          <li>
+            <span class="rp-dot rp-dot-blue"></span>
+            <span class="rp-text">Your account setup is complete.</span>
+            <span class="rp-time">Just now</span>
+          </li>
+          <li>
+            <span class="rp-dot rp-dot-green"></span>
+            <span class="rp-text">Deriv connected successfully.</span>
+            <span class="rp-time">2m ago</span>
+          </li>
+          <li>
+            <span class="rp-dot rp-dot-gold"></span>
+            <span class="rp-text">Your free trial is active.</span>
+            <span class="rp-time">Today</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="right-panel-section reveal-dash">
+        <h3>Latest Activity</h3>
+        <ul class="right-panel-list">
+          <li>
+            <span class="rp-dot rp-dot-blue"></span>
+            <span class="rp-text">Onboarding completed.</span>
+            <span class="rp-time">Today</span>
+          </li>
+          <li>
+            <span class="rp-dot rp-dot-blue"></span>
+            <span class="rp-text">Binance connected.</span>
+            <span class="rp-time">Today</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="right-panel-section reveal-dash">
+        <h3>System Status</h3>
+        <ul class="right-panel-status">
+          <li><span class="sys-dot"></span>API Gateway <em>Operational</em></li>
+          <li><span class="sys-dot"></span>AI Engine <em>Operational</em></li>
+          <li><span class="sys-dot"></span>Broker Sync <em>Operational</em></li>
+        </ul>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <script src="js/dashboard.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/pwa.js"></script>
+</body>
+</html>

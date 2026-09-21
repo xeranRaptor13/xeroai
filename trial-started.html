@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Trial Has Started — XeroAI</title>
+<meta name="description" content="Your 5-day free XeroAI trial has started. Continue to onboarding to connect your broker.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/auth.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#08090c">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="icons/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+</head>
+<body class="auth-body">
+
+  <div class="auth-shell">
+
+    <!-- ============ LEFT: BRAND / VISUAL ============ -->
+    <aside class="auth-visual">
+      <canvas id="networkCanvas" class="network-canvas" aria-hidden="true"></canvas>
+      <div class="auth-visual-glow" aria-hidden="true"></div>
+
+      <div class="auth-visual-content">
+        <a href="index.html" class="logo">
+          <span class="logo-mark"></span>
+          XeroAI
+        </a>
+
+        <h1>You're All Set.</h1>
+        <p>Your account is verified and your free trial is live.</p>
+      </div>
+
+      <div class="auth-visual-footer">
+        <span class="badge-pill badge-ready"><span class="dot"></span>Email verified</span>
+      </div>
+    </aside>
+
+    <!-- ============ RIGHT: TRIAL CONFIRMATION CARD ============ -->
+    <main class="auth-main">
+
+      <a href="index.html" class="logo auth-mobile-logo">
+        <span class="logo-mark"></span>
+        XeroAI
+      </a>
+
+      <div class="auth-card auth-card-center">
+
+        <div class="status-icon status-icon-success">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
+
+        <div class="auth-card-head">
+          <span class="eyebrow-label">TRIAL ACTIVE</span>
+          <h2>Your 5-Day Free Trial Has Started</h2>
+          <p class="auth-card-subtext">Explore the dashboard, connect your broker, and configure your first strategy — no credit card required.</p>
+        </div>
+
+        <ul class="mini-checklist">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Unlimited dashboard access</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Connect one broker or exchange</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>AI pattern detection &amp; auto-execution</li>
+        </ul>
+
+        <p class="trial-expiry" id="trialExpiry"></p>
+
+        <a href="onboarding.html" class="btn btn-primary auth-submit">Continue to Onboarding</a>
+
+      </div>
+
+    </main>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/pwa.js"></script>
+</body>
+</html>

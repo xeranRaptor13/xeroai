@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trading — XeroAI</title>
+<meta name="description" content="Manage AI-driven trade execution, connected platforms, and live positions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#08090c">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="icons/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+</head>
+<body class="dash-body app-body">
+
+  <div class="app-sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="app-shell" id="appShell">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="app-sidebar" id="appSidebar">
+
+      <div class="sidebar-top">
+        <a href="dashboard.html" class="dash-logo sidebar-logo">
+          <span class="dash-logo-mark"></span>
+          <span class="sidebar-logo-text">XeroAI</span>
+        </a>
+        <button type="button" class="sidebar-collapse-btn" id="sidebarCollapseBtn" aria-label="Collapse sidebar" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Primary">
+        <a href="dashboard.html" class="sidebar-link" data-tooltip="Dashboard">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="5" rx="2"/><rect x="13" y="12" width="8" height="9" rx="2"/><rect x="3" y="15" width="8" height="6" rx="2"/></svg></span>
+          <span class="sidebar-label">Dashboard</span>
+        </a>
+        <a href="trading.html" class="sidebar-link active" data-tooltip="Trading">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l4-4 3 3 5-6 4 4"/><path d="M3 21h18"/></svg></span>
+          <span class="sidebar-label">Trading</span>
+        </a>
+        <a href="analytics.html" class="sidebar-link" data-tooltip="Analytics">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V11M10 20V4M16 20v-7M22 20V13"/></svg></span>
+          <span class="sidebar-label">Analytics</span>
+        </a>
+        <a href="subscription.html" class="sidebar-link" data-tooltip="Subscription">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/><path d="M16 12h3"/></svg></span>
+          <span class="sidebar-label">Subscription</span>
+        </a>
+        <a href="settings.html" class="sidebar-link" data-tooltip="Settings">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></span>
+          <span class="sidebar-label">Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <a href="#" class="sidebar-link" data-tooltip="Help" data-placeholder="true">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 4.9.8c0 1.7-2.4 1.7-2.4 3.4"/><path d="M12 17v.1"/></svg></span>
+          <span class="sidebar-label">Help</span>
+        </a>
+        <a href="login.html" class="sidebar-link sidebar-logout" data-tooltip="Logout">
+          <span class="sidebar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></span>
+          <span class="sidebar-label">Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN COLUMN ============ -->
+    <div class="app-main">
+
+      <header class="app-topbar">
+        <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+
+        <div class="topbar-welcome">Welcome, <strong>Trader</strong></div>
+
+        <div class="topbar-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="text" placeholder="Search markets, trades, settings…" aria-label="Search">
+        </div>
+
+        <div class="topbar-right">
+          <button type="button" class="pwa-install-btn" data-pwa-install hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            Install App
+          </button>
+          <span class="topbar-datetime" id="topbarDatetime"></span>
+
+          <button type="button" class="topbar-icon-btn" id="notifBtn" aria-label="Notifications">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+            <span class="notif-dot"></span>
+          </button>
+
+          <div class="topbar-avatar" aria-label="Account">TR</div>
+        </div>
+      </header>
+
+      <main class="app-content">
+
+        <section class="dash-hero reveal-dash">
+          <h1>Trading</h1>
+          <p>Manage AI-driven trade execution, connected platforms, and live positions.</p>
+        </section>
+
+        <section class="trading-overview" id="tradingOverview">
+
+          <div class="section-heading reveal-dash">
+            <h2>Trading Overview</h2>
+            <p>Monitor the health of your XeroAI trading engine and your overall trading activity.</p>
+          </div>
+
+          <!-- Welcome banner -->
+          <div class="welcome-banner reveal-dash">
+            <div class="welcome-banner-glow" aria-hidden="true"></div>
+            <div class="welcome-banner-content">
+              <h3>Welcome back, <span class="accent">Trader</span></h3>
+              <p>Your AI trading assistant is online and continuously monitoring the markets for high-probability opportunities.</p>
+              <span class="badge-pill badge-online"><span class="dot"></span>AI Online</span>
+            </div>
+          </div>
+
+          <div class="overview-row">
+
+            <!-- AI Engine Status -->
+            <div class="engine-status-card reveal-dash">
+              <div class="engine-status-head">
+                <h3>AI Engine</h3>
+                <span class="badge-pill badge-online"><span class="dot"></span>Online</span>
+              </div>
+              <div class="engine-status-grid">
+                <div class="engine-stat">
+                  <span class="engine-stat-label">Trading Model</span>
+                  <span class="engine-stat-value">XeroAI V1</span>
+                </div>
+                <div class="engine-stat">
+                  <span class="engine-stat-label">Mode</span>
+                  <span class="engine-stat-value">Automatic</span>
+                </div>
+                <div class="engine-stat">
+                  <span class="engine-stat-label">Signal Quality</span>
+                  <span class="engine-stat-value engine-stat-good">Excellent</span>
+                </div>
+                <div class="engine-stat">
+                  <span class="engine-stat-label">Version</span>
+                  <span class="engine-stat-value">1.0</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- AI Confidence ring -->
+            <div class="confidence-card reveal-dash">
+              <div class="confidence-ring-wrap">
+                <svg class="confidence-ring" viewBox="0 0 120 120" aria-hidden="true">
+                  <circle class="confidence-ring-track" cx="60" cy="60" r="52"/>
+                  <circle class="confidence-ring-fill" id="confidenceRingFill" cx="60" cy="60" r="52" data-target="94"/>
+                </svg>
+                <div class="confidence-ring-text">
+                  <span class="confidence-value" id="confidenceValue">0%</span>
+                </div>
+              </div>
+              <span class="confidence-label">AI Confidence</span>
+              <p class="confidence-subtitle">Market conditions currently favour high-quality trading opportunities.</p>
+            </div>
+
+          </div>
+
+          <!-- Trading statistics -->
+          <div class="trading-stats-grid">
+            <div class="trading-stat-card reveal-dash" style="--d:0ms">
+              <span class="trading-stat-label">Today's Trades</span>
+              <span class="trading-stat-value" data-counter data-target="12">0</span>
+            </div>
+            <div class="trading-stat-card reveal-dash" style="--d:80ms">
+              <span class="trading-stat-label">Winning Trades</span>
+              <span class="trading-stat-value" data-counter data-target="11">0</span>
+            </div>
+            <div class="trading-stat-card reveal-dash" style="--d:160ms">
+              <span class="trading-stat-label">Open Positions</span>
+              <span class="trading-stat-value" data-counter data-target="3">0</span>
+            </div>
+            <div class="trading-stat-card reveal-dash" style="--d:240ms">
+              <span class="trading-stat-label">Today's Profit</span>
+              <span class="trading-stat-value trading-stat-profit" data-counter data-target="42.50" data-prefix="+$" data-decimals="2">+$0.00</span>
+            </div>
+          </div>
+
+          <!-- Quick actions -->
+          <div class="quick-actions reveal-dash">
+            <button type="button" class="quick-action-btn rippleable" id="qaStartAi" data-action="start">
+              <span class="qa-icon">&#9654;</span>Start AI
+            </button>
+            <button type="button" class="quick-action-btn rippleable" id="qaPauseAi" data-action="pause">
+              <span class="qa-icon">&#10074;&#10074;</span>Pause AI
+            </button>
+            <a href="analytics.html" class="quick-action-btn rippleable">
+              <span class="qa-icon">&#128202;</span>View Analytics
+            </a>
+            <button type="button" class="quick-action-btn rippleable" data-action="platforms">
+              <span class="qa-icon">&#9881;</span>Manage Platforms
+            </button>
+          </div>
+          <p class="quick-actions-note" id="quickActionsNote">These actions are simulated. No live trading is connected yet.</p>
+          <a href="subscription.html" class="subscription-gate-link" id="subscriptionGateLink" hidden>Manage Subscription &rarr;</a>
+
+          <div class="overview-row overview-row-secondary">
+
+            <!-- AI Activity Feed -->
+            <div class="activity-feed-card reveal-dash">
+              <h3>AI Activity Feed</h3>
+              <ul class="activity-feed-list">
+                <li class="activity-item"><span class="activity-time">09:12</span><span class="activity-text">AI detected strong bullish momentum.</span></li>
+                <li class="activity-item"><span class="activity-time">09:18</span><span class="activity-text">New trading opportunity identified.</span></li>
+                <li class="activity-item"><span class="activity-time">09:24</span><span class="activity-text">Market volatility increasing.</span></li>
+                <li class="activity-item"><span class="activity-time">09:31</span><span class="activity-text">Monitoring BTC/USDT.</span></li>
+              </ul>
+            </div>
+
+            <!-- Daily Summary -->
+            <div class="daily-summary-card reveal-dash">
+              <h3>Today's Summary</h3>
+              <div class="daily-summary-row">
+                <span class="daily-summary-label">Signals Generated</span>
+                <span class="daily-summary-value">24</span>
+              </div>
+              <div class="daily-summary-row">
+                <span class="daily-summary-label">Trades Executed</span>
+                <span class="daily-summary-value">12</span>
+              </div>
+              <div class="daily-summary-row">
+                <span class="daily-summary-label">Current Accuracy</span>
+                <span class="daily-summary-value">94%</span>
+              </div>
+              <div class="progress-bar-track">
+                <div class="progress-bar-fill" data-bar-target="94"></div>
+              </div>
+              <div class="daily-summary-markets">
+                <span class="daily-summary-markets-label">Markets Monitored</span>
+                <div class="market-chip-row">
+                  <span class="market-chip">Forex</span>
+                  <span class="market-chip">Synthetic Indices</span>
+                  <span class="market-chip">Crypto</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Performance snapshot -->
+          <div class="performance-card reveal-dash">
+            <h3>Performance Snapshot</h3>
+
+            <div class="performance-row">
+              <div class="performance-row-head">
+                <span>Trading Accuracy</span>
+                <span>94%</span>
+              </div>
+              <div class="progress-bar-track">
+                <div class="progress-bar-fill" data-bar-target="94"></div>
+              </div>
+            </div>
+
+            <div class="performance-row">
+              <div class="performance-row-head">
+                <span>AI Stability</span>
+                <span>99%</span>
+              </div>
+              <div class="progress-bar-track">
+                <div class="progress-bar-fill progress-bar-green" data-bar-target="99"></div>
+              </div>
+            </div>
+
+            <div class="performance-row">
+              <div class="performance-row-head">
+                <span>System Health</span>
+                <span>100%</span>
+              </div>
+              <div class="progress-bar-track">
+                <div class="progress-bar-fill progress-bar-green" data-bar-target="100"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Information card -->
+          <div class="info-card reveal-dash">
+            <div class="info-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v.1M12 11v5"/></svg>
+            </div>
+            <div class="info-card-content">
+              <h4>XeroAI Intelligence</h4>
+              <p>XeroAI continuously scans supported markets using its proprietary AI engine. The system analyses trading conditions, evaluates market probability, and prepares high-confidence trading opportunities before execution.</p>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ============ CONNECTED PLATFORMS (Module 2B) ============ -->
+        <section class="connected-platforms" id="connectedPlatforms">
+
+          <div class="section-heading reveal-dash">
+            <h2>Connected Trading Platforms</h2>
+            <p>Monitor and manage every broker and exchange connected to your XeroAI account.</p>
+          </div>
+
+          <div class="platform-group">
+            <h4 class="platform-group-title">Forex Brokers</h4>
+            <div class="platform-cards-grid">
+
+              <div class="platform-conn-card reveal-dash" data-platform="deriv">
+                <div class="platform-conn-top">
+                  <span class="platform-conn-logo">DRV</span>
+                  <span class="badge-pill badge-online"><span class="dot"></span>Connected</span>
+                </div>
+                <h3>Deriv</h3>
+                <ul class="platform-conn-tags">
+                  <li>Synthetic Indices</li>
+                  <li>Forex</li>
+                  <li>Multipliers</li>
+                </ul>
+                <div class="platform-conn-meta">
+                  <div class="platform-conn-meta-row"><span>Connection</span><span>API Connected</span></div>
+                  <div class="platform-conn-meta-row"><span>Last Sync</span><span>2 minutes ago</span></div>
+                </div>
+                <button type="button" class="btn-manage-connection" data-platform-name="Deriv">Manage Connection</button>
+              </div>
+
+              <div class="platform-conn-card reveal-dash" data-platform="hfm">
+                <div class="platform-conn-top">
+                  <span class="platform-conn-logo">HFM</span>
+                  <span class="badge-pill badge-online"><span class="dot"></span>Connected</span>
+                </div>
+                <h3>HFM</h3>
+                <ul class="platform-conn-tags">
+                  <li>Forex</li>
+                </ul>
+                <div class="platform-conn-meta">
+                  <div class="platform-conn-meta-row"><span>Connection</span><span>MT5 Connected</span></div>
+                  <div class="platform-conn-meta-row"><span>Last Sync</span><span>1 minute ago</span></div>
+                </div>
+                <button type="button" class="btn-manage-connection" data-platform-name="HFM">Manage Connection</button>
+              </div>
+
+              <div class="platform-conn-card reveal-dash" data-platform="exness">
+                <div class="platform-conn-top">
+                  <span class="platform-conn-logo">EXN</span>
+                  <span class="badge-pill badge-online"><span class="dot"></span>Connected</span>
+                </div>
+                <h3>Exness</h3>
+                <ul class="platform-conn-tags">
+                  <li>Forex</li>
+                </ul>
+                <div class="platform-conn-meta">
+                  <div class="platform-conn-meta-row"><span>Connection</span><span>MT5 Connected</span></div>
+                  <div class="platform-conn-meta-row"><span>Last Sync</span><span>3 minutes ago</span></div>
+                </div>
+                <button type="button" class="btn-manage-connection" data-platform-name="Exness">Manage Connection</button>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="platform-group">
+            <h4 class="platform-group-title">Crypto Exchanges</h4>
+            <div class="platform-cards-grid">
+
+              <div class="platform-conn-card reveal-dash" data-platform="binance">
+                <div class="platform-conn-top">
+                  <span class="platform-conn-logo">BIN</span>
+                  <span class="badge-pill badge-online"><span class="dot"></span>Connected</span>
+                </div>
+                <h3>Binance</h3>
+                <ul class="platform-conn-tags">
+                  <li>Spot</li>
+                  <li>Futures</li>
+                </ul>
+                <div class="platform-conn-meta">
+                  <div class="platform-conn-meta-row"><span>Connection</span><span>API Connected</span></div>
+                  <div class="platform-conn-meta-row"><span>Last Sync</span><span>30 seconds ago</span></div>
+                </div>
+                <button type="button" class="btn-manage-connection" data-platform-name="Binance">Manage Connection</button>
+              </div>
+
+              <div class="platform-conn-card reveal-dash" data-platform="bybit">
+                <div class="platform-conn-top">
+                  <span class="platform-conn-logo">BYB</span>
+                  <span class="badge-pill badge-online"><span class="dot"></span>Connected</span>
+                </div>
+                <h3>Bybit</h3>
+                <ul class="platform-conn-tags">
+                  <li>Spot</li>
+                  <li>Futures</li>
+                </ul>
+                <div class="platform-conn-meta">
+                  <div class="platform-conn-meta-row"><span>Connection</span><span>API Connected</span></div>
+                  <div class="platform-conn-meta-row"><span>Last Sync</span><span>45 seconds ago</span></div>
+                </div>
+                <button type="button" class="btn-manage-connection" data-platform-name="Bybit">Manage Connection</button>
+              </div>
+
+              <div class="platform-conn-card reveal-dash" data-platform="okx">
+                <div class="platform-conn-top">
+                  <span class="platform-conn-logo">OKX</span>
+                  <span class="badge-pill badge-online"><span class="dot"></span>Connected</span>
+                </div>
+                <h3>OKX</h3>
+                <ul class="platform-conn-tags">
+                  <li>Spot</li>
+                  <li>Futures</li>
+                </ul>
+                <div class="platform-conn-meta">
+                  <div class="platform-conn-meta-row"><span>Connection</span><span>API Connected</span></div>
+                  <div class="platform-conn-meta-row"><span>Last Sync</span><span>55 seconds ago</span></div>
+                </div>
+                <button type="button" class="btn-manage-connection" data-platform-name="OKX">Manage Connection</button>
+              </div>
+
+              <div class="platform-conn-card add-platform-card reveal-dash">
+                <div class="add-platform-plus">+</div>
+                <h3>Connect Another Platform</h3>
+                <p>More brokers and exchanges will be supported in future versions.</p>
+                <button type="button" class="btn-manage-connection btn-coming-soon" disabled>Coming Soon</button>
+              </div>
+
+            </div>
+          </div>
+
+          <p class="platform-action-note" id="platformActionNote">Select "Manage Connection" to view platform details.</p>
+
+          <div class="overview-row overview-row-secondary">
+
+            <div class="platform-summary-card reveal-dash">
+              <h3>Platform Summary</h3>
+              <div class="platform-summary-grid">
+                <div class="summary-stat">
+                  <span class="summary-stat-value" data-counter data-target="6">0</span>
+                  <span class="summary-stat-label">Total Platforms</span>
+                </div>
+                <div class="summary-stat">
+                  <span class="summary-stat-value" data-counter data-target="3">0</span>
+                  <span class="summary-stat-label">Forex Brokers</span>
+                </div>
+                <div class="summary-stat">
+                  <span class="summary-stat-value" data-counter data-target="3">0</span>
+                  <span class="summary-stat-label">Crypto Exchanges</span>
+                </div>
+                <div class="summary-stat">
+                  <span class="summary-stat-value" data-counter data-target="6">0</span>
+                  <span class="summary-stat-label">Healthy Connections</span>
+                </div>
+              </div>
+              <p class="platform-summary-note">This is demonstration data.</p>
+            </div>
+
+            <div class="connection-health-card reveal-dash">
+              <h3>Connection Health</h3>
+
+              <div class="health-row">
+                <span class="health-name">Deriv</span>
+                <div class="progress-bar-track"><div class="progress-bar-fill progress-bar-green" data-bar-target="100"></div></div>
+                <span class="health-status">Healthy</span>
+              </div>
+              <div class="health-row">
+                <span class="health-name">HFM</span>
+                <div class="progress-bar-track"><div class="progress-bar-fill progress-bar-green" data-bar-target="100"></div></div>
+                <span class="health-status">Healthy</span>
+              </div>
+              <div class="health-row">
+                <span class="health-name">Exness</span>
+                <div class="progress-bar-track"><div class="progress-bar-fill progress-bar-green" data-bar-target="100"></div></div>
+                <span class="health-status">Healthy</span>
+              </div>
+              <div class="health-row">
+                <span class="health-name">Binance</span>
+                <div class="progress-bar-track"><div class="progress-bar-fill progress-bar-green" data-bar-target="100"></div></div>
+                <span class="health-status">Healthy</span>
+              </div>
+              <div class="health-row">
+                <span class="health-name">Bybit</span>
+                <div class="progress-bar-track"><div class="progress-bar-fill progress-bar-green" data-bar-target="100"></div></div>
+                <span class="health-status">Healthy</span>
+              </div>
+              <div class="health-row">
+                <span class="health-name">OKX</span>
+                <div class="progress-bar-track"><div class="progress-bar-fill progress-bar-green" data-bar-target="100"></div></div>
+                <span class="health-status">Healthy</span>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="connection-activity-card reveal-dash">
+            <h3>Connection Activity</h3>
+            <ul class="activity-feed-list">
+              <li class="activity-item"><span class="activity-time">2m</span><span class="activity-text">&check; Binance synchronized</span></li>
+              <li class="activity-item"><span class="activity-time">5m</span><span class="activity-text">&check; Deriv API authenticated</span></li>
+              <li class="activity-item"><span class="activity-time">8m</span><span class="activity-text">&check; HFM session refreshed</span></li>
+              <li class="activity-item"><span class="activity-time">10m</span><span class="activity-text">&check; OKX heartbeat received</span></li>
+            </ul>
+          </div>
+
+        </section>
+
+        <!-- ============ LIVE TRADING MONITOR (Module 2C) ============ -->
+        <section class="trading-monitor" id="tradingMonitor">
+
+          <div class="section-heading reveal-dash">
+            <h2>Live Trading Monitor</h2>
+            <p>Monitor active trading sessions and market activity.</p>
+          </div>
+
+          <!-- Active Trading Sessions -->
+          <div class="monitor-table-card reveal-dash">
+            <h3>Active Trading Sessions</h3>
+            <div class="monitor-table-scroll">
+              <table class="monitor-table">
+                <thead>
+                  <tr>
+                    <th>Platform</th>
+                    <th>Market</th>
+                    <th>Strategy</th>
+                    <th>Status</th>
+                    <th>Duration</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Deriv</td>
+                    <td>Volatility 75</td>
+                    <td>XeroAI V1</td>
+                    <td><span class="badge-pill badge-running"><span class="dot"></span>Running</span></td>
+                    <td class="mono-cell">02:14:36</td>
+                  </tr>
+                  <tr>
+                    <td>Binance</td>
+                    <td>BTC/USDT</td>
+                    <td>Trend Following</td>
+                    <td><span class="badge-pill badge-monitoring"><span class="dot"></span>Monitoring</span></td>
+                    <td class="mono-cell">01:03:18</td>
+                  </tr>
+                  <tr>
+                    <td>Exness</td>
+                    <td>EUR/USD</td>
+                    <td>Scalping</td>
+                    <td><span class="badge-pill badge-running"><span class="dot"></span>Running</span></td>
+                    <td class="mono-cell">00:45:10</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Live Market Watch -->
+          <div class="market-watch-group">
+            <h4 class="platform-group-title">Live Market Watch</h4>
+            <div class="market-watch-grid">
+
+              <div class="market-watch-card reveal-dash">
+                <div class="market-watch-top">
+                  <h3>Volatility 75</h3>
+                  <span class="live-pulse-dot"></span>
+                </div>
+                <div class="market-watch-row"><span>Trend</span><span class="trend-up">&#8593; Bullish</span></div>
+                <div class="market-watch-row"><span>AI Confidence</span><span>91%</span></div>
+                <div class="market-watch-row"><span>Status</span><span>Monitoring</span></div>
+              </div>
+
+              <div class="market-watch-card reveal-dash">
+                <div class="market-watch-top">
+                  <h3>Volatility 100</h3>
+                  <span class="live-pulse-dot"></span>
+                </div>
+                <div class="market-watch-row"><span>Trend</span><span class="trend-up">&#8593; Bullish</span></div>
+                <div class="market-watch-row"><span>AI Confidence</span><span>88%</span></div>
+                <div class="market-watch-row"><span>Status</span><span>Monitoring</span></div>
+              </div>
+
+              <div class="market-watch-card reveal-dash">
+                <div class="market-watch-top">
+                  <h3>EUR/USD</h3>
+                  <span class="live-pulse-dot"></span>
+                </div>
+                <div class="market-watch-row"><span>Trend</span><span class="trend-neutral">&#8594; Neutral</span></div>
+                <div class="market-watch-row"><span>AI Confidence</span><span>74%</span></div>
+                <div class="market-watch-row"><span>Status</span><span>Monitoring</span></div>
+              </div>
+
+              <div class="market-watch-card reveal-dash">
+                <div class="market-watch-top">
+                  <h3>GBP/USD</h3>
+                  <span class="live-pulse-dot"></span>
+                </div>
+                <div class="market-watch-row"><span>Trend</span><span class="trend-down">&#8595; Bearish</span></div>
+                <div class="market-watch-row"><span>AI Confidence</span><span>69%</span></div>
+                <div class="market-watch-row"><span>Status</span><span>Monitoring</span></div>
+              </div>
+
+              <div class="market-watch-card reveal-dash">
+                <div class="market-watch-top">
+                  <h3>BTC/USDT</h3>
+                  <span class="live-pulse-dot"></span>
+                </div>
+                <div class="market-watch-row"><span>Trend</span><span class="trend-up">&#8593; Bullish</span></div>
+                <div class="market-watch-row"><span>AI Confidence</span><span>93%</span></div>
+                <div class="market-watch-row"><span>Status</span><span>Monitoring</span></div>
+              </div>
+
+              <div class="market-watch-card reveal-dash">
+                <div class="market-watch-top">
+                  <h3>ETH/USDT</h3>
+                  <span class="live-pulse-dot"></span>
+                </div>
+                <div class="market-watch-row"><span>Trend</span><span class="trend-up">&#8593; Bullish</span></div>
+                <div class="market-watch-row"><span>AI Confidence</span><span>85%</span></div>
+                <div class="market-watch-row"><span>Status</span><span>Monitoring</span></div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Open Positions -->
+          <div class="monitor-table-card reveal-dash">
+            <h3>Open Positions</h3>
+            <div class="monitor-table-scroll">
+              <table class="monitor-table">
+                <thead>
+                  <tr>
+                    <th>Platform</th>
+                    <th>Asset</th>
+                    <th>Direction</th>
+                    <th>Entry Price</th>
+                    <th>Current Price</th>
+                    <th>Profit/Loss</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Deriv</td>
+                    <td>Volatility 75 Index</td>
+                    <td><span class="direction-badge direction-buy">Buy</span></td>
+                    <td class="mono-cell">245.32</td>
+                    <td class="mono-cell">248.91</td>
+                    <td class="mono-cell pnl-positive">+$12.40</td>
+                  </tr>
+                  <tr>
+                    <td>Binance</td>
+                    <td>BTC/USDT</td>
+                    <td><span class="direction-badge direction-buy">Long</span></td>
+                    <td class="mono-cell">62,400.00</td>
+                    <td class="mono-cell">63,180.50</td>
+                    <td class="mono-cell pnl-positive">+$78.05</td>
+                  </tr>
+                  <tr>
+                    <td>Exness</td>
+                    <td>EUR/USD</td>
+                    <td><span class="direction-badge direction-sell">Sell</span></td>
+                    <td class="mono-cell">1.0850</td>
+                    <td class="mono-cell">1.0862</td>
+                    <td class="mono-cell pnl-negative">&minus;$9.60</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ============ AI DECISION CENTER & TRADE HISTORY (Module 2C.2) ============ -->
+        <section class="ai-decision-center" id="aiDecisionCenter">
+
+          <div class="section-heading reveal-dash">
+            <h2>AI Decision Center</h2>
+            <p>Monitor every trading decision generated by the XeroAI Engine.</p>
+          </div>
+
+          <!-- AI Decision Feed -->
+          <div class="decision-feed-grid">
+
+            <div class="decision-card reveal-dash" data-decision="buy">
+              <div class="decision-card-top">
+                <span class="decision-time">09:14</span>
+                <span class="decision-badge decision-buy">BUY</span>
+              </div>
+              <div class="decision-card-body">
+                <div class="decision-row"><span>Platform</span><span>Deriv</span></div>
+                <div class="decision-row"><span>Market</span><span>Volatility 75</span></div>
+                <div class="decision-row"><span>Status</span><span class="badge-pill badge-executed"><span class="dot"></span>Executed</span></div>
+              </div>
+              <div class="decision-confidence">
+                <span class="confidence-badge-glow">96%</span>
+                <span class="confidence-badge-label">Confidence</span>
+              </div>
+            </div>
+
+            <div class="decision-card reveal-dash" data-decision="sell">
+              <div class="decision-card-top">
+                <span class="decision-time">09:18</span>
+                <span class="decision-badge decision-sell">SELL</span>
+              </div>
+              <div class="decision-card-body">
+                <div class="decision-row"><span>Platform</span><span>Binance</span></div>
+                <div class="decision-row"><span>Market</span><span>BTC/USDT</span></div>
+                <div class="decision-row"><span>Status</span><span class="badge-pill badge-waiting"><span class="dot"></span>Waiting</span></div>
+              </div>
+              <div class="decision-confidence">
+                <span class="confidence-badge-glow">93%</span>
+                <span class="confidence-badge-label">Confidence</span>
+              </div>
+            </div>
+
+            <div class="decision-card reveal-dash" data-decision="buy">
+              <div class="decision-card-top">
+                <span class="decision-time">09:26</span>
+                <span class="decision-badge decision-buy">BUY</span>
+              </div>
+              <div class="decision-card-body">
+                <div class="decision-row"><span>Platform</span><span>Exness</span></div>
+                <div class="decision-row"><span>Market</span><span>EUR/USD</span></div>
+                <div class="decision-row"><span>Status</span><span class="badge-pill badge-executed"><span class="dot"></span>Executed</span></div>
+              </div>
+              <div class="decision-confidence">
+                <span class="confidence-badge-glow">94%</span>
+                <span class="confidence-badge-label">Confidence</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Trade Execution Monitor -->
+          <div class="execution-monitor-card reveal-dash">
+            <h3>Trade Execution Monitor</h3>
+            <div class="execution-grid">
+              <div class="execution-stat">
+                <span class="execution-stat-value" data-counter data-target="12">0</span>
+                <span class="execution-stat-label">Orders Sent Today</span>
+              </div>
+              <div class="execution-stat">
+                <span class="execution-stat-value" data-counter data-target="11">0</span>
+                <span class="execution-stat-label">Successful Orders</span>
+              </div>
+              <div class="execution-stat">
+                <span class="execution-stat-value" data-counter data-target="1">0</span>
+                <span class="execution-stat-label">Pending Orders</span>
+              </div>
+              <div class="execution-stat">
+                <span class="execution-stat-value" data-counter data-target="0">0</span>
+                <span class="execution-stat-label">Failed Orders</span>
+              </div>
+              <div class="execution-stat">
+                <span class="execution-stat-value" data-counter data-target="98" data-suffix="%">0</span>
+                <span class="execution-stat-label">Execution Rate</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Trade History -->
+          <div class="monitor-table-card reveal-dash">
+            <h3>Recent Trade History</h3>
+            <div class="monitor-table-scroll">
+              <table class="monitor-table">
+                <thead>
+                  <tr>
+                    <th>Time</th>
+                    <th>Platform</th>
+                    <th>Market</th>
+                    <th>Action</th>
+                    <th>Result</th>
+                    <th>Profit/Loss</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="mono-cell">09:10</td>
+                    <td>Deriv</td>
+                    <td>Volatility 75</td>
+                    <td><span class="direction-badge direction-buy">BUY</span></td>
+                    <td><span class="badge-pill badge-closed">Closed</span></td>
+                    <td class="mono-cell pnl-positive">+$8.50</td>
+                  </tr>
+                  <tr>
+                    <td class="mono-cell">09:18</td>
+                    <td>Binance</td>
+                    <td>BTC/USDT</td>
+                    <td><span class="direction-badge direction-sell">SELL</span></td>
+                    <td><span class="badge-pill badge-open"><span class="dot"></span>Open</span></td>
+                    <td class="mono-cell">&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td class="mono-cell">09:26</td>
+                    <td>Exness</td>
+                    <td>EUR/USD</td>
+                    <td><span class="direction-badge direction-buy">BUY</span></td>
+                    <td><span class="badge-pill badge-closed">Closed</span></td>
+                    <td class="mono-cell pnl-positive">+$5.20</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- AI Market Insight -->
+          <div class="info-card reveal-dash">
+            <div class="info-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l4-4 3 3 5-6 4 4"/><path d="M3 21h18"/></svg>
+            </div>
+            <div class="info-card-content">
+              <h4>AI Market Insight</h4>
+              <p>Current market analysis indicates favourable trading conditions across Synthetic Indices, Forex, and Cryptocurrency markets. XeroAI is continuously monitoring price action and evaluating high-probability opportunities. These insights currently use demonstration data and will become live once the backend trading engine is connected.</p>
+            </div>
+          </div>
+
+          <p class="demo-footer-note">All AI decisions and trading activity shown on this page currently use demonstration data. Live AI decisions will be streamed directly from the XeroAI VPS after backend integration.</p>
+
+        </section>
+
+      </main>
+
+      <footer class="app-footer">
+        <span>XeroAI Dashboard</span>
+        <span>Version 1.0</span>
+      </footer>
+    </div>
+
+    <!-- ============ RIGHT PANEL ============ -->
+    <aside class="app-right-panel">
+
+      <div class="right-panel-section reveal-dash">
+        <h3>Recent Notifications</h3>
+        <ul class="right-panel-list">
+          <li>
+            <span class="rp-dot rp-dot-blue"></span>
+            <span class="rp-text">Your account setup is complete.</span>
+            <span class="rp-time">Just now</span>
+          </li>
+          <li>
+            <span class="rp-dot rp-dot-green"></span>
+            <span class="rp-text">Deriv connected successfully.</span>
+            <span class="rp-time">2m ago</span>
+          </li>
+          <li>
+            <span class="rp-dot rp-dot-gold"></span>
+            <span class="rp-text">Your free trial is active.</span>
+            <span class="rp-time">Today</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="right-panel-section reveal-dash">
+        <h3>Latest Activity</h3>
+        <ul class="right-panel-list">
+          <li>
+            <span class="rp-dot rp-dot-blue"></span>
+            <span class="rp-text">Onboarding completed.</span>
+            <span class="rp-time">Today</span>
+          </li>
+          <li>
+            <span class="rp-dot rp-dot-blue"></span>
+            <span class="rp-text">Binance connected.</span>
+            <span class="rp-time">Today</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="right-panel-section reveal-dash">
+        <h3>System Status</h3>
+        <ul class="right-panel-status">
+          <li><span class="sys-dot"></span>API Gateway <em>Operational</em></li>
+          <li><span class="sys-dot"></span>AI Engine <em>Operational</em></li>
+          <li><span class="sys-dot"></span>Broker Sync <em>Operational</em></li>
+        </ul>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <script src="js/dashboard.js"></script>
+  <script src="js/pwa.js"></script>
+</body>
+</html>

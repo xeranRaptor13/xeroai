@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verify Your Email — XeroAI</title>
+<meta name="description" content="Verify your email address to activate your XeroAI account.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/auth.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#08090c">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="icons/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+</head>
+<body class="auth-body">
+
+  <div class="auth-shell">
+
+    <!-- ============ LEFT: BRAND / VISUAL ============ -->
+    <aside class="auth-visual">
+      <canvas id="networkCanvas" class="network-canvas" aria-hidden="true"></canvas>
+      <div class="auth-visual-glow" aria-hidden="true"></div>
+
+      <div class="auth-visual-content">
+        <a href="index.html" class="logo">
+          <span class="logo-mark"></span>
+          XeroAI
+        </a>
+
+        <h1>Almost There.</h1>
+        <p>Just one more step before your AI starts scanning the markets.</p>
+      </div>
+
+      <div class="auth-visual-footer">
+        <span class="badge-pill badge-ready"><span class="dot"></span>Account created successfully</span>
+      </div>
+    </aside>
+
+    <!-- ============ RIGHT: VERIFY CARD ============ -->
+    <main class="auth-main">
+
+      <a href="index.html" class="logo auth-mobile-logo">
+        <span class="logo-mark"></span>
+        XeroAI
+      </a>
+
+      <div class="auth-card auth-card-center">
+
+        <div class="status-icon status-icon-pulse">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2.5" y="5" width="19" height="14" rx="2.5"/>
+            <path d="M3 6.5 12 13l9-6.5"/>
+          </svg>
+        </div>
+
+        <div class="auth-card-head">
+          <span class="eyebrow-label">VERIFY YOUR EMAIL</span>
+          <h2>Check Your Inbox</h2>
+          <p class="auth-card-subtext">We've sent a verification link to <strong id="verifyEmailTarget">your email address</strong>. Click the link to activate your account.</p>
+        </div>
+
+        <button type="button" class="btn btn-primary auth-submit" id="verifySubmit">
+          <span class="btn-label">I've Verified My Email</span>
+          <span class="btn-spinner" aria-hidden="true"></span>
+          <span class="btn-success" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          </span>
+        </button>
+
+        <p class="form-status" id="verifyStatus" role="alert" aria-live="polite"></p>
+
+        <button type="button" class="link-muted resend-btn" id="resendBtn">Resend verification email</button>
+
+        <p class="auth-switch">Wrong email? <a href="signup.html">Go back to Sign Up</a></p>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-analytics-compat.js"></script>
+  <script src="js/firebase-init.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/pwa.js"></script>
+</body>
+</html>

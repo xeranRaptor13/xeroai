@@ -92,12 +92,26 @@
       accountId: accountId,
       authProvider: 'password',
       subscriptionStatus: 'trial',
+      onboardingComplete: false,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       trialStartDate: firebase.firestore.FieldValue.serverTimestamp(),
       trialEndDate: firebase.firestore.Timestamp.fromDate(trialEnd)
     }, extra);
 
     return db.collection('users').doc(user.uid).set(profile).then(() => accountId);
+  }
+
+  // Reads the user's onboarding status from Firestore and sends them to the
+  // right place — dashboard if they've completed onboarding, back to step 1
+  // if they haven't. Falls back to onboarding-step1.html if the read fails
+  // for any reason (safer default than accidentally exposing the dashboard).
+  function redirectAfterLogin(uid){
+    return window.xeroaiDb.collection('users').doc(uid).get()
+      .then((doc) => {
+        const complete = doc.exists && doc.data().onboardingComplete === true;
+        window.location.href = complete ? 'dashboard.html' : 'onboarding-step1.html';
+      })
+      .catch(() => { window.location.href = 'onboarding-step1.html'; });
   }
 
   /* ============ LOGIN FORM ============ */
@@ -181,7 +195,7 @@
           submitBtn.classList.add('is-success');
           submitBtn.removeAttribute('aria-busy');
           setStatus(statusEl, 'Signed in successfully — redirecting…', 'success');
-          setTimeout(() => { window.location.href = 'dashboard.html'; }, reduceMotion ? 200 : 900);
+          setTimeout(() => { redirectAfterLogin(cred.user.uid); }, reduceMotion ? 200 : 900);
         })
         .catch((err) => {
           submitBtn.classList.remove('is-loading');
@@ -223,7 +237,7 @@
 
             if(!isNewUser){
               setStatus(statusEl, 'Signed in successfully — redirecting…', 'success');
-              setTimeout(() => { window.location.href = 'dashboard.html'; }, reduceMotion ? 200 : 700);
+              setTimeout(() => { redirectAfterLogin(result.user.uid); }, reduceMotion ? 200 : 700);
               return;
             }
 
@@ -912,9 +926,27 @@
       goDashboardBtn.addEventListener('click', () => {
         if(goDashboardBtn.classList.contains('is-loading')) return;
         const nextPage = goDashboardBtn.dataset.next || 'dashboard.html';
-        simulateSubmit(goDashboardBtn, () => {
-          window.location.href = nextPage;
-        });
+
+        goDashboardBtn.classList.add('is-loading');
+        goDashboardBtn.setAttribute('aria-busy', 'true');
+
+        const user = window.xeroaiAuth && window.xeroaiAuth.currentUser;
+        if(!user){
+          // Not signed in somehow — send them to log in rather than letting
+          // the button silently fail.
+          window.location.href = 'login.html';
+          return;
+        }
+
+        window.xeroaiDb.collection('users').doc(user.uid)
+          .update({ onboardingComplete: true })
+          .then(() => { window.location.href = nextPage; })
+          .catch(() => {
+            // Even if the write fails, don't trap the user on this screen —
+            // let them through, but they'll be sent back here next time
+            // they hit the dashboard since the flag never got set.
+            window.location.href = nextPage;
+          });
       });
     }
   })();

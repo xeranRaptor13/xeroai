@@ -195,6 +195,7 @@
           submitBtn.classList.add('is-success');
           submitBtn.removeAttribute('aria-busy');
           setStatus(statusEl, 'Signed in successfully — redirecting…', 'success');
+          window.xeroaiLogActivity(cred.user.uid, 'Signed in.', 'info');
           setTimeout(() => { redirectAfterLogin(cred.user.uid); }, reduceMotion ? 200 : 900);
         })
         .catch((err) => {
@@ -237,11 +238,13 @@
 
             if(!isNewUser){
               setStatus(statusEl, 'Signed in successfully — redirecting…', 'success');
+              window.xeroaiLogActivity(result.user.uid, 'Signed in with Google.', 'info');
               setTimeout(() => { redirectAfterLogin(result.user.uid); }, reduceMotion ? 200 : 700);
               return;
             }
 
             return createUserProfile(result.user, { authProvider: 'google' }).then(() => {
+              window.xeroaiLogActivity(result.user.uid, 'Account created with Google.', 'success');
               setStatus(statusEl, 'Account created — redirecting…', 'success');
               setTimeout(() => { window.location.href = 'trial-started.html'; }, reduceMotion ? 200 : 700);
             });
@@ -473,6 +476,7 @@
         .then((cred) => {
           return cred.user.updateProfile({ displayName: nameVal })
             .then(() => createUserProfile(cred.user, { fullName: nameVal, phone: phoneVal, authProvider: 'password' }))
+            .then(() => window.xeroaiLogActivity(cred.user.uid, 'Account created.', 'success'))
             .then(() => cred.user.sendEmailVerification());
         })
         .then(() => {
@@ -940,6 +944,7 @@
 
         window.xeroaiDb.collection('users').doc(user.uid)
           .update({ onboardingComplete: true })
+          .then(() => window.xeroaiLogActivity(user.uid, 'Onboarding completed.', 'success'))
           .then(() => { window.location.href = nextPage; })
           .catch(() => {
             // Even if the write fails, don't trap the user on this screen —

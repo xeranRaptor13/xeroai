@@ -25,3 +25,18 @@ try {
 // Shared instances other scripts (auth.js) read from.
 window.xeroaiAuth = firebase.auth();
 window.xeroaiDb = firebase.firestore();
+
+// Writes one entry to users/{uid}/activity — the real event log that
+// powers the "Recent Notifications" panel. type controls the color dot:
+// 'success' (green), 'info' (blue, default), or 'warning' (gold).
+window.xeroaiLogActivity = function (uid, message, type) {
+  if (!uid || !message) return Promise.resolve();
+  return window.xeroaiDb.collection('users').doc(uid).collection('activity').add({
+    message: message,
+    type: type || 'info',
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).catch(function () {
+    // Logging failures should never break the user-facing action that
+    // triggered them.
+  });
+};

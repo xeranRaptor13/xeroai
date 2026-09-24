@@ -153,6 +153,7 @@
 
       db.collection('users').doc(currentUser.uid).update(updates)
         .then(() => currentUser.updateProfile({ displayName: updates.fullName }).catch(() => {}))
+        .then(() => window.xeroaiLogActivity(currentUser.uid, 'Updated profile details.', 'info'))
         .then(() => {
           showNote('profile', 'Saved.');
           const nameEl = document.getElementById('topbarUserName');
@@ -204,6 +205,7 @@
 
       currentUser.reauthenticateWithCredential(credential)
         .then(() => currentUser.updatePassword(newPass))
+        .then(() => window.xeroaiLogActivity(currentUser.uid, 'Changed password.', 'warning'))
         .then(() => {
           showNote('password', 'Password updated.');
           if (currentPassEl) currentPassEl.value = '';
@@ -223,7 +225,8 @@
       db.collection('users').doc(currentUser.uid).update({
         twoFactorEnabled: Boolean(fields.twoFactor && fields.twoFactor.checked),
         loginAlerts: Boolean(fields.loginAlerts && fields.loginAlerts.checked)
-      }).catch(() => { /* best-effort; toggle stays as the user left it visually */ });
+      }).then(() => window.xeroaiLogActivity(currentUser.uid, 'Updated security preferences.', 'info'))
+        .catch(() => { /* best-effort; toggle stays as the user left it visually */ });
     });
   });
 
@@ -251,6 +254,7 @@
       };
 
       db.collection('users').doc(currentUser.uid).update({ notifications: notifications })
+        .then(() => window.xeroaiLogActivity(currentUser.uid, 'Updated notification preferences.', 'info'))
         .then(() => showNote('notifications', 'Saved.'))
         .catch((err) => showNote('notifications', friendlyAuthError(err), true))
         .finally(() => { notifSaveBtn.disabled = false; });

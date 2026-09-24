@@ -92,12 +92,6 @@
           </button>
           <span class="topbar-datetime" id="topbarDatetime"></span>
 
-          <button type="button" class="topbar-icon-btn" id="notifBtn" aria-label="Notifications">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
-            <span class="notif-dot"></span>
-          </button>
-
-          <div class="topbar-avatar" aria-label="Account">TR</div>
         </div>
       </header>
 
@@ -522,38 +516,10 @@
     <aside class="app-right-panel">
 
       <div class="right-panel-section reveal-dash">
-        <h3>Recent Notifications</h3>
-        <ul class="right-panel-list">
-          <li>
-            <span class="rp-dot rp-dot-blue"></span>
-            <span class="rp-text">Your account setup is complete.</span>
-            <span class="rp-time">Just now</span>
-          </li>
-          <li>
-            <span class="rp-dot rp-dot-green"></span>
-            <span class="rp-text">Deriv connected successfully.</span>
-            <span class="rp-time">2m ago</span>
-          </li>
-          <li>
-            <span class="rp-dot rp-dot-gold"></span>
-            <span class="rp-text">Your free trial is active.</span>
-            <span class="rp-time">Today</span>
-          </li>
-        </ul>
-      </div>
-
-      <div class="right-panel-section reveal-dash">
-        <h3>Latest Activity</h3>
-        <ul class="right-panel-list">
-          <li>
-            <span class="rp-dot rp-dot-blue"></span>
-            <span class="rp-text">Onboarding completed.</span>
-            <span class="rp-time">Today</span>
-          </li>
-          <li>
-            <span class="rp-dot rp-dot-blue"></span>
-            <span class="rp-text">Binance connected.</span>
-            <span class="rp-time">Today</span>
+        <h3>Recent Activity</h3>
+        <ul class="right-panel-list" id="recentActivityList">
+          <li class="rp-empty">
+            <span class="rp-text">Loading…</span>
           </li>
         </ul>
       </div>

@@ -75,6 +75,7 @@
         }
 
         removeOverlay();
+        loadActivityFeed(user.uid);
       })
       .catch(function () {
         // Can't confirm onboarding status — safer to send them back to
@@ -82,4 +83,54 @@
         window.location.replace('onboarding-step1.html');
       });
   });
+
+  function timeAgo(date){
+    if (!date) return '';
+    var seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+    if (seconds < 60) return 'Just now';
+    var minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return minutes + 'm ago';
+    var hours = Math.floor(minutes / 60);
+    if (hours < 24) return hours + 'h ago';
+    var days = Math.floor(hours / 24);
+    if (days < 7) return days + 'd ago';
+    return date.toLocaleDateString();
+  }
+
+  var DOT_CLASS = { success: 'rp-dot-green', warning: 'rp-dot-gold', info: 'rp-dot-blue' };
+
+  function loadActivityFeed(uid){
+    var listEl = document.getElementById('recentActivityList');
+    if (!listEl) return;
+
+    window.xeroaiDb.collection('users').doc(uid).collection('activity')
+      .orderBy('createdAt', 'desc')
+      .limit(5)
+      .get()
+      .then(function (snapshot) {
+        if (snapshot.empty) {
+          listEl.innerHTML = '<li class="rp-empty"><span class="rp-text">No recent activity yet.</span></li>';
+          return;
+        }
+
+        listEl.innerHTML = '';
+        snapshot.forEach(function (doc) {
+          var d = doc.data();
+          var when = d.createdAt && d.createdAt.toDate ? d.createdAt.toDate() : null;
+          var dotClass = DOT_CLASS[d.type] || DOT_CLASS.info;
+
+          var li = document.createElement('li');
+          li.innerHTML =
+            '<span class="rp-dot ' + dotClass + '"></span>' +
+            '<span class="rp-text"></span>' +
+            '<span class="rp-time"></span>';
+          li.querySelector('.rp-text').textContent = d.message || '';
+          li.querySelector('.rp-time').textContent = timeAgo(when);
+          listEl.appendChild(li);
+        });
+      })
+      .catch(function () {
+        listEl.innerHTML = '<li class="rp-empty"><span class="rp-text">Couldn\'t load recent activity.</span></li>';
+      });
+  }
 })();

@@ -23,6 +23,15 @@ service cloud.firestore {
               'twoFactorEnabled', 'loginAlerts', 'notifications'
             ]);
       allow delete: if request.auth != null && request.auth.uid == userId;
+
+      // Append-only activity log that powers the "Recent Activity" panel.
+      // The owner can read their own log and add new entries (every
+      // xeroaiLogActivity() call is a create), but never edit or remove
+      // a past entry — that keeps it an honest, tamper-proof history.
+      match /activity/{activityId} {
+        allow read, create: if request.auth != null && request.auth.uid == userId;
+        allow update, delete: if false;
+      }
     }
   }
 }

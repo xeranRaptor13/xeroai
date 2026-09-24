@@ -35,6 +35,45 @@
           window.location.replace('onboarding-step1.html');
           return;
         }
+
+        var data = doc.data();
+
+        var nameEl = document.getElementById('topbarUserName');
+        if (nameEl) nameEl.textContent = data.fullName || 'Trader';
+
+        // Only present on dashboard.html — harmless no-op elsewhere.
+        var heroNameEl = document.getElementById('dashboardHeroName');
+        if (heroNameEl) heroNameEl.textContent = data.fullName || 'Trader';
+
+        var idEl = document.getElementById('topbarAccountId');
+        var idBtn = document.getElementById('topbarAccountIdBtn');
+        if (idEl) idEl.textContent = data.accountId || '—';
+        if (idBtn && data.accountId) {
+          idBtn.addEventListener('click', function () {
+            var finishCopyFeedback = function () {
+              idBtn.classList.add('copied');
+              var original = idEl.textContent;
+              idEl.textContent = 'Copied!';
+              setTimeout(function () {
+                idEl.textContent = original;
+                idBtn.classList.remove('copied');
+              }, 1400);
+            };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(data.accountId).then(finishCopyFeedback);
+            } else {
+              // Fallback for browsers without the Clipboard API
+              var tempInput = document.createElement('textarea');
+              tempInput.value = data.accountId;
+              document.body.appendChild(tempInput);
+              tempInput.select();
+              document.execCommand('copy');
+              document.body.removeChild(tempInput);
+              finishCopyFeedback();
+            }
+          });
+        }
+
         removeOverlay();
       })
       .catch(function () {

@@ -77,12 +77,13 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
         </button>
 
-        <div class="topbar-welcome">Welcome, <strong>Trader</strong></div>
+        <div class="topbar-welcome">Welcome, <strong id="topbarUserName">Trader</strong></div>
 
-        <div class="topbar-search">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-          <input type="text" placeholder="Search markets, trades, settings…" aria-label="Search">
-        </div>
+        <button type="button" class="topbar-account-id" id="topbarAccountIdBtn" title="Click to copy your Account ID">
+          <span class="topbar-account-id-label">Account ID</span>
+          <span class="topbar-account-id-value" id="topbarAccountId">—</span>
+          <svg class="topbar-account-id-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
 
         <div class="topbar-right">
           <button type="button" class="pwa-install-btn" data-pwa-install hidden>
@@ -103,7 +104,7 @@
       <main class="app-content">
 
         <section class="dash-hero reveal-dash">
-          <h1>Welcome back, <span class="accent">Trader</span></h1>
+          <h1>Welcome back, <span class="accent" id="dashboardHeroName">Trader</span></h1>
           <p>Your AI trading assistant is ready.</p>
         </section>
 

@@ -592,6 +592,50 @@
     border-color: rgba(94,142,255,0.45);
     box-shadow: 0 0 0 3px rgba(94,142,255,0.12);
   }
+
+  .topbar-account-id{
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 14px;
+    border-radius: 9px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--dim-2);
+    cursor: pointer;
+    transition: border-color .2s ease, background .2s ease;
+    font-family: inherit;
+  }
+  .topbar-account-id:hover{
+    border-color: rgba(94,142,255,0.45);
+    background: var(--surface-strong);
+  }
+  .topbar-account-id-label{
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--dim);
+    white-space: nowrap;
+  }
+  .topbar-account-id-value{
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: #fff;
+    white-space: nowrap;
+  }
+  .topbar-account-id-icon{
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    color: var(--dim);
+  }
+  .topbar-account-id.copied .topbar-account-id-value{
+    color: var(--green);
+  }
+  @media (max-width: 720px){
+    .topbar-account-id-label{ display: none; }
+  }
   .topbar-search svg{ width: 15px; height: 15px; flex-shrink: 0; }
   .topbar-search input{
     flex: 1;

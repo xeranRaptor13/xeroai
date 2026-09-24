@@ -112,7 +112,7 @@
 
           <div class="settings-banner reveal-dash">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>
-            <p>This page isn't connected to a backend yet — changes here are for design purposes only and won't be saved once you leave or refresh.</p>
+            <p>Profile, password, security, and notification settings save for real and persist across sessions. Photo uploads, cross-device sign-out, and platform disconnection still need backend work — noted where they appear below.</p>
           </div>
 
           <div class="settings-layout reveal-dash">
@@ -161,7 +161,8 @@
                     </div>
                     <div class="settings-field">
                       <label for="stEmail">Email <span class="settings-verified-badge">Verified</span></label>
-                      <input type="email" id="stEmail" placeholder="you@example.com">
+                      <input type="email" id="stEmail" placeholder="you@example.com" readonly>
+                      <p class="settings-avatar-hint" style="margin-top:6px;">Changing your sign-in email isn't available here yet.</p>
                     </div>
                     <div class="settings-field">
                       <label for="stPhone">Phone Number</label>
@@ -244,6 +245,7 @@
                       <span class="toggle-track"><span class="toggle-thumb"></span></span>
                     </label>
                   </div>
+                  <p class="settings-avatar-hint" style="margin-top:-8px;">This saves your preference for real, but doesn't enforce a real second sign-in step yet — that part still needs backend work.</p>
                   <div class="settings-toggle-row">
                     <div>
                       <h4>Login Alerts</h4>
@@ -290,19 +292,19 @@
                   </div>
                   <div class="settings-toggle-row">
                     <div><h4>Email</h4><p>Sent to the address on your profile.</p></div>
-                    <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+                    <label class="toggle-switch"><input type="checkbox" id="notifyChannelEmail" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
                   </div>
                   <div class="settings-toggle-row">
                     <div><h4>SMS</h4><p>Sent to your phone number on file.</p></div>
-                    <label class="toggle-switch"><input type="checkbox"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+                    <label class="toggle-switch"><input type="checkbox" id="notifyChannelSms"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
                   </div>
                   <div class="settings-toggle-row">
                     <div><h4>Telegram</h4><p>Connect a Telegram bot to receive real-time alerts.</p></div>
-                    <label class="toggle-switch"><input type="checkbox"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+                    <label class="toggle-switch"><input type="checkbox" id="notifyChannelTelegram"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
                   </div>
                   <div class="settings-toggle-row">
                     <div><h4>In-App</h4><p>Show alerts in the Recent Notifications panel.</p></div>
-                    <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+                    <label class="toggle-switch"><input type="checkbox" id="notifyChannelInApp" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
                   </div>
                 </div>
 
@@ -313,23 +315,23 @@
                   </div>
                   <div class="settings-toggle-row">
                     <div><h4>Trade Executed</h4><p>Every time the AI Engine opens or closes a position.</p></div>
-                    <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+                    <label class="toggle-switch"><input type="checkbox" id="notifyEventTradeExecuted" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
                   </div>
                   <div class="settings-toggle-row">
                     <div><h4>Risk Limit Reached</h4><p>Daily loss limit, drawdown, or position size cap hit.</p></div>
-                    <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+                    <label class="toggle-switch"><input type="checkbox" id="notifyEventRiskLimit" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
                   </div>
                   <div class="settings-toggle-row">
                     <div><h4>Automation Paused</h4><p>Whenever the AI Engine stops trading for any reason.</p></div>
-                    <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+                    <label class="toggle-switch"><input type="checkbox" id="notifyEventAutomationPaused" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
                   </div>
                   <div class="settings-toggle-row">
                     <div><h4>Connection Lost</h4><p>A broker or exchange connection drops or a key expires.</p></div>
-                    <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+                    <label class="toggle-switch"><input type="checkbox" id="notifyEventConnectionLost" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
                   </div>
                   <div class="settings-toggle-row">
                     <div><h4>Billing &amp; Account</h4><p>Trial ending, payment issues, and account updates.</p></div>
-                    <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+                    <label class="toggle-switch"><input type="checkbox" id="notifyEventBilling" checked><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
                   </div>
                 </div>
 
@@ -337,6 +339,7 @@
                   <button type="button" class="btn-settings-save" data-save-target="notifications">Save Preferences</button>
                   <span class="settings-save-note" data-save-note="notifications"></span>
                 </div>
+                <p class="settings-avatar-hint">These preferences save for real. The actual email/SMS/Telegram sending system isn't built yet, so no messages go out based on them until it is.</p>
 
               </section>
 

@@ -6,16 +6,23 @@ service cloud.firestore {
     // Updates are restricted to a small set of self-editable fields —
     // subscriptionStatus, trialEndDate, and accountId must NOT be
     // client-writable, or any signed-in user could open dev tools and
-    // approve their own subscription. onboardingComplete IS safe to let
-    // the user set themselves — it only unlocks pages they already have
-    // legitimate access to, it doesn't touch billing/trust fields.
+    // approve their own subscription. Everything else here (profile
+    // details, security/notification preferences) is safe to let the
+    // user set themselves — none of it touches billing/trust fields.
+    // Delete is allowed only for the user's own document, and only while
+    // still authenticated — Settings' "Delete Account" flow deletes this
+    // doc immediately before deleting the Firebase Auth account itself.
     match /users/{userId} {
       allow read: if request.auth != null && request.auth.uid == userId;
       allow create: if request.auth != null && request.auth.uid == userId;
       allow update: if request.auth != null && request.auth.uid == userId
         && request.resource.data.diff(resource.data).affectedKeys()
-            .hasOnly(['fullName', 'phone', 'onboardingComplete']);
-      allow delete: if false;
+            .hasOnly([
+              'fullName', 'phone', 'onboardingComplete',
+              'country', 'timezone', 'defaultMarket',
+              'twoFactorEnabled', 'loginAlerts', 'notifications'
+            ]);
+      allow delete: if request.auth != null && request.auth.uid == userId;
     }
   }
 }

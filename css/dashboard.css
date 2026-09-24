@@ -3194,6 +3194,7 @@
     opacity: 0;
     transition: opacity .25s ease;
   }
+  .settings-save-note.is-error{ color: var(--red); }
   .settings-save-note.is-visible{ opacity: 1; }
 
   .settings-toggle-row{

@@ -1392,6 +1392,7 @@
     transition: width 1.2s cubic-bezier(.16,1,.3,1);
   }
   .progress-bar-green{ background: linear-gradient(90deg, #2fae63, var(--green)); box-shadow: 0 0 8px rgba(74,222,128,0.5); }
+  .progress-bar-red{ background: linear-gradient(90deg, #d64545, var(--red)); box-shadow: 0 0 8px rgba(248,113,113,0.5); }
 
   .daily-summary-markets-label{
     display: block;
@@ -1718,6 +1719,7 @@
     color: var(--green);
     text-align: right;
   }
+  .health-status-offline{ color: var(--red); }
 
   /* ---- connection activity ---- */
   .connection-activity-card{

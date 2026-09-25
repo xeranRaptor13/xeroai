@@ -97,11 +97,6 @@
 
       <main class="app-content">
 
-        <section class="dash-hero reveal-dash">
-          <h1>Trading</h1>
-          <p>Manage AI-driven trade execution, connected platforms, and live positions.</p>
-        </section>
-
         <section class="trading-overview" id="tradingOverview">
 
           <div class="section-heading reveal-dash">
@@ -137,6 +132,16 @@
               </div>
             </div>
 
+            <!-- Quick actions -->
+            <div class="quick-actions reveal-dash">
+              <button type="button" class="quick-action-btn rippleable" id="qaStartAi" data-action="start">
+                <span class="qa-icon">&#9654;</span>Start AI
+              </button>
+              <button type="button" class="quick-action-btn rippleable" id="qaPauseAi" data-action="pause">
+                <span class="qa-icon">&#10074;&#10074;</span>Pause AI
+              </button>
+            </div>
+
           </div>
 
           <!-- Trading statistics -->
@@ -157,16 +162,6 @@
               <span class="trading-stat-label">Today's Profit</span>
               <span class="trading-stat-value trading-stat-profit" data-counter data-target="42.50" data-prefix="+$" data-decimals="2">+$0.00</span>
             </div>
-          </div>
-
-          <!-- Quick actions -->
-          <div class="quick-actions reveal-dash">
-            <button type="button" class="quick-action-btn rippleable" id="qaStartAi" data-action="start">
-              <span class="qa-icon">&#9654;</span>Start AI
-            </button>
-            <button type="button" class="quick-action-btn rippleable" id="qaPauseAi" data-action="pause">
-              <span class="qa-icon">&#10074;&#10074;</span>Pause AI
-            </button>
           </div>
 
           <!-- Information card -->
@@ -210,6 +205,22 @@
                   <div class="platform-conn-meta-row"><span>Last Sync</span><span>2 minutes ago</span></div>
                 </div>
                 <button type="button" class="btn-manage-connection" data-platform-name="Deriv">Manage Connection</button>
+              </div>
+
+              <div class="platform-conn-card reveal-dash" data-platform="hfm">
+                <div class="platform-conn-top">
+                  <span class="platform-conn-logo">HFM</span>
+                  <span class="badge-pill badge-online"><span class="dot"></span>Connected</span>
+                </div>
+                <h3>HFM</h3>
+                <ul class="platform-conn-tags">
+                  <li>Forex</li>
+                </ul>
+                <div class="platform-conn-meta">
+                  <div class="platform-conn-meta-row"><span>Connection</span><span>MT5 Connected</span></div>
+                  <div class="platform-conn-meta-row"><span>Last Sync</span><span>1 minute ago</span></div>
+                </div>
+                <button type="button" class="btn-manage-connection" data-platform-name="HFM">Manage Connection</button>
               </div>
 
             </div>

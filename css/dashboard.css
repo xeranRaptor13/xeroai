@@ -2873,6 +2873,16 @@
     .daily-access-benefits{
       grid-template-columns: repeat(2, 1fr);
     }
+
+    /* Trading page: 4 stat cards and 3 platform cards are hardcoded to
+       fixed column counts with no built-in mobile handling — collapse
+       to 2 columns on tablets so nothing gets squeezed unreadably. */
+    .trading-stats-grid{
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .platform-cards-grid{
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   @media (max-width: 640px){
@@ -2890,6 +2900,10 @@
     .daily-access-card{ padding: 22px 18px; }
     .daily-plan-card{ padding: 22px 20px; }
     .daily-access-benefits{ grid-template-columns: 1fr; }
+
+    /* Trading page: down to a single column on phones. */
+    .trading-stats-grid{ grid-template-columns: 1fr; }
+    .platform-cards-grid{ grid-template-columns: 1fr; }
 
     /* Comfortable touch targets */
     .sidebar-link{ padding: 12px 12px; }

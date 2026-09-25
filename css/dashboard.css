@@ -1111,6 +1111,18 @@
     margin-bottom: 20px;
   }
 
+  /* Quick actions (Start AI / Pause AI) sit beside the AI Engine card on
+     Trading. A CSS grid stretches every item to match its tallest
+     sibling by default — without this, the buttons inflate to the full
+     height of the AI Engine card and, because each already has a border
+     and rounded corners, end up looking like oversized stat cards
+     instead of compact buttons. align-self: center keeps the container
+     (and the buttons inside it) their natural size. */
+  .overview-row .quick-actions{
+    align-self: center;
+    margin-bottom: 0;
+  }
+
   /* ---- AI engine status card ---- */
   .engine-status-card{
     padding: 24px 26px;

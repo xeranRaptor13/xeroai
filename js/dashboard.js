@@ -1142,39 +1142,93 @@
     })();
   })();
 
-  /* ============ AI TIMELINE & RECOMMENDATIONS (Module 3E) ============ */
+  /* ============ AI TIMELINE & RECOMMENDATIONS (Module 3E) ============
+     Renders the "Recent AI Timeline" list from the bot_signals collection
+     in Firestore, live — every event the XERO AI bot logs (HTF signals,
+     entries, trade opens/closes, discards, cancellations, invalidations)
+     appears here within a second or two of the bot writing it, with no
+     page reload. Until the bot is wired up to write to Firestore, this
+     collection is empty and the list shows an honest "no signals yet"
+     message instead of fake demo rows.
+     Requires window.xeroaiDb, set up in js/firebase-init.js, which must
+     load before this file. ============ */
   (function(){
     const section = document.getElementById('aiTimelineSection');
     if(!section) return;
+    if(!window.xeroaiDb) return; // Firestore not initialized on this page
 
-    const reduceMotionTimeline = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const listEl = section.querySelector('.ai-timeline');
+    if(!listEl) return;
 
-    /* ---- animate AI Intelligence Summary counters ---- */
-    function animateTimelineCounter(el, duration){
-      const target = parseFloat(el.dataset.target);
-      if(Number.isNaN(target)) return;
-      const suffix = el.dataset.suffix || '';
-      const decimals = el.dataset.decimals !== undefined ? parseInt(el.dataset.decimals, 10) : 0;
+    // Maps a bot_signals "type" value to the badge label/style already
+    // defined in dashboard.css (badge-executed, badge-monitoring,
+    // badge-waiting, badge-closed) — no new CSS needed.
+    const TYPE_BADGE = {
+      'HTF SIGNAL':       { label: 'Monitoring',    cls: 'badge-monitoring' },
+      '✅ ENTRY':          { label: 'Confirmed',      cls: 'badge-monitoring' },
+      '🚀 TRADE OPEN':     { label: 'Executed',       cls: 'badge-executed'  },
+      '✅ TRADE CLOSED':   { label: 'Closed · Win',   cls: 'badge-executed'  },
+      '🔴 TRADE CLOSED':   { label: 'Closed · Loss',  cls: 'badge-closed'    },
+      '⚠️ DISCARDED':      { label: 'Discarded',      cls: 'badge-closed'    },
+      '⛔ CANCELLED':      { label: 'Cancelled',      cls: 'badge-closed'    },
+      '🚫 INVALIDATED':    { label: 'Invalidated',    cls: 'badge-closed'    }
+    };
 
-      if(reduceMotionTimeline){
-        el.textContent = target.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) + suffix;
+    function formatTime(ts){
+      if(ts && typeof ts.toDate === 'function'){
+        return ts.toDate().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+      }
+      return '—';
+    }
+
+    function renderEmpty(){
+      listEl.innerHTML = '<li class="ai-timeline-empty" style="color:var(--dim);font-size:13px;padding:8px 0;">No signals yet — waiting for the bot to connect.</li>';
+    }
+
+    function renderSignals(docs){
+      if(!docs.length){
+        renderEmpty();
         return;
       }
 
-      const start = performance.now();
-      function frame(now){
-        const p = Math.min((now - start) / duration, 1);
-        const eased = 1 - Math.pow(1 - p, 3);
-        const val = target * eased;
-        el.textContent = val.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) + suffix;
-        if(p < 1) requestAnimationFrame(frame);
-      }
-      requestAnimationFrame(frame);
+      listEl.innerHTML = docs.map(d => {
+        const dirClass = d.direction === 'SELL' ? 'decision-sell' : 'decision-buy';
+        const badge = TYPE_BADGE[d.type] || { label: d.type || 'Update', cls: 'badge-waiting' };
+        const hasConfidence = typeof d.confidence === 'number';
+        const confidenceBadge = hasConfidence
+          ? '<span class="confidence-badge-glow ai-timeline-confidence">' + Math.round(d.confidence) + '%</span>'
+          : '';
+        const metaLabel = (d.name || d.symbol || '') + (d.symbol && d.name ? ' &middot; ' + d.symbol : '');
+
+        return (
+          '<li class="ai-timeline-item">' +
+            '<div class="ai-timeline-marker"><span class="ai-timeline-dot"></span></div>' +
+            '<div class="ai-timeline-content">' +
+              '<div class="ai-timeline-top">' +
+                '<span class="ai-timeline-time">' + formatTime(d.createdAt) + '</span>' +
+                '<span class="decision-badge ' + dirClass + '">' + (d.direction || '—') + '</span>' +
+                confidenceBadge +
+                '<span class="badge-pill ' + badge.cls + '"><span class="dot"></span>' + badge.label + '</span>' +
+              '</div>' +
+              '<div class="ai-timeline-meta">Deriv &middot; ' + (metaLabel || d.message || '') + '</div>' +
+            '</div>' +
+          '</li>'
+        );
+      }).join('');
     }
 
-    setTimeout(() => {
-      section.querySelectorAll('.summary-stat-value[data-counter]').forEach(el => animateTimelineCounter(el, 1200));
-    }, reduceMotionTimeline ? 0 : 500);
+    renderEmpty();
+
+    window.xeroaiDb.collection('bot_signals')
+      .orderBy('createdAt', 'desc')
+      .limit(8)
+      .onSnapshot(function(snapshot){
+        const docs = [];
+        snapshot.forEach(doc => docs.push(doc.data()));
+        renderSignals(docs);
+      }, function(){
+        listEl.innerHTML = '<li class="ai-timeline-empty" style="color:var(--dim);font-size:13px;padding:8px 0;">Couldn\'t load live signals right now.</li>';
+      });
   })();
 
   /* ============ XERO PAY: SUBSCRIPTION STATUS (Module 4A) ============ */

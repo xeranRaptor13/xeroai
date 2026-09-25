@@ -109,16 +109,6 @@
             <p>Monitor the health of your XeroAI trading engine and your overall trading activity.</p>
           </div>
 
-          <!-- Welcome banner -->
-          <div class="welcome-banner reveal-dash">
-            <div class="welcome-banner-glow" aria-hidden="true"></div>
-            <div class="welcome-banner-content">
-              <h3>Welcome back, <span class="accent">Trader</span></h3>
-              <p>Your AI trading assistant is online and continuously monitoring the markets for high-probability opportunities.</p>
-              <span class="badge-pill badge-online"><span class="dot"></span>AI Online</span>
-            </div>
-          </div>
-
           <div class="overview-row">
 
             <!-- AI Engine Status -->
@@ -145,21 +135,6 @@
                   <span class="engine-stat-value">1.0</span>
                 </div>
               </div>
-            </div>
-
-            <!-- AI Confidence ring -->
-            <div class="confidence-card reveal-dash">
-              <div class="confidence-ring-wrap">
-                <svg class="confidence-ring" viewBox="0 0 120 120" aria-hidden="true">
-                  <circle class="confidence-ring-track" cx="60" cy="60" r="52"/>
-                  <circle class="confidence-ring-fill" id="confidenceRingFill" cx="60" cy="60" r="52" data-target="94"/>
-                </svg>
-                <div class="confidence-ring-text">
-                  <span class="confidence-value" id="confidenceValue">0%</span>
-                </div>
-              </div>
-              <span class="confidence-label">AI Confidence</span>
-              <p class="confidence-subtitle">Market conditions currently favour high-quality trading opportunities.</p>
             </div>
 
           </div>
@@ -192,92 +167,6 @@
             <button type="button" class="quick-action-btn rippleable" id="qaPauseAi" data-action="pause">
               <span class="qa-icon">&#10074;&#10074;</span>Pause AI
             </button>
-            <a href="analytics.html" class="quick-action-btn rippleable">
-              <span class="qa-icon">&#128202;</span>View Analytics
-            </a>
-            <button type="button" class="quick-action-btn rippleable" data-action="platforms">
-              <span class="qa-icon">&#9881;</span>Manage Platforms
-            </button>
-          </div>
-          <p class="quick-actions-note" id="quickActionsNote">These actions are simulated. No live trading is connected yet.</p>
-          <a href="subscription.html" class="subscription-gate-link" id="subscriptionGateLink" hidden>Manage Subscription &rarr;</a>
-
-          <div class="overview-row overview-row-secondary">
-
-            <!-- AI Activity Feed -->
-            <div class="activity-feed-card reveal-dash">
-              <h3>AI Activity Feed</h3>
-              <ul class="activity-feed-list">
-                <li class="activity-item"><span class="activity-time">09:12</span><span class="activity-text">AI detected strong bullish momentum.</span></li>
-                <li class="activity-item"><span class="activity-time">09:18</span><span class="activity-text">New trading opportunity identified.</span></li>
-                <li class="activity-item"><span class="activity-time">09:24</span><span class="activity-text">Market volatility increasing.</span></li>
-                <li class="activity-item"><span class="activity-time">09:31</span><span class="activity-text">Monitoring BTC/USDT.</span></li>
-              </ul>
-            </div>
-
-            <!-- Daily Summary -->
-            <div class="daily-summary-card reveal-dash">
-              <h3>Today's Summary</h3>
-              <div class="daily-summary-row">
-                <span class="daily-summary-label">Signals Generated</span>
-                <span class="daily-summary-value">24</span>
-              </div>
-              <div class="daily-summary-row">
-                <span class="daily-summary-label">Trades Executed</span>
-                <span class="daily-summary-value">12</span>
-              </div>
-              <div class="daily-summary-row">
-                <span class="daily-summary-label">Current Accuracy</span>
-                <span class="daily-summary-value">94%</span>
-              </div>
-              <div class="progress-bar-track">
-                <div class="progress-bar-fill" data-bar-target="94"></div>
-              </div>
-              <div class="daily-summary-markets">
-                <span class="daily-summary-markets-label">Markets Monitored</span>
-                <div class="market-chip-row">
-                  <span class="market-chip">Forex</span>
-                  <span class="market-chip">Synthetic Indices</span>
-                  <span class="market-chip">Crypto</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Performance snapshot -->
-          <div class="performance-card reveal-dash">
-            <h3>Performance Snapshot</h3>
-
-            <div class="performance-row">
-              <div class="performance-row-head">
-                <span>Trading Accuracy</span>
-                <span>94%</span>
-              </div>
-              <div class="progress-bar-track">
-                <div class="progress-bar-fill" data-bar-target="94"></div>
-              </div>
-            </div>
-
-            <div class="performance-row">
-              <div class="performance-row-head">
-                <span>AI Stability</span>
-                <span>99%</span>
-              </div>
-              <div class="progress-bar-track">
-                <div class="progress-bar-fill progress-bar-green" data-bar-target="99"></div>
-              </div>
-            </div>
-
-            <div class="performance-row">
-              <div class="performance-row-head">
-                <span>System Health</span>
-                <span>100%</span>
-              </div>
-              <div class="progress-bar-track">
-                <div class="progress-bar-fill progress-bar-green" data-bar-target="100"></div>
-              </div>
-            </div>
           </div>
 
           <!-- Information card -->
@@ -423,32 +312,7 @@
             </div>
           </div>
 
-          <p class="platform-action-note" id="platformActionNote">Select "Manage Connection" to view platform details.</p>
-
           <div class="overview-row overview-row-secondary">
-
-            <div class="platform-summary-card reveal-dash">
-              <h3>Platform Summary</h3>
-              <div class="platform-summary-grid">
-                <div class="summary-stat">
-                  <span class="summary-stat-value" data-counter data-target="6">0</span>
-                  <span class="summary-stat-label">Total Platforms</span>
-                </div>
-                <div class="summary-stat">
-                  <span class="summary-stat-value" data-counter data-target="3">0</span>
-                  <span class="summary-stat-label">Forex Brokers</span>
-                </div>
-                <div class="summary-stat">
-                  <span class="summary-stat-value" data-counter data-target="3">0</span>
-                  <span class="summary-stat-label">Crypto Exchanges</span>
-                </div>
-                <div class="summary-stat">
-                  <span class="summary-stat-value" data-counter data-target="6">0</span>
-                  <span class="summary-stat-label">Healthy Connections</span>
-                </div>
-              </div>
-              <p class="platform-summary-note">This is demonstration data.</p>
-            </div>
 
             <div class="connection-health-card reveal-dash">
               <h3>Connection Health</h3>
@@ -485,16 +349,6 @@
               </div>
             </div>
 
-          </div>
-
-          <div class="connection-activity-card reveal-dash">
-            <h3>Connection Activity</h3>
-            <ul class="activity-feed-list">
-              <li class="activity-item"><span class="activity-time">2m</span><span class="activity-text">&check; Binance synchronized</span></li>
-              <li class="activity-item"><span class="activity-time">5m</span><span class="activity-text">&check; Deriv API authenticated</span></li>
-              <li class="activity-item"><span class="activity-time">8m</span><span class="activity-text">&check; HFM session refreshed</span></li>
-              <li class="activity-item"><span class="activity-time">10m</span><span class="activity-text">&check; OKX heartbeat received</span></li>
-            </ul>
           </div>
 
         </section>
@@ -665,91 +519,6 @@
 
         <!-- ============ AI DECISION CENTER & TRADE HISTORY (Module 2C.2) ============ -->
         <section class="ai-decision-center" id="aiDecisionCenter">
-
-          <div class="section-heading reveal-dash">
-            <h2>AI Decision Center</h2>
-            <p>Monitor every trading decision generated by the XeroAI Engine.</p>
-          </div>
-
-          <!-- AI Decision Feed -->
-          <div class="decision-feed-grid">
-
-            <div class="decision-card reveal-dash" data-decision="buy">
-              <div class="decision-card-top">
-                <span class="decision-time">09:14</span>
-                <span class="decision-badge decision-buy">BUY</span>
-              </div>
-              <div class="decision-card-body">
-                <div class="decision-row"><span>Platform</span><span>Deriv</span></div>
-                <div class="decision-row"><span>Market</span><span>Volatility 75</span></div>
-                <div class="decision-row"><span>Status</span><span class="badge-pill badge-executed"><span class="dot"></span>Executed</span></div>
-              </div>
-              <div class="decision-confidence">
-                <span class="confidence-badge-glow">96%</span>
-                <span class="confidence-badge-label">Confidence</span>
-              </div>
-            </div>
-
-            <div class="decision-card reveal-dash" data-decision="sell">
-              <div class="decision-card-top">
-                <span class="decision-time">09:18</span>
-                <span class="decision-badge decision-sell">SELL</span>
-              </div>
-              <div class="decision-card-body">
-                <div class="decision-row"><span>Platform</span><span>Binance</span></div>
-                <div class="decision-row"><span>Market</span><span>BTC/USDT</span></div>
-                <div class="decision-row"><span>Status</span><span class="badge-pill badge-waiting"><span class="dot"></span>Waiting</span></div>
-              </div>
-              <div class="decision-confidence">
-                <span class="confidence-badge-glow">93%</span>
-                <span class="confidence-badge-label">Confidence</span>
-              </div>
-            </div>
-
-            <div class="decision-card reveal-dash" data-decision="buy">
-              <div class="decision-card-top">
-                <span class="decision-time">09:26</span>
-                <span class="decision-badge decision-buy">BUY</span>
-              </div>
-              <div class="decision-card-body">
-                <div class="decision-row"><span>Platform</span><span>Exness</span></div>
-                <div class="decision-row"><span>Market</span><span>EUR/USD</span></div>
-                <div class="decision-row"><span>Status</span><span class="badge-pill badge-executed"><span class="dot"></span>Executed</span></div>
-              </div>
-              <div class="decision-confidence">
-                <span class="confidence-badge-glow">94%</span>
-                <span class="confidence-badge-label">Confidence</span>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Trade Execution Monitor -->
-          <div class="execution-monitor-card reveal-dash">
-            <h3>Trade Execution Monitor</h3>
-            <div class="execution-grid">
-              <div class="execution-stat">
-                <span class="execution-stat-value" data-counter data-target="12">0</span>
-                <span class="execution-stat-label">Orders Sent Today</span>
-              </div>
-              <div class="execution-stat">
-                <span class="execution-stat-value" data-counter data-target="11">0</span>
-                <span class="execution-stat-label">Successful Orders</span>
-              </div>
-              <div class="execution-stat">
-                <span class="execution-stat-value" data-counter data-target="1">0</span>
-                <span class="execution-stat-label">Pending Orders</span>
-              </div>
-              <div class="execution-stat">
-                <span class="execution-stat-value" data-counter data-target="0">0</span>
-                <span class="execution-stat-label">Failed Orders</span>
-              </div>
-              <div class="execution-stat">
-                <span class="execution-stat-value" data-counter data-target="98" data-suffix="%">0</span>
-                <span class="execution-stat-label">Execution Rate</span>
-              </div>
-            </div>
-          </div>
 
           <!-- Recent Trade History -->
           <div class="monitor-table-card reveal-dash">

@@ -206,21 +206,21 @@
                   <span class="platform-conn-logo">DRV</span>
                 </div>
                 <h3>Connect Your Deriv Account</h3>
-                <p class="platform-connect-subtext">Securely connect your own Deriv account using your API credentials. Your credentials are encrypted and only used to execute trades on your behalf.</p>
+                <p class="platform-connect-subtext">Connect your own Deriv account. Credentials are encrypted and used only to execute trades on your behalf.</p>
 
-                <div class="settings-field" style="margin-top:16px;">
+                <div class="settings-field platform-connect-field">
                   <label for="tradingDerivAppId">App ID</label>
                   <input type="text" id="tradingDerivAppId" value="1089" readonly aria-readonly="true">
+                  <p class="platform-connect-hint">Fixed by XeroAI &mdash; not something you need to enter.</p>
                 </div>
-                <p class="receipt-form-note" style="margin-top:6px;">Identifies the XeroAI application to Deriv &mdash; this is fixed by XeroAI, not something you need to enter. 1089 is Deriv's public test App ID; it will be replaced with XeroAI's own registered App ID before going live.</p>
 
-                <div class="settings-field" style="margin-top:16px;">
+                <div class="settings-field platform-connect-field">
                   <label for="tradingDerivToken">API Token</label>
                   <input type="password" id="tradingDerivToken" autocomplete="off" placeholder="Enter your Deriv API token">
+                  <p class="platform-connect-hint">Your Deriv Personal Access Token, with the trade scope enabled.</p>
                 </div>
-                <p class="receipt-form-note" style="margin-top:6px;">A Deriv Personal Access Token (PAT) generated from your own Deriv account, with the trade scope enabled.</p>
 
-                <button type="button" class="btn-settings-save" id="connectDerivBtn" style="width:100%; margin-top:16px;">Connect Deriv</button>
+                <button type="button" class="btn-settings-save platform-connect-btn" id="connectDerivBtn">Connect Deriv</button>
               </div>
 
             </div>

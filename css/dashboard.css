@@ -1358,6 +1358,7 @@
 
   /* ---- secondary row: activity feed + daily summary ---- */
   .overview-row-secondary{ grid-template-columns: 1fr 1fr; align-items: stretch; }
+  .overview-row-solo{ grid-template-columns: 1fr; }
 
   .activity-feed-card, .daily-summary-card{
     padding: 22px 24px;

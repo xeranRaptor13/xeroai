@@ -104,10 +104,7 @@
 
         <div class="range-filter-bar reveal-dash">
           <div class="range-filter" role="tablist" aria-label="Analytics time range">
-            <button type="button" class="range-filter-btn" data-range="today" role="tab" aria-selected="false">Today</button>
-            <button type="button" class="range-filter-btn" data-range="week" role="tab" aria-selected="false">Week</button>
-            <button type="button" class="range-filter-btn active" data-range="month" role="tab" aria-selected="true">Month</button>
-            <button type="button" class="range-filter-btn" data-range="all" role="tab" aria-selected="false">All Time</button>
+            <button type="button" class="range-filter-btn active" data-range="today" role="tab" aria-selected="true">Today</button>
           </div>
           <span class="range-filter-note" id="rangeFilterNote"></span>
         </div>
@@ -141,13 +138,9 @@
               <span class="trading-stat-label">Net Profit</span>
               <span class="trading-stat-value trading-stat-profit" data-counter data-target="4850" data-prefix="+$" data-decimals="2">+$0.00</span>
             </div>
-            <div class="trading-stat-card reveal-dash" style="--d:300ms">
-              <span class="trading-stat-label">Average AI Confidence</span>
-              <span class="trading-stat-value" data-counter data-target="94" data-suffix="%">0</span>
-            </div>
           </div>
 
-          <div class="overview-row overview-row-secondary">
+          <div class="overview-row overview-row-secondary overview-row-solo">
 
             <!-- Weekly Performance Chart -->
             <div class="chart-card reveal-dash">
@@ -161,31 +154,6 @@
               </div>
             </div>
 
-            <!-- Monthly Performance Snapshot -->
-            <div class="daily-summary-card reveal-dash">
-              <h3>Monthly Performance Snapshot</h3>
-              <div class="daily-summary-row">
-                <span class="daily-summary-label">Best Trading Day</span>
-                <span class="daily-summary-value">Wednesday</span>
-              </div>
-              <div class="daily-summary-row">
-                <span class="daily-summary-label">Highest Daily Profit</span>
-                <span class="daily-summary-value pnl-positive">+$620</span>
-              </div>
-              <div class="daily-summary-row">
-                <span class="daily-summary-label">Average Daily Profit</span>
-                <span class="daily-summary-value pnl-positive">+$315</span>
-              </div>
-              <div class="daily-summary-row">
-                <span class="daily-summary-label">Longest Winning Streak</span>
-                <span class="daily-summary-value">18 Trades</span>
-              </div>
-              <div class="daily-summary-row">
-                <span class="daily-summary-label">Current Winning Streak</span>
-                <span class="daily-summary-value">7 Trades</span>
-              </div>
-            </div>
-
           </div>
 
         </section>
@@ -195,7 +163,7 @@
 
           <!-- Monthly Profit Trend -->
           <div class="chart-card reveal-dash">
-            <h3>Monthly Profit Trend</h3>
+            <h3>Daily Profit Trend</h3>
             <div class="chart-canvas-wrap chart-canvas-wrap-line">
               <canvas id="monthlyProfitChart" aria-label="Monthly profit trend over the last twelve months" role="img"></canvas>
             </div>

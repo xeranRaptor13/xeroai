@@ -2930,7 +2930,14 @@
     /* Comfortable touch targets */
     .sidebar-link{ padding: 12px 12px; }
     .topbar-icon-btn, .mobile-menu-btn{ width: 38px; height: 38px; }
-    .module-card-icon, .info-card-icon{ width: 44px; height: 44px; }
+    .module-card-icon{ width: 44px; height: 44px; }
+
+    /* .info-card (e.g. "AI Profit Insight") sits icon-beside-text with
+       no wrap on every screen size — on a phone that squeezes the
+       paragraph into a thin column, breaking almost every word onto
+       its own line. Stack icon above text instead so the paragraph
+       gets the full card width to wrap normally. */
+    .info-card{ flex-direction: column; }
   }
 
   @media (max-width: 480px){

@@ -201,14 +201,26 @@
                 </ul>
               </div>
 
-              <div class="platform-conn-card reveal-dash" data-platform="hfm">
+              <div class="platform-conn-card reveal-dash" data-platform="connect-deriv">
                 <div class="platform-conn-top">
-                  <span class="platform-conn-logo">HFM</span>
+                  <span class="platform-conn-logo">DRV</span>
                 </div>
-                <h3>HFM</h3>
-                <ul class="platform-conn-tags">
-                  <li>Forex</li>
-                </ul>
+                <h3>Connect Your Deriv Account</h3>
+                <p class="platform-connect-subtext">Securely connect your own Deriv account using your API credentials. Your credentials are encrypted and only used to execute trades on your behalf.</p>
+
+                <div class="settings-field" style="margin-top:16px;">
+                  <label for="tradingDerivAppId">App ID</label>
+                  <input type="text" id="tradingDerivAppId" value="1089" readonly aria-readonly="true">
+                </div>
+                <p class="receipt-form-note" style="margin-top:6px;">Identifies the XeroAI application to Deriv &mdash; this is fixed by XeroAI, not something you need to enter. 1089 is Deriv's public test App ID; it will be replaced with XeroAI's own registered App ID before going live.</p>
+
+                <div class="settings-field" style="margin-top:16px;">
+                  <label for="tradingDerivToken">API Token</label>
+                  <input type="password" id="tradingDerivToken" autocomplete="off" placeholder="Enter your Deriv API token">
+                </div>
+                <p class="receipt-form-note" style="margin-top:6px;">A Deriv Personal Access Token (PAT) generated from your own Deriv account, with the trade scope enabled.</p>
+
+                <button type="button" class="btn-settings-save" id="connectDerivBtn" style="width:100%; margin-top:16px;">Connect Deriv</button>
               </div>
 
             </div>

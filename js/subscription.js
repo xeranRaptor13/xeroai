@@ -1,218 +1,315 @@
 /* ============================================================
    XeroAI — Subscription page (js/subscription.js)
-   Everything here is a client-side demo standing in for a real
-   backend. No live payments, no real Telegram delivery, no real
-   auth. Keys below are what dashboard.js reads on Trading to
-   decide whether the AI Engine toggle is unlocked.
+
+   Everything shown here comes from Firestore:
+     users/{uid}                    -> trialStartDate, trialEndDate,
+                                       subscriptionStatus, accountId,
+                                       subscriptionExpiresAt (optional)
+     users/{uid}/receipts/{id}      -> one doc per "I've made my payment"
+                                       click (createdAt, and later a
+                                       "status" field set by the XeroAI
+                                       team in the Firebase Console)
+
+   The user's browser can only CREATE a receipt (see firestore.rules).
+   It can never write subscriptionStatus, trial dates, or a receipt's
+   status — those are changed only by the XeroAI team in the Console —
+   so nothing on this page can be faked from dev tools.
+
+   The status shown here is what the user SEES. It is not what decides
+   whether trades execute; that must be enforced server-side.
    ============================================================ */
 (function(){
 
-  const LS_STATUS = 'xeroaiSubscriptionStatus';       // 'trial' | 'pending' | 'active' | 'expired'
-  const LS_ACCOUNT_ID = 'xeroaiAccountId';
-  const LS_SUBMISSIONS = 'xeroaiSubmissions';          // JSON array
-
-  /* ---- account id: generate once, persist ---- */
-  function getAccountId(){
-    let id = localStorage.getItem(LS_ACCOUNT_ID);
-    if(!id){
-      id = 'XA-' + Math.floor(10000 + Math.random() * 90000);
-      localStorage.setItem(LS_ACCOUNT_ID, id);
-    }
-    return id;
-  }
-
-  function getStatus(){
-    return localStorage.getItem(LS_STATUS) || 'trial';
-  }
-
-  function setStatus(status){
-    localStorage.setItem(LS_STATUS, status);
-  }
-
-  function getSubmissions(){
-    try{
-      return JSON.parse(localStorage.getItem(LS_SUBMISSIONS) || '[]');
-    }catch(e){
-      return [];
-    }
-  }
-
-  function saveSubmissions(list){
-    localStorage.setItem(LS_SUBMISSIONS, JSON.stringify(list));
-  }
-
-  /* ---- only run the rest on subscription.html ---- */
   const statusBadge = document.getElementById('subStatusBadge');
-  if(!statusBadge) return;
+  if(!statusBadge) return;                       // only run on subscription.html
+  if(!window.xeroaiAuth || !window.xeroaiDb) return;
 
-  const accountId = getAccountId();
-  const accountIdEl = document.getElementById('subAccountId');
-  const receiptAccountIdEl = document.getElementById('receiptAccountId');
-  if(accountIdEl) accountIdEl.textContent = accountId;
-  if(receiptAccountIdEl) receiptAccountIdEl.value = accountId;
+  const DAY_MS = 24 * 60 * 60 * 1000;
+  const DEFAULT_TRIAL_DAYS = 3;
 
-  const engineAccessEl = document.getElementById('subEngineAccess');
-  const trialProgressBlock = document.getElementById('trialProgressBlock');
-  const goToReceiptBtn = document.getElementById('goToReceiptBtn');
+  /* ---- elements ---- */
+  const el = {
+    accountId:      document.getElementById('subAccountId'),
+    payAccountId:   document.getElementById('payAccountId'),
+    trialBlock:     document.getElementById('trialProgressBlock'),
+    trialTitle:     document.getElementById('trialProgressTitle'),
+    trialText:      document.getElementById('trialProgressText'),
+    trialFill:      document.getElementById('trialProgressFill'),
+    trialStart:     document.getElementById('subTrialStart'),
+    trialEnd:       document.getElementById('subTrialEnd'),
+    daysRemaining:  document.getElementById('subDaysRemaining'),
+    engineAccess:   document.getElementById('subEngineAccess'),
+    subscribeBtn:   document.getElementById('goToPaymentBtn'),
+    copyBtn:        document.getElementById('copyAccountIdBtn'),
+    paidBtn:        document.getElementById('paidBtn'),
+    paymentNote:    document.getElementById('paymentNote'),
+    historyBody:    document.getElementById('submissionHistoryBody')
+  };
 
+  /* ---- state ---- */
+  let uid = null;
+  let userData = null;      // users/{uid} document data
+  let receipts = [];        // newest first
+  let receiptsError = false;
+
+  const DEFAULT_PAYMENT_NOTE = el.paymentNote ? el.paymentNote.textContent : '';
+
+  /* ---- helpers ---- */
+  function toDate(ts){
+    return ts && typeof ts.toDate === 'function' ? ts.toDate() : null;
+  }
+
+  function fmtDate(d){
+    return d ? d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '\u2014';
+  }
+
+  function fmtDateTime(d){
+    return d
+      ? d.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+      : '\u2014';
+  }
+
+  function plural(n, word){
+    return n + ' ' + word + (n === 1 ? '' : 's');
+  }
+
+  function setText(node, text){
+    if(node) node.textContent = text;
+  }
+
+  /* ---- work out what state the account is in ----
+     Order matters:
+       active   paid and (no expiry set, or expiry still in the future)
+       trial    trial end date is still in the future
+       pending  trial is over, and the latest payment submission has not
+                been reviewed yet (no "status" field on it)
+       expired  none of the above                                        */
+  function computeState(){
+    if(!userData) return null;
+    const now = new Date();
+    const trialEnd = toDate(userData.trialEndDate);
+    const expiresAt = toDate(userData.subscriptionExpiresAt);
+
+    const paidActive = userData.subscriptionStatus === 'active' && (!expiresAt || expiresAt > now);
+    if(paidActive) return 'active';
+
+    if(trialEnd && trialEnd > now) return 'trial';
+
+    if(hasUnreviewedReceipt()) return 'pending';
+    return 'expired';
+  }
+
+  function hasUnreviewedReceipt(){
+    return receipts.length > 0 && !receipts[0].status;
+  }
+
+  /* ---- render: status card ---- */
   function renderStatus(){
-    const status = getStatus();
+    const state = computeState();
+    if(!state) return;
 
+    const trialStart = toDate(userData.trialStartDate);
+    const trialEnd = toDate(userData.trialEndDate);
+    const now = new Date();
+
+    setText(el.accountId, userData.accountId || '\u2014');
+    setText(el.payAccountId, userData.accountId || '\u2014');
+    setText(el.trialStart, fmtDate(trialStart));
+    setText(el.trialEnd, fmtDate(trialEnd));
+
+    /* days math (only meaningful while a trial exists) */
+    const remaining = trialEnd ? Math.max(0, Math.ceil((trialEnd - now) / DAY_MS)) : 0;
+    const totalDays = (trialStart && trialEnd)
+      ? Math.max(1, Math.round((trialEnd - trialStart) / DAY_MS))
+      : DEFAULT_TRIAL_DAYS;
+    const usedDays = Math.min(totalDays, Math.max(0, totalDays - remaining));
+
+    /* badge */
     statusBadge.classList.remove('badge-online', 'badge-waiting', 'badge-closed');
-    if(status === 'trial'){
+    if(state === 'trial'){
       statusBadge.classList.add('badge-online');
       statusBadge.innerHTML = '<span class="dot"></span>Free Trial Active';
-      if(trialProgressBlock) trialProgressBlock.hidden = false;
-      if(engineAccessEl){ engineAccessEl.textContent = 'Unlocked (Trial)'; engineAccessEl.classList.add('engine-stat-good'); }
-      if(goToReceiptBtn) goToReceiptBtn.textContent = 'Submit Payment Receipt';
-    } else if(status === 'pending'){
+    }else if(state === 'pending'){
       statusBadge.classList.add('badge-waiting');
       statusBadge.innerHTML = '<span class="dot"></span>Payment Under Review';
-      if(trialProgressBlock) trialProgressBlock.hidden = true;
-      if(engineAccessEl){ engineAccessEl.textContent = 'Locked (Pending Review)'; engineAccessEl.classList.remove('engine-stat-good'); }
-    } else if(status === 'active'){
+    }else if(state === 'active'){
       statusBadge.classList.add('badge-online');
       statusBadge.innerHTML = '<span class="dot"></span>Subscription Active';
-      if(trialProgressBlock) trialProgressBlock.hidden = true;
-      if(engineAccessEl){ engineAccessEl.textContent = 'Unlocked'; engineAccessEl.classList.add('engine-stat-good'); }
-    } else {
+    }else{
       statusBadge.classList.add('badge-closed');
-      statusBadge.innerHTML = '<span class="dot"></span>Trial Expired — Payment Required';
-      if(trialProgressBlock) trialProgressBlock.hidden = true;
-      if(engineAccessEl){ engineAccessEl.textContent = 'Locked'; engineAccessEl.classList.remove('engine-stat-good'); }
+      statusBadge.innerHTML = '<span class="dot"></span>Trial Expired \u2014 Payment Required';
+    }
+
+    /* trial progress bar: only while the trial is running */
+    if(el.trialBlock) el.trialBlock.hidden = state !== 'trial';
+    if(state === 'trial'){
+      setText(el.trialTitle, totalDays + '-Day Free Trial');
+      setText(el.trialText, plural(usedDays, 'Day') + ' Used \u00B7 ' + plural(remaining, 'Day') + ' Remaining');
+      let pct = 0;
+      if(trialStart && trialEnd && trialEnd > trialStart){
+        pct = Math.min(100, Math.max(0, ((now - trialStart) / (trialEnd - trialStart)) * 100));
+      }else{
+        pct = (usedDays / totalDays) * 100;
+      }
+      if(el.trialFill){
+        el.trialFill.dataset.barTarget = String(Math.round(pct));
+        el.trialFill.style.width = pct + '%';
+      }
+    }
+
+    /* days remaining / engine access */
+    if(state === 'trial'){
+      setText(el.daysRemaining, plural(remaining, 'Day'));
+    }else if(state === 'active'){
+      const expiresAt = toDate(userData.subscriptionExpiresAt);
+      setText(el.daysRemaining, expiresAt ? 'Until ' + fmtDate(expiresAt) : '\u2014');
+    }else{
+      setText(el.daysRemaining, '0 Days');
+    }
+
+    if(el.engineAccess){
+      el.engineAccess.classList.remove('engine-stat-good');
+      if(state === 'trial'){
+        el.engineAccess.textContent = 'Unlocked (Trial)';
+        el.engineAccess.classList.add('engine-stat-good');
+      }else if(state === 'active'){
+        el.engineAccess.textContent = 'Unlocked';
+        el.engineAccess.classList.add('engine-stat-good');
+      }else if(state === 'pending'){
+        el.engineAccess.textContent = 'Locked (Pending Review)';
+      }else{
+        el.engineAccess.textContent = 'Locked';
+      }
+    }
+
+    /* "Subscribe Now" jump button: hide once there's nothing to subscribe to */
+    if(el.subscribeBtn) el.subscribeBtn.hidden = (state === 'active' || state === 'pending');
+
+    renderPaymentControls(state);
+  }
+
+  /* ---- render: payment card controls + note ---- */
+  function renderPaymentControls(state){
+    if(el.paidBtn){
+      el.paidBtn.disabled = hasUnreviewedReceipt();
+    }
+    if(!el.paymentNote) return;
+
+    const latest = receipts[0];
+    if(hasUnreviewedReceipt()){
+      el.paymentNote.textContent = 'Your payment has been submitted and is waiting for review. You don\u2019t need to submit it again.';
+    }else if(latest && latest.status === 'rejected' && state !== 'active'){
+      el.paymentNote.textContent = 'We couldn\u2019t verify your last payment submission. Please check that you entered your Account ID correctly at checkout, then try again or contact support.';
+    }else if(receiptsError){
+      el.paymentNote.textContent = 'We couldn\u2019t load your payment submissions right now. Please refresh the page.';
+    }else{
+      el.paymentNote.textContent = DEFAULT_PAYMENT_NOTE;
     }
   }
 
-  /* ---- submission history table ---- */
-  const historyBody = document.getElementById('submissionHistoryBody');
-
+  /* ---- render: submissions table ---- */
   function statusBadgeHtml(status){
     if(status === 'approved') return '<span class="badge-pill badge-online"><span class="dot"></span>Approved</span>';
-    if(status === 'rejected') return '<span class="badge-pill badge-closed"><span class="dot"></span>Rejected</span>';
-    return '<span class="badge-pill badge-waiting"><span class="dot"></span>Pending Review</span>';
+    if(status === 'rejected') return '<span class="badge-pill badge-closed"><span class="dot"></span>Not Verified</span>';
+    return '<span class="badge-pill badge-waiting"><span class="dot"></span>Under Review</span>';
   }
 
   function renderHistory(){
-    if(!historyBody) return;
-    const submissions = getSubmissions();
-    if(submissions.length === 0){
-      historyBody.innerHTML = '<tr><td colspan="4" class="wallet-empty-row">No receipts submitted yet.</td></tr>';
+    if(!el.historyBody) return;
+    if(receipts.length === 0){
+      el.historyBody.innerHTML = '<tr><td colspan="2" class="wallet-empty-row">No payments submitted yet.</td></tr>';
       return;
     }
-    historyBody.innerHTML = submissions.slice().reverse().map(s => `
-      <tr>
-        <td class="mono-cell" data-label="Date">${s.date}</td>
-        <td data-label="Reference">${s.reference}</td>
-        <td data-label="File">${s.fileName || 'No file attached'}</td>
-        <td data-label="Status">${statusBadgeHtml(s.status)}</td>
-      </tr>
-    `).join('');
+    el.historyBody.innerHTML = receipts.map(r => (
+      '<tr>' +
+        '<td class="mono-cell" data-label="Date">' + fmtDateTime(toDate(r.createdAt)) + '</td>' +
+        '<td data-label="Status">' + statusBadgeHtml(r.status) + '</td>' +
+      '</tr>'
+    )).join('');
   }
 
-  /* ---- copy Opay account number ---- */
-  const copyBtn = document.getElementById('copyOpayBtn');
-  const opayNumberEl = document.getElementById('opayAccountNumber');
-  if(copyBtn && opayNumberEl){
-    copyBtn.addEventListener('click', () => {
-      const text = opayNumberEl.textContent.trim();
-      navigator.clipboard?.writeText(text).then(() => {
-        const original = copyBtn.textContent;
-        copyBtn.textContent = 'Copied!';
-        setTimeout(() => { copyBtn.textContent = original; }, 1800);
-      }).catch(() => {});
-    });
+  function renderAll(){
+    renderStatus();
+    renderHistory();
   }
 
-  /* ---- receipt file input ---- */
-  const dropzone = document.getElementById('receiptDropzone');
-  const fileInput = document.getElementById('receiptFile');
-  const fileLabel = document.getElementById('receiptFileLabel');
-  let chosenFileName = '';
+  /* ---- copy Account ID ---- */
+  if(el.copyBtn){
+    el.copyBtn.addEventListener('click', () => {
+      const text = (el.payAccountId && el.payAccountId.textContent || '').trim();
+      if(!text || text === '\u2014') return;
 
-  if(dropzone && fileInput){
-    dropzone.addEventListener('click', () => fileInput.click());
-    fileInput.addEventListener('change', () => {
-      if(fileInput.files && fileInput.files[0]){
-        chosenFileName = fileInput.files[0].name;
-        fileLabel.textContent = chosenFileName;
+      const done = () => {
+        const original = el.copyBtn.textContent;
+        el.copyBtn.textContent = 'Copied!';
+        setTimeout(() => { el.copyBtn.textContent = original; }, 1800);
+      };
+
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(done).catch(() => {});
+      }else{
+        const tmp = document.createElement('textarea');
+        tmp.value = text;
+        document.body.appendChild(tmp);
+        tmp.select();
+        try{ document.execCommand('copy'); done(); }catch(e){ /* nothing else to try */ }
+        document.body.removeChild(tmp);
       }
     });
   }
 
-  /* ---- receipt form submit ---- */
-  const receiptForm = document.getElementById('receiptForm');
-  const receiptFormNote = document.getElementById('receiptFormNote');
+  /* ---- "I've Made My Payment" ----
+     Writes ONE small document (just a server timestamp). That is the only
+     thing the browser is allowed to write here; approval is done by the
+     XeroAI team in the Firebase Console. */
+  if(el.paidBtn){
+    el.paidBtn.addEventListener('click', () => {
+      if(!uid || el.paidBtn.disabled) return;
 
-  if(receiptForm){
-    receiptForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const reference = document.getElementById('receiptReference').value.trim();
-      if(!reference){
-        receiptFormNote.textContent = 'Please enter your transaction reference before submitting.';
-        return;
-      }
+      const sure = window.confirm('Only continue if you have already completed your payment on Packet Africa.\n\nSubmit your payment for review?');
+      if(!sure) return;
 
-      const submissions = getSubmissions();
-      submissions.push({
-        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-        reference,
-        fileName: chosenFileName,
-        status: 'pending'
+      el.paidBtn.disabled = true;
+      window.xeroaiDb.collection('users').doc(uid).collection('receipts').add({
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        window.xeroaiLogActivity(uid, 'Payment submitted for review.', 'info');
+        // The live listener below refreshes the page state on its own.
+      }).catch(() => {
+        el.paidBtn.disabled = false;
+        if(el.paymentNote){
+          el.paymentNote.textContent = 'We couldn\u2019t record your payment right now. Please check your connection and try again.';
+        }
       });
-      saveSubmissions(submissions);
-      setStatus('pending');
-
-      renderHistory();
-      renderStatus();
-
-      receiptForm.reset();
-      if(receiptAccountIdEl) receiptAccountIdEl.value = accountId;
-      chosenFileName = '';
-      if(fileLabel) fileLabel.textContent = 'Click to choose a file, or drag it here';
-
-      receiptFormNote.textContent = 'Receipt submitted — this is a demo, so no Telegram message was actually sent. In production, the XeroAI team is notified instantly and reviews it from there.';
     });
   }
 
-  /* ---- demo controls ---- */
-  const demoApproveBtn = document.getElementById('demoApproveBtn');
-  const demoRejectBtn = document.getElementById('demoRejectBtn');
-  const demoResetBtn = document.getElementById('demoResetBtn');
+  /* ---- load real data, live ---- */
+  window.xeroaiAuth.onAuthStateChanged((user) => {
+    if(!user) return;            // require-onboarded.js redirects signed-out visitors
+    uid = user.uid;
 
-  function updateLatestSubmission(newStatus){
-    const submissions = getSubmissions();
-    if(submissions.length === 0) return false;
-    submissions[submissions.length - 1].status = newStatus;
-    saveSubmissions(submissions);
-    return true;
-  }
+    const userRef = window.xeroaiDb.collection('users').doc(uid);
 
-  if(demoApproveBtn){
-    demoApproveBtn.addEventListener('click', () => {
-      const updated = updateLatestSubmission('approved');
-      setStatus('active');
-      renderHistory();
-      renderStatus();
-      if(!updated) receiptFormNote && (receiptFormNote.textContent = 'No submitted receipt to approve yet — submit one first, or this just activates your subscription directly for testing.');
+    userRef.onSnapshot((doc) => {
+      userData = doc.exists ? doc.data({ serverTimestamps: 'estimate' }) : {};
+      renderAll();
+    }, () => {
+      setText(el.engineAccess, 'Unavailable');
     });
-  }
-  if(demoRejectBtn){
-    demoRejectBtn.addEventListener('click', () => {
-      const updated = updateLatestSubmission('rejected');
-      setStatus('expired');
-      renderHistory();
-      renderStatus();
-      if(!updated) receiptFormNote && (receiptFormNote.textContent = 'No submitted receipt to reject yet.');
-    });
-  }
-  if(demoResetBtn){
-    demoResetBtn.addEventListener('click', () => {
-      setStatus('trial');
-      renderStatus();
-    });
-  }
 
-  renderStatus();
-  renderHistory();
+    userRef.collection('receipts')
+      .orderBy('createdAt', 'desc')
+      .limit(10)
+      .onSnapshot((snapshot) => {
+        receiptsError = false;
+        receipts = snapshot.docs.map(d => d.data({ serverTimestamps: 'estimate' }));
+        renderAll();
+      }, () => {
+        receiptsError = true;
+        receipts = [];
+        renderAll();
+      });
+  });
 
 })();

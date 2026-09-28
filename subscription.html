@@ -102,55 +102,50 @@
           <p>Manage your XeroAI subscription and payments.</p>
         </section>
 
-        <div class="settings-banner reveal-dash">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v.1M12 11v5"/></svg>
-          <p>This page is not yet connected to a backend. Receipt submissions, status changes, and Telegram delivery shown here are simulated for demonstration.</p>
-        </div>
-
         <!-- ============ SUBSCRIPTION STATUS ============ -->
         <div class="subscription-status-card reveal-dash">
           <div class="subscription-status-top">
             <div class="sub-status-block">
               <span class="engine-stat-label">Current Status</span>
-              <span class="badge-pill badge-online sub-status-badge" id="subStatusBadge"><span class="dot"></span>Free Trial Active</span>
+              <span class="badge-pill badge-waiting sub-status-badge" id="subStatusBadge"><span class="dot"></span>Checking&hellip;</span>
             </div>
             <div class="sub-status-block">
               <span class="engine-stat-label">Account ID</span>
-              <span class="engine-stat-value mono-cell" id="subAccountId">—</span>
+              <span class="engine-stat-value mono-cell" id="subAccountId">&mdash;</span>
             </div>
           </div>
 
-          <div class="trial-progress-block" id="trialProgressBlock">
+          <div class="trial-progress-block" id="trialProgressBlock" hidden>
             <div class="trial-progress-head">
-              <span>5-Day Free Trial</span>
-              <span>2 Days Used &middot; 3 Days Remaining</span>
+              <span id="trialProgressTitle">Free Trial</span>
+              <span id="trialProgressText"></span>
             </div>
             <div class="progress-bar-track">
-              <div class="progress-bar-fill" data-bar-target="40"></div>
+              <div class="progress-bar-fill" id="trialProgressFill" data-bar-target="0"></div>
             </div>
           </div>
 
           <div class="subscription-info-grid">
             <div class="engine-stat">
               <span class="engine-stat-label">Trial Started</span>
-              <span class="engine-stat-value">July 12, 2026</span>
+              <span class="engine-stat-value" id="subTrialStart">&mdash;</span>
             </div>
             <div class="engine-stat">
               <span class="engine-stat-label">Trial Ends</span>
-              <span class="engine-stat-value">July 17, 2026</span>
+              <span class="engine-stat-value" id="subTrialEnd">&mdash;</span>
             </div>
             <div class="engine-stat">
               <span class="engine-stat-label">Days Remaining</span>
-              <span class="engine-stat-value">3 Days</span>
+              <span class="engine-stat-value" id="subDaysRemaining">&mdash;</span>
             </div>
             <div class="engine-stat">
               <span class="engine-stat-label">AI Engine Access</span>
-              <span class="engine-stat-value engine-stat-good" id="subEngineAccess">Unlocked (Trial)</span>
+              <span class="engine-stat-value" id="subEngineAccess">&mdash;</span>
             </div>
           </div>
 
-          <a href="#submitReceiptSection" class="step-btn step-btn-primary sub-activate-btn rippleable" id="goToReceiptBtn">
-            <span class="step-btn-label">Submit Payment Receipt</span>
+          <a href="#paymentSection" class="step-btn step-btn-primary sub-activate-btn rippleable" id="goToPaymentBtn">
+            <span class="step-btn-label">Subscribe Now</span>
           </a>
         </div>
 
@@ -163,7 +158,7 @@
             </div>
             <div class="info-card-content">
               <h4>What happens after my free trial?</h4>
-              <p>After your 5-day free trial expires, the AI Trading Engine will pause until your payment is confirmed. Transfer your subscription fee to the Opay account below, submit your receipt, and the account owner will review and approve it manually — your AI Engine unlocks as soon as that happens.</p>
+              <p>After your 3-day free trial ends, the AI Trading Engine pauses until your payment is confirmed. Pay securely with Packet Africa, then tell us you've paid &mdash; the XeroAI team confirms it and activates your account. Your account, settings, and history stay intact the whole time; only automation is paused.</p>
             </div>
           </div>
 
@@ -175,132 +170,83 @@
             <div class="info-card-content">
               <h4>Secure Subscription Verification</h4>
               <ul class="platform-conn-tags sub-security-list">
-                <li>Every payment is manually verified against the Opay business account before approval.</li>
+                <li>Payments are made on Packet Africa's secure checkout &mdash; XeroAI never sees or stores your card details.</li>
+                <li>Every payment is manually verified against the Packet Africa dashboard before your account is activated.</li>
                 <li>Clearing browser data, cookies, or cache will not reset your free trial or payment status.</li>
-                <li>Always include your Account ID as the transfer narration so your payment can be matched to your receipt.</li>
-                <li>Only a receipt confirmed and approved by the XeroAI team will unlock the AI Engine.</li>
-                <li>This protects the fairness and security of the XeroAI platform for all users.</li>
+                <li>Always enter your Account ID at checkout so your payment can be matched to your account.</li>
+                <li>Only a payment confirmed by the XeroAI team will unlock the AI Engine after your trial.</li>
               </ul>
             </div>
           </div>
 
         </div>
 
-        <!-- ============ PAYMENT INSTRUCTIONS ============ -->
-        <section class="payment-instructions-section" id="paymentInstructionsSection">
+        <!-- ============ PAYMENT ============ -->
+        <section class="payment-instructions-section" id="paymentSection">
 
           <div class="monitor-table-card reveal-dash">
-            <h3>Payment Instructions</h3>
-            <p class="payment-history-subtitle">Transfer your subscription fee to the account below, then submit your receipt.</p>
+            <h3>Subscribe with Packet Africa</h3>
+            <p class="payment-history-subtitle">Pay securely on Packet Africa, then come back here and let us know.</p>
 
             <div class="payment-instructions-grid">
               <div class="payment-instr-row">
-                <span class="engine-stat-label">Bank / Platform</span>
-                <span class="engine-stat-value">Opay</span>
+                <span class="engine-stat-label">Your Account ID</span>
+                <span class="engine-stat-value mono-cell" id="payAccountId">&mdash;</span>
+                <button type="button" class="btn-copy-inline rippleable" id="copyAccountIdBtn" aria-label="Copy your Account ID">Copy</button>
               </div>
               <div class="payment-instr-row">
-                <span class="engine-stat-label">Account Name</span>
-                <span class="engine-stat-value">XeroAI Technologies</span>
+                <span class="engine-stat-label">Step 1</span>
+                <span class="engine-stat-value">Copy your Account ID above.</span>
               </div>
               <div class="payment-instr-row">
-                <span class="engine-stat-label">Account Number</span>
-                <span class="engine-stat-value mono-cell" id="opayAccountNumber">8123456789</span>
-                <button type="button" class="btn-copy-inline rippleable" id="copyOpayBtn" aria-label="Copy account number">Copy</button>
+                <span class="engine-stat-label">Step 2</span>
+                <span class="engine-stat-value">Pay on Packet Africa and enter your Account ID when asked. The checkout page shows the exact amount.</span>
               </div>
               <div class="payment-instr-row">
-                <span class="engine-stat-label">Amount Due</span>
-                <span class="engine-stat-value">&#8358;5,000 <span class="daily-plan-demo-tag">Demonstration price only</span></span>
+                <span class="engine-stat-label">Step 3</span>
+                <span class="engine-stat-value">Return here and tap &ldquo;I've Made My Payment&rdquo;.</span>
               </div>
             </div>
 
-            <p class="demo-footer-note">Important: include your Account ID (shown above) as the transfer narration or description so your payment can be matched to your receipt.</p>
+            <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:18px;">
+              <a href="https://www.packetafrica.com/pay/xeroailive" target="_blank" rel="noopener noreferrer" class="step-btn step-btn-primary rippleable" id="payPacketBtn">
+                <span class="step-btn-label">Pay with Packet Africa</span>
+              </a>
+              <button type="button" class="step-btn step-btn-primary rippleable" id="paidBtn">
+                <span class="step-btn-label">I've Made My Payment</span>
+              </button>
+            </div>
+
+            <p class="receipt-form-note" id="paymentNote">Tapping &ldquo;I've Made My Payment&rdquo; doesn't confirm anything by itself &mdash; the XeroAI team checks the payment on Packet Africa before activating your account.</p>
           </div>
 
         </section>
 
-        <!-- ============ SUBMIT PAYMENT RECEIPT ============ -->
-        <section class="submit-receipt-section" id="submitReceiptSection">
-
-          <div class="monitor-table-card reveal-dash">
-            <h3>Submit Payment Receipt</h3>
-            <p class="payment-history-subtitle">Upload your receipt after transferring to the account above.</p>
-
-            <form id="receiptForm" class="receipt-form">
-              <div class="settings-field-grid">
-                <div class="settings-field">
-                  <label for="receiptAccountId">Account ID</label>
-                  <input type="text" id="receiptAccountId" readonly>
-                </div>
-                <div class="settings-field">
-                  <label for="receiptReference">Transaction Reference</label>
-                  <input type="text" id="receiptReference" placeholder="e.g. Opay transaction ID" required>
-                </div>
-              </div>
-
-              <div class="settings-field receipt-upload-field">
-                <label for="receiptFile">Receipt (screenshot or PDF)</label>
-                <div class="receipt-dropzone" id="receiptDropzone">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
-                  <span id="receiptFileLabel">Click to choose a file, or drag it here</span>
-                  <input type="file" id="receiptFile" accept="image/*,.pdf" hidden>
-                </div>
-              </div>
-
-              <div class="settings-field">
-                <label for="receiptNotes">Notes (optional)</label>
-                <textarea id="receiptNotes" rows="3" placeholder="Anything the reviewer should know"></textarea>
-              </div>
-
-              <button type="submit" class="btn btn-primary rippleable" id="receiptSubmitBtn">Submit Receipt</button>
-              <p class="receipt-form-note" id="receiptFormNote">Submitting your receipt does not charge you again — it only notifies the XeroAI team for review.</p>
-            </form>
-          </div>
-
-        </section>
-
-        <!-- ============ SUBMISSION HISTORY ============ -->
+        <!-- ============ PAYMENT SUBMISSIONS ============ -->
         <section class="payment-history-section" id="paymentHistorySection">
 
           <div class="monitor-table-card reveal-dash">
-            <h3>Submission History</h3>
-            <p class="payment-history-subtitle">Every receipt you've submitted and its review status.</p>
+            <h3>Payment Submissions</h3>
+            <p class="payment-history-subtitle">Each time you tell us you've paid, it appears here with its review status.</p>
 
             <div class="monitor-table-scroll">
               <table class="monitor-table payment-history-table" id="submissionHistoryTable">
                 <thead>
                   <tr>
                     <th>Date</th>
-                    <th>Reference</th>
-                    <th>File</th>
                     <th>Status</th>
                   </tr>
                 </thead>
                 <tbody id="submissionHistoryBody">
                   <tr>
-                    <td colspan="4" class="wallet-empty-row">No receipts submitted yet.</td>
+                    <td colspan="2" class="wallet-empty-row">No payments submitted yet.</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-
-            <p class="demo-footer-note">Once connected to Firestore, this table and your status above will update automatically as receipts are reviewed.</p>
           </div>
 
         </section>
-
-        <!-- ============ DEMO CONTROLS (remove before launch) ============ -->
-        <section class="demo-controls-section reveal-dash" id="demoControlsSection">
-          <div class="demo-controls-head">
-            <span class="badge-pill badge-waiting"><span class="dot"></span>Demo Controls — remove before launch</span>
-          </div>
-          <p>There's no real backend or Telegram bot wired up yet, so nothing above can actually be approved by anyone. Use these buttons to stand in for that manual review and see how the rest of the app reacts — including the AI Engine on/off toggle on the Trading page, which stays locked until a receipt here is "approved."</p>
-          <div class="demo-controls-actions">
-            <button type="button" class="btn btn-primary rippleable" id="demoApproveBtn">Simulate: Approve Latest Receipt</button>
-            <button type="button" class="btn-danger-outline rippleable" id="demoRejectBtn">Simulate: Reject Latest Receipt</button>
-            <button type="button" class="btn-copy-inline rippleable" id="demoResetBtn">Reset to Trial</button>
-          </div>
-        </section>
-
 
       </main>
 

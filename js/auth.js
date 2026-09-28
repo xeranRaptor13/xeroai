@@ -83,7 +83,7 @@
     const db = window.xeroaiDb;
     const accountId = generateAccountId();
     const now = new Date();
-    const trialEnd = new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000);
+    const trialEnd = new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000);
 
     const profile = Object.assign({
       fullName: user.displayName || '',

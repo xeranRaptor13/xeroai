@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Sign In — XeroAI</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin-auth.css">
+</head>
+<body>
+  <main class="admin-auth-shell">
+    <section class="admin-auth-card" aria-labelledby="adminLoginTitle">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>XeroAI</span>
+        <span class="admin-badge">ADMIN</span>
+      </div>
+
+      <div class="heading">
+        <span class="eyebrow">SECURE ACCESS</span>
+        <h1 id="adminLoginTitle">Admin Sign In</h1>
+        <p>Sign in with an authorized XeroAI administrator account.</p>
+      </div>
+
+      <form id="adminLoginForm" novalidate>
+        <div class="field">
+          <label for="adminEmail">Email</label>
+          <input id="adminEmail" name="email" type="email" autocomplete="username" placeholder="admin@example.com" required>
+          <span class="field-error" id="emailError" aria-live="polite"></span>
+        </div>
+
+        <div class="field">
+          <label for="adminPassword">Password</label>
+          <div class="password-wrap">
+            <input id="adminPassword" name="password" type="password" autocomplete="current-password" placeholder="••••••••" required>
+            <button type="button" id="togglePassword" class="toggle-password" aria-label="Show password" aria-pressed="false">Show</button>
+          </div>
+          <span class="field-error" id="passwordError" aria-live="polite"></span>
+        </div>
+
+        <button class="submit-btn" id="submitBtn" type="submit">
+          <span id="submitLabel">Sign In</span>
+          <span id="submitSpinner" class="spinner" aria-hidden="true"></span>
+        </button>
+
+        <p id="formStatus" class="form-status" role="alert" aria-live="polite"></p>
+      </form>
+
+      <div class="security-note">
+        <span aria-hidden="true">🔒</span>
+        <span>Administrator access is restricted to the authorized XeroAI accounts.</span>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-auth-compat.js"></script>
+  <script src="../js/firebase-init.js"></script>
+  <script src="js/admin-login.js"></script>
+</body>
+</html>

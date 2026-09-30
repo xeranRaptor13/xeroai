@@ -1,25 +1,22 @@
-XeroAI Admin — Consolidated Admin Package
+XeroAI Trading Connections — clean package
 
-Included modules:
-- login.html — restricted admin sign-in
-- dashboard.html — control center / overview
-- users.html — user management
-- payments.html — payment review
-- subscriptions.html — subscription management
-- activity.html — user activity
-- audit.html — admin audit log
+This package is intentionally compact. It contains only the files needed for the Trading Connections feature:
 
-Firebase:
-- Uses the existing ../js/firebase-init.js from the main XeroAI project.
-- Uses the deployed admin Firestore rules and authorized admin emails already configured.
+trading.html
+  Your existing trading page, with the Deriv App ID/API token handoff added directly inside the page.
 
-Important:
-- This package contains only the admin area.
-- Do NOT replace the root dashboard.html or other normal-site files with admin/dashboard.html.
-- The Python trading bot is not included and is not modified.
-- Upload the contents of this admin folder into the project's existing admin/ folder.
+admin/trading-connections.html
+  The new admin Trading Connections page. Its feature-specific CSS and JavaScript are embedded in this single file, so no extra admin CSS/JS files are required.
 
-Validation performed:
-- All included JavaScript files pass Node syntax validation.
-- Internal navigation targets included in this package are present.
-- Dashboard navigation is connected to Users, Payments, Subscriptions, User Activity, and Audit Log.
+firestore.rules
+  Updated rules adding users/{userId}/brokerConnections/{connectionId}.
+
+INSTALL
+1. Replace your current root trading.html with this trading.html.
+2. Put admin/trading-connections.html inside your existing admin/ folder.
+3. Add a Trading Connections link to your existing admin navigation pointing to trading-connections.html.
+4. Deploy firestore.rules in Firebase Console.
+5. Do not modify the Python trading bot.
+
+IMPORTANT
+API tokens are trading credentials. Test first with a safe test credential. Do not paste a real token into ChatGPT.

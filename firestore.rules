@@ -2,36 +2,62 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Each user can read their own profile and create it at signup.
-    // Updates are restricted to a small set of self-editable fields —
-    // subscriptionStatus, trialEndDate, and accountId must NOT be
-    // client-writable, or any signed-in user could open dev tools and
-    // approve their own subscription. Everything else here (profile
-    // details, security/notification preferences) is safe to let the
-    // user set themselves — none of it touches billing/trust fields.
-    // Delete is allowed only for the user's own document, and only while
-    // still authenticated — Settings' "Delete Account" flow deletes this
-    // doc immediately before deleting the Firebase Auth account itself.
-    match /users/{userId} {
-      allow read: if request.auth != null && request.auth.uid == userId;
-      allow create: if request.auth != null && request.auth.uid == userId;
-      allow update: if request.auth != null && request.auth.uid == userId
-        && request.resource.data.diff(resource.data).affectedKeys()
-            .hasOnly([
-              'fullName', 'phone', 'onboardingComplete',
-              'country', 'timezone', 'defaultMarket',
-              'twoFactorEnabled', 'loginAlerts', 'notifications'
-            ]);
-      allow delete: if request.auth != null && request.auth.uid == userId;
+    function isSignedIn() {
+      return request.auth != null;
+    }
 
-      // Append-only activity log that powers the "Recent Activity" panel.
-      // The owner can read their own log and add new entries (every
-      // xeroaiLogActivity() call is a create), but never edit or remove
-      // a past entry — that keeps it an honest, tamper-proof history.
+    function isAdmin() {
+      return isSignedIn()
+        && request.auth.token.email_verified == true
+        && request.auth.token.email in [
+          'ezemariaezemaria77@gmail.com',
+          'xeranraptor@gmail.com'
+        ];
+    }
+
+    match /users/{userId} {
+      // Admins may review user records. Users retain access only to their own record.
+      allow read: if isAdmin() || (isSignedIn() && request.auth.uid == userId);
+      allow create: if isSignedIn() && request.auth.uid == userId;
+
+      // Admins may change billing/trust fields. A normal user may only change
+      // the explicitly self-editable profile/preferences fields below.
+      allow update: if isAdmin() || (
+        isSignedIn() && request.auth.uid == userId
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'fullName', 'phone', 'onboardingComplete',
+          'country', 'timezone', 'defaultMarket',
+          'twoFactorEnabled', 'loginAlerts', 'notifications'
+        ])
+      );
+
+      allow delete: if isSignedIn() && request.auth.uid == userId;
+
       match /activity/{activityId} {
-        allow read, create: if request.auth != null && request.auth.uid == userId;
+        allow read: if isAdmin() || (isSignedIn() && request.auth.uid == userId);
+        allow create: if isSignedIn() && request.auth.uid == userId;
         allow update, delete: if false;
       }
+
+      match /receipts/{receiptId} {
+        allow read: if isAdmin() || (isSignedIn() && request.auth.uid == userId);
+        allow create: if isSignedIn() && request.auth.uid == userId
+          && request.resource.data.keys().hasOnly(['createdAt'])
+          && request.resource.data.createdAt == request.time;
+        allow update: if isAdmin();
+        allow delete: if false;
+      }
+    }
+
+    match /bot_signals/{signalId} {
+      allow read: if isSignedIn();
+      allow write: if false;
+    }
+
+    // Admin-only audit trail. It is intentionally separate from user activity.
+    match /admin_audit/{logId} {
+      allow read, create: if isAdmin();
+      allow update, delete: if false;
     }
   }
 }

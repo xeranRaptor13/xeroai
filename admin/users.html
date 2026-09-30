@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Users — XeroAI Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/admin-dashboard.css">
+<link rel="stylesheet" href="css/admin-users.css">
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"></span><span>XeroAI</span><span class="admin-badge">ADMIN</span></div>
+    <nav>
+      <a class="nav-link" href="dashboard.html"><span>▦</span> Dashboard</a>
+      <a class="nav-link active" href="users.html"><span>◉</span> Users</a>
+      <a class="nav-link" href="dashboard.html#payments"><span>◇</span> Payments</a>
+      <a class="nav-link" href="dashboard.html#subscriptions"><span>◈</span> Subscriptions</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="admin-identity"><span class="avatar" id="adminAvatar">A</span><div><strong id="adminEmail">Admin</strong><small>Administrator</small></div></div>
+      <button class="logout-btn" id="logoutBtn">Sign out</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">☰</button>
+      <div><span class="eyebrow">XEROAI CONTROL CENTER</span><h1>Users</h1></div>
+      <div class="top-actions"><span class="secure-pill"><i></i> Secure session</span><button class="refresh-btn" id="refreshBtn">Refresh</button></div>
+    </header>
+
+    <section class="content">
+      <div class="notice" id="notice" hidden></div>
+      <section class="user-toolbar panel">
+        <div>
+          <h2>All XeroAI accounts</h2>
+          <p id="userSummary">Loading users…</p>
+        </div>
+        <div class="user-tools">
+          <input id="userSearch" type="search" placeholder="Search name, email, account ID or country" aria-label="Search users">
+          <select id="statusFilter" aria-label="Filter users by status">
+            <option value="all">All statuses</option>
+            <option value="active">Active</option>
+            <option value="trial">Trial</option>
+            <option value="inactive">Inactive / expired</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="table-wrap">
+          <table class="users-table">
+            <thead><tr><th>User</th><th>Account ID</th><th>Country</th><th>Status</th><th>Expiry / trial</th><th>Joined</th><th></th></tr></thead>
+            <tbody id="usersTable"><tr><td colspan="7" class="empty">Loading users…</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </main>
+</div>
+
+<div class="modal-backdrop" id="userModal" hidden>
+  <div class="modal user-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-head"><div><span class="eyebrow">ACCOUNT DETAILS</span><h2 id="modalTitle">User</h2><p id="modalSubtitle">—</p></div><button class="icon-btn" id="closeUserModal" aria-label="Close">×</button></div>
+    <div class="modal-body">
+      <div id="userNotice" class="notice" hidden></div>
+      <div class="detail-grid">
+        <div class="detail-card"><span>Account ID</span><strong id="detailAccountId">—</strong></div>
+        <div class="detail-card"><span>Subscription</span><strong id="detailStatus">—</strong></div>
+        <div class="detail-card"><span>Subscription expiry</span><strong id="detailExpiry">—</strong></div>
+        <div class="detail-card"><span>Trial end</span><strong id="detailTrialEnd">—</strong></div>
+        <div class="detail-card"><span>Country</span><strong id="detailCountry">—</strong></div>
+        <div class="detail-card"><span>Timezone</span><strong id="detailTimezone">—</strong></div>
+        <div class="detail-card"><span>Default market</span><strong id="detailMarket">—</strong></div>
+        <div class="detail-card"><span>Phone</span><strong id="detailPhone">—</strong></div>
+        <div class="detail-card"><span>Joined</span><strong id="detailJoined">—</strong></div>
+      </div>
+
+      <div class="modal-section">
+        <div class="section-title"><h3>Subscription controls</h3><span>Admin only</span></div>
+        <div class="control-row">
+          <select id="subscriptionDuration"><option value="30">Add 30 days</option><option value="90">Add 90 days</option><option value="180">Add 180 days</option><option value="365">Add 1 year</option></select>
+          <button class="primary-btn" id="activateBtn">Activate / Extend</button>
+          <button class="secondary-btn" id="deactivateBtn">Deactivate</button>
+        </div>
+        <div class="control-row">
+          <select id="trialDuration"><option value="3">Set trial for 3 days</option><option value="7">Set trial for 7 days</option><option value="14">Set trial for 14 days</option></select>
+          <button class="secondary-btn" id="trialBtn">Set / Extend Trial</button>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <div class="section-title"><h3>Payment submissions</h3><span id="detailPaymentState">—</span></div>
+        <div id="detailPayments" class="detail-list"><div class="empty">Loading…</div></div>
+      </div>
+
+      <div class="modal-section">
+        <div class="section-title"><h3>Recent account activity</h3></div>
+        <div id="detailActivity" class="detail-list"><div class="empty">Loading…</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore-compat.js"></script>
+<script src="../js/firebase-init.js"></script>
+<script src="js/admin-users.js"></script>
+</body>
+</html>

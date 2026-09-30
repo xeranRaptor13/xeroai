@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>XeroAI — User Activity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#08090c;--surface:#0d1016;--surface2:#11151d;--line:rgba(255,255,255,.08);--text:#f5f7fb;--muted:#8d96a8;--blue:#5e8eff;--green:#5dd39e;--red:#ff6f7d;--gold:#e8bd67}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:"Plus Jakarta Sans",sans-serif}.shell{min-height:100vh;display:flex}.side{width:238px;border-right:1px solid var(--line);background:#090b10;padding:24px 16px;display:flex;flex-direction:column}.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font:700 21px "Space Grotesk";padding:8px 10px 26px}.mark{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#5e8eff,#8fb1ff);display:grid;place-items:center;color:#08101e;font-weight:800}.nav{display:grid;gap:5px}.nav a{color:#9aa3b5;text-decoration:none;padding:11px 12px;border-radius:10px;font-size:13px}.nav a:hover,.nav a.active{background:rgba(94,142,255,.11);color:#fff}.foot{margin-top:auto;border-top:1px solid var(--line);padding:18px 10px 6px;display:grid;gap:10px}.foot button{border:1px solid var(--line);background:transparent;color:#aab2c2;border-radius:9px;padding:9px;cursor:pointer}.main{flex:1;min-width:0;padding:34px 38px}.head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:22px}.eyebrow{font:600 10px "JetBrains Mono";letter-spacing:.14em;color:var(--blue);margin-bottom:8px}h1{font:600 32px "Space Grotesk";margin:0 0 7px}.head p{margin:0;color:var(--muted);font-size:13px}.session{border:1px solid var(--line);background:var(--surface);padding:10px 13px;border-radius:10px;font:500 11px "JetBrains Mono";color:#9ea8b9}.bar{display:grid;grid-template-columns:minmax(260px,1fr) 170px 110px;gap:10px;margin-bottom:14px}.bar input,.bar select,.bar button{height:42px;border:1px solid var(--line);background:var(--surface);color:#eef2f8;border-radius:10px;padding:0 12px;outline:none}.bar button{cursor:pointer}.card{border:1px solid var(--line);background:var(--surface);border-radius:14px;overflow:hidden}.cardhead{height:56px;padding:0 17px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);font-size:12px}.count{color:var(--muted);font:500 10px "JetBrains Mono"}.scroll{overflow:auto}table{width:100%;border-collapse:collapse;min-width:900px}th,td{text-align:left;padding:13px 15px;border-bottom:1px solid rgba(255,255,255,.055);font-size:11px}th{color:#697386;font:500 10px "JetBrains Mono";text-transform:uppercase;letter-spacing:.08em;background:#0b0e13}td{color:#dce1ea}.mono{font:10px "JetBrains Mono"}.presence{display:inline-flex;align-items:center;gap:7px;font:500 10px "JetBrains Mono"}.dot{width:7px;height:7px;border-radius:50%;background:#667085}.online{color:var(--green)}.online .dot{background:var(--green);box-shadow:0 0 7px var(--green)}.recent{color:var(--blue)}.recent .dot{background:var(--blue)}.offline{color:#778092}.event{display:inline-flex;padding:4px 8px;border-radius:999px;border:1px solid var(--line);font:500 9px "JetBrains Mono"}.login{color:var(--green);border-color:rgba(93,211,158,.2);background:rgba(93,211,158,.07)}.logout{color:#aab2c2}.actions button{border:1px solid rgba(255,111,125,.22);background:rgba(255,111,125,.06);color:#ff9aa4;border-radius:8px;padding:7px 9px;font-size:10px;cursor:pointer}.empty{text-align:center;color:var(--muted);padding:35px}.danger{color:var(--red)}.toast{position:fixed;right:22px;bottom:22px;background:#11151d;border:1px solid var(--line);padding:12px 15px;border-radius:10px;box-shadow:0 18px 50px rgba(0,0,0,.45);font-size:12px;display:none}.toast.show{display:block}@media(max-width:760px){.side{display:none}.main{padding:22px 16px}.head{display:block}.session{display:inline-block;margin-top:14px}.bar{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="side">
+<a class="brand" href="dashboard.html"><span class="mark">X</span><span>XeroAI</span></a>
+<nav class="nav">
+<a href="dashboard.html">Dashboard</a><a href="users.html">Users</a><a href="payments.html">Payments</a><a href="subscriptions.html">Subscriptions</a><a class="active" href="user-activity.html">User Activity</a><a href="audit.html">Audit Log</a><a href="trading-connections.html">Trading Connections</a>
+</nav>
+<div class="foot"><span style="font:500 10px 'JetBrains Mono';color:#667085">ADMIN CONSOLE</span><button id="signOut">Sign out</button></div>
+</aside>
+<main class="main">
+<header class="head"><div><div class="eyebrow">REAL-TIME MONITORING</div><h1>User Activity</h1><p>Live login, logout and last-seen activity for XeroAI accounts.</p></div><div class="session"><span id="adminEmail">Checking session…</span></div></header>
+<div class="bar"><input id="search" type="search" placeholder="Search name, email or account ID"><select id="filter"><option value="">All presence</option><option value="online">Online</option><option value="recent">Recently active</option><option value="offline">Offline</option></select><button id="refresh">Refresh</button></div>
+<section class="card"><div class="cardhead"><span>Live user sessions</span><span class="count" id="count">Loading…</span></div><div class="scroll"><table><thead><tr><th>User</th><th>Presence</th><th>Last seen</th><th>Last login</th><th>Last logout</th><th>Recent event</th><th>Action</th></tr></thead><tbody id="body"><tr><td colspan="7" class="empty">Loading activity…</td></tr></tbody></table></div></section>
+</main></div><div id="toast" class="toast"></div>
+<script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-functions-compat.js"></script>
+<script src="../js/firebase-init.js"></script>
+<script>
+(function(){
+'use strict';
+var ADMINS=['ezemariaezemaria77@gmail.com','xeranraptor@gmail.com'],auth=window.xeroaiAuth,db=window.xeroaiDb,users=[],presence={},events={};
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function d(v){return v&&v.toDate?v.toDate():null}
+function fmt(v){var x=d(v);return x?x.toLocaleString('en-US',{month:'short',day:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit'}):'—'}
+function age(v){var x=d(v);return x?Math.floor((Date.now()-x.getTime())/1000):999999}
+function state(p){var s=age(p&&p.lastSeenAt);if(p&&p.online&&s<120)return'online';if(s<300)return'recent';return'offline'}
+function toast(t){var x=document.getElementById('toast');x.textContent=t;x.classList.add('show');setTimeout(function(){x.classList.remove('show')},2600)}
+async function load(){
+ try{
+  var snap=await db.collection('users').get();
+  users=snap.docs.map(function(x){var u=x.data()||{};u.uid=x.id;return u});
+  var ps=await db.collectionGroup('presence').get();
+  presence={};ps.forEach(function(x){var path=x.ref.path.split('/');presence[path[1]]=x.data()||{}});
+  events={};
+  await Promise.all(users.map(async function(u){
+   try{
+    var a=await db.collection('users').doc(u.uid).collection('activity').orderBy('createdAt','desc').limit(50).get();
+    var ev=a.docs.map(function(x){var z=x.data()||{};z.id=x.id;return z});
+    events[u.uid]=ev;
+   }catch(e){events[u.uid]=[]}
+  }));
+  render();
+ }catch(e){console.error(e);document.getElementById('body').innerHTML='<tr><td colspan="7" class="empty">Unable to load activity. Check the deployed Firestore rules.</td></tr>'}
+}
+function render(){
+ var q=document.getElementById('search').value.trim().toLowerCase(),f=document.getElementById('filter').value;
+ var list=users.filter(function(u){
+  var p=presence[u.uid]||{},st=state(p);
+  if(f&&st!==f)return false;
+  return !q||[u.fullName,u.email,u.accountId,u.uid].join(' ').toLowerCase().indexOf(q)>-1;
+ });
+ document.getElementById('count').textContent=list.length+' user'+(list.length===1?'':'s');
+ if(!list.length){document.getElementById('body').innerHTML='<tr><td colspan="7" class="empty">No users match this filter.</td></tr>';return}
+ document.getElementById('body').innerHTML=list.map(function(u){
+  var p=presence[u.uid]||{},st=state(p),ev=(events[u.uid]||[]),login=ev.find(function(x){return /signed in/i.test(x.message||'')}),logout=ev.find(function(x){return /signed out/i.test(x.message||'')});
+  var cls=st==='online'?'online':st==='recent'?'recent':'offline',label=st==='online'?'Online':st==='recent'?'Recently active':'Offline';
+  var latest=ev[0];
+  return '<tr data-uid="'+esc(u.uid)+'"><td><strong>'+esc(u.fullName||'Unknown user')+'</strong><br><span class="mono">'+esc(u.email||'—')+'</span><br><span class="mono">'+esc(u.accountId||'—')+'</span></td><td><span class="presence '+cls+'"><span class="dot"></span>'+label+'</span></td><td class="mono">'+esc(fmt(p.lastSeenAt))+'</td><td class="mono">'+esc(fmt(login&&login.createdAt))+'</td><td class="mono">'+esc(fmt(logout&&logout.createdAt))+'</td><td><span class="event '+(/signed in/i.test((latest||{}).message||'')?'login':'logout')+'">'+esc(latest?latest.message:'No activity')+'</span><br><span class="mono">'+esc(fmt(latest&&latest.createdAt))+'</span></td><td class="actions"><button data-delete="1">Delete</button></td></tr>'
+ }).join('');
+}
+async function deleteUser(uid){
+ var u=users.find(function(x){return x.uid===uid});if(!u)return;
+ var name=u.fullName||u.email||u.accountId||uid;
+ if(!confirm('Delete '+name+' permanently?\\n\\nThis removes the Firebase Authentication account and associated XeroAI Firestore data. This cannot be undone.'))return;
+ try{
+  var fn=firebase.functions();
+  var callable=fn.httpsCallable('deleteUserAccount');
+  await callable({uid:uid});
+  await db.collection('admin_audit').add({action:'delete_user_account',targetUserId:uid,targetEmail:u.email||null,targetName:u.fullName||null,adminEmail:auth.currentUser.email,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+  toast('User account deleted.');
+  load();
+ }catch(e){console.error(e);toast((e&&e.message)||'Unable to delete this account.')}
+}
+document.getElementById('search').addEventListener('input',render);document.getElementById('filter').addEventListener('change',render);document.getElementById('refresh').addEventListener('click',load);
+document.getElementById('body').addEventListener('click',function(e){var b=e.target.closest('[data-delete]');if(b)deleteUser(b.closest('tr').dataset.uid)});
+document.getElementById('signOut').addEventListener('click',function(){auth.signOut().then(function(){location.href='login.html'})});
+auth.onAuthStateChanged(function(u){
+ if(!u||!u.emailVerified||ADMINS.indexOf(String(u.email||'').toLowerCase())<0){if(u)auth.signOut();location.href='login.html';return}
+ document.getElementById('adminEmail').textContent=u.email;load();
+});
+setInterval(function(){if(users.length)render()},30000);
+})();
+</script>
+</body></html>

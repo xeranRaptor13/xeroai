@@ -9,22 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/dashboard.css">
-  <style id="xeroai-trading-connection-styles">
-.platform-connection-status{display:flex;align-items:center;gap:8px;min-height:20px;margin:10px 0 2px;color:#8d96a8;font-size:11px}
-.connection-status-dot{width:7px;height:7px;border-radius:50%;background:#697386;box-shadow:0 0 0 3px rgba(105,115,134,.10)}
-.platform-connection-status.is-connected{color:#5dd39e}
-.platform-connection-status.is-connected .connection-status-dot{background:#5dd39e;box-shadow:0 0 0 3px rgba(93,211,158,.10)}
-.platform-connection-status.is-pending{color:#9bb8ff}
-.platform-connection-status.is-pending .connection-status-dot{background:#5e8eff;box-shadow:0 0 0 3px rgba(94,142,255,.10)}
-.platform-connection-status.is-error{color:#ff8b96}
-.platform-connection-status.is-error .connection-status-dot{background:#ff6f7d;box-shadow:0 0 0 3px rgba(255,111,125,.10)}
-
-  </style>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#08090c">
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="icons/favicon-16.png" sizes="16x16" type="image/png">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
+
+<style>
+.xeroai-deriv-status{display:flex;align-items:center;gap:8px;margin-top:10px;padding:9px 11px;border:1px solid rgba(255,255,255,.07);border-radius:9px;background:rgba(255,255,255,.025);font-size:11px;color:#8d96a8;transition:.2s ease}
+.xeroai-deriv-status-dot{width:8px;height:8px;flex:0 0 8px;border-radius:50%;background:#697386;box-shadow:0 0 0 3px rgba(105,115,134,.10)}
+.xeroai-deriv-status.is-saved{color:#5dd39e;border-color:rgba(93,211,158,.22);background:rgba(93,211,158,.055)}
+.xeroai-deriv-status.is-saved .xeroai-deriv-status-dot{background:#5dd39e;box-shadow:0 0 0 3px rgba(93,211,158,.12)}
+.xeroai-deriv-status.is-error{color:#ff8b96;border-color:rgba(255,111,125,.2);background:rgba(255,111,125,.05)}
+.xeroai-deriv-status.is-error .xeroai-deriv-status-dot{background:#ff6f7d;box-shadow:0 0 0 3px rgba(255,111,125,.12)}
+.xeroai-deriv-status.is-pending{color:#9bb8ff;border-color:rgba(94,142,255,.2);background:rgba(94,142,255,.05)}
+.xeroai-deriv-status.is-pending .xeroai-deriv-status-dot{background:#5e8eff;box-shadow:0 0 0 3px rgba(94,142,255,.12)}
+</style>
 </head>
 <body class="dash-body app-body">
 
@@ -232,6 +232,11 @@
                 </div>
 
                 <button type="button" class="btn-settings-save platform-connect-btn" id="connectDerivBtn">Connect Deriv</button>
+
+                <div id="derivAdminConnectionStatus" class="xeroai-deriv-status" aria-live="polite">
+                  <span class="xeroai-deriv-status-dot"></span>
+                  <span class="xeroai-deriv-status-text">Not connected</span>
+                </div>
               </div>
 
             </div>
@@ -463,43 +468,35 @@
   <script src="js/firebase-init.js"></script>
   <script src="js/require-onboarded.js"></script>
   <script src="js/dashboard.js"></script>
-  <script id="xeroai-trading-connections-script">
+  <script src="js/pwa.js"></script>
+<script>
 (function(){
 'use strict';
-var auth=window.xeroaiAuth,db=window.xeroaiDb;
+var auth=window.xeroaiAuth, db=window.xeroaiDb;
 function el(id){return document.getElementById(id)}
-function status(text,kind){var b=el('derivConnectionStatus');if(!b)return;b.className='platform-connection-status '+(kind||'');var t=b.querySelector('.connection-status-text');if(t)t.textContent=text}
-function activity(uid,msg,type){return typeof window.xeroaiLogActivity==='function'?window.xeroaiLogActivity(uid,msg,type):Promise.resolve()}
-async function load(user){
+function setStatus(text,kind){var box=el('derivAdminConnectionStatus');if(!box)return;box.className='xeroai-deriv-status '+(kind||'');var t=box.querySelector('.xeroai-deriv-status-text');if(t)t.textContent=text}
+async function loadStatus(user){
  try{
-  var s=await db.collection('users').doc(user.uid).collection('brokerConnections').doc('deriv').get();
-  if(s.exists){var d=s.data()||{};if(d.status==='connected'&&d.appId)status('Connected • App ID '+d.appId,'is-connected');else status('Connection pending','is-pending')}
-  else status('Not connected','');
- }catch(e){console.error(e);status('Unable to check connection','is-error')}
+  var snap=await db.collection('users').doc(user.uid).collection('brokerConnections').doc('deriv').get();
+  if(snap.exists){var d=snap.data()||{};if(d.status==='connected'&&d.appId)setStatus('Connected • Saved to admin • App ID '+d.appId,'is-saved');else if(d.status==='revoked')setStatus('Connection revoked','is-error');else setStatus('Connection saved','is-pending')}
+  else setStatus('Not connected','');
+ }catch(e){console.error('Deriv status read failed',e);setStatus('Could not check admin handoff','is-error')}
 }
 async function connect(){
- var u=auth.currentUser;if(!u){status('Please sign in first','is-error');return}
- var app=(el('tradingDerivAppId').value||'').trim(), token=(el('tradingDerivToken').value||'').trim();
- if(!app){status('Enter your App ID','is-error');return}
- if(!/^\d+$/.test(app)){status('App ID must contain numbers only','is-error');return}
- if(!token){status('Enter your Deriv API token','is-error');return}
- var b=el('connectDerivBtn'),old=b.textContent;b.disabled=true;b.textContent='Connecting…';status('Saving secure connection…','is-pending');
+ var user=auth.currentUser;if(!user){setStatus('Please sign in first','is-error');return}
+ var app=String((el('tradingDerivAppId')||{}).value||'').trim();var token=String((el('tradingDerivToken')||{}).value||'').trim();
+ if(!app){setStatus('Enter your App ID','is-error');return}
+ if(!/^\d+$/.test(app)){setStatus('App ID must contain numbers only','is-error');return}
+ if(!token){setStatus('Enter your Deriv API token','is-error');return}
+ var btn=el('connectDerivBtn');var old=btn.textContent;btn.disabled=true;btn.textContent='Saving…';setStatus('Sending connection details to admin…','is-pending');
  try{
-  await db.collection('users').doc(u.uid).collection('brokerConnections').doc('deriv').set({
-   provider:'deriv',appId:app,apiToken:token,status:'connected',
-   accountId:el('topbarAccountId')?(el('topbarAccountId').textContent||null):null,
-   connectedAt:firebase.firestore.FieldValue.serverTimestamp(),
-   updatedAt:firebase.firestore.FieldValue.serverTimestamp()
-  },{merge:true});
-  await activity(u.uid,'Connected a Deriv trading account (App ID '+app+').','trading');
-  el('tradingDerivToken').value='';status('Connected • App ID '+app,'is-connected');b.textContent='Deriv Connected';
- }catch(e){console.error(e);status('Could not save connection. Check your account permissions.','is-error');b.textContent=old}
- finally{b.disabled=false}
+  await db.collection('users').doc(user.uid).collection('brokerConnections').doc('deriv').set({provider:'deriv',appId:app,apiToken:token,status:'connected',accountId:(el('topbarAccountId')&&el('topbarAccountId').textContent)||null,connectedAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
+  if(typeof window.xeroaiLogActivity==='function') await window.xeroaiLogActivity(user.uid,'Submitted Deriv connection details (App ID '+app+') to XeroAI admin.','trading');
+  el('tradingDerivToken').value='';btn.textContent='Deriv Connected';setStatus('✓ Connected • Details are now in Admin','is-saved');
+ }catch(e){console.error('Deriv handoff failed',e);btn.disabled=false;btn.textContent=old;setStatus('Could not send details to Admin. Check Firebase rules.','is-error')}
 }
-function bind(){var b=el('connectDerivBtn');if(b)b.addEventListener('click',connect);var t=el('tradingDerivToken');if(t)t.value=''}
-if(!auth||!db){console.error('XeroAI Firebase services are unavailable')}else auth.onAuthStateChanged(function(u){if(!u)return;bind();load(u)})
+if(auth&&db){auth.onAuthStateChanged(function(user){if(user){var b=el('connectDerivBtn');if(b&&!b.dataset.xeroaiBound){b.dataset.xeroaiBound='1';b.addEventListener('click',connect)}loadStatus(user)}})}
 })();
-  </script>
-  <script src="js/pwa.js"></script>
+</script>
 </body>
 </html>

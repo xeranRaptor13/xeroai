@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>User Activity — XeroAI Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin-dashboard.css">
+  <link rel="stylesheet" href="css/admin-activity.css">
+</head>
+<body>
+  <div class="admin-shell">
+    <header class="topbar">
+      <a class="brand" href="dashboard.html" aria-label="XeroAI Admin">
+        <span class="brand-mark"><span></span><span></span><span></span></span>
+        <span class="brand-name">XeroAI <b>ADMIN</b></span>
+      </a>
+      <div class="topbar-right">
+        <span class="admin-email" id="adminEmail">Checking session…</span>
+        <button class="ghost-btn" id="signOutBtn">Sign out</button>
+      </div>
+    </header>
+
+    <aside class="sidebar">
+      <nav>
+        <a href="dashboard.html">Overview</a>
+        <a href="users.html">Users</a>
+        <a href="payments.html">Payments</a>
+        <a href="subscriptions.html">Subscriptions</a>
+        <a class="active" href="activity.html">User Activity</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <div class="page-heading">
+        <div>
+          <p class="eyebrow">OPERATIONS / ACTIVITY</p>
+          <h1>User Activity</h1>
+          <p class="subheading">Review the activity recorded inside each XeroAI user account.</p>
+        </div>
+        <button class="ghost-btn" id="refreshBtn">Refresh</button>
+      </div>
+
+      <section class="activity-layout">
+        <div class="panel users-panel">
+          <div class="panel-head">
+            <div>
+              <h2>Users</h2>
+              <span class="muted" id="userCount">Loading…</span>
+            </div>
+            <span class="live-dot">LIVE</span>
+          </div>
+          <div class="search-wrap">
+            <input id="userSearch" type="search" placeholder="Search name, email or account ID…" autocomplete="off">
+          </div>
+          <div id="userList" class="user-list">
+            <div class="loading-row">Loading users…</div>
+          </div>
+        </div>
+
+        <div class="panel timeline-panel">
+          <div class="panel-head activity-head">
+            <div>
+              <h2 id="activityTitle">Select a user</h2>
+              <span class="muted" id="activityMeta">Choose an account to view its activity.</span>
+            </div>
+            <div class="filters">
+              <select id="typeFilter" aria-label="Activity type">
+                <option value="all">All activity</option>
+                <option value="success">Success</option>
+                <option value="info">Info</option>
+                <option value="warning">Warning</option>
+                <option value="error">Error</option>
+              </select>
+              <select id="dateFilter" aria-label="Activity date">
+                <option value="all">All time</option>
+                <option value="7">Last 7 days</option>
+                <option value="30">Last 30 days</option>
+                <option value="90">Last 90 days</option>
+              </select>
+            </div>
+          </div>
+          <div id="timeline" class="timeline empty-state">
+            <div class="empty-icon">◎</div>
+            <h3>No user selected</h3>
+            <p>Select an account from the left to inspect its recorded activity.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+  <script src="../js/firebase-init.js"></script>
+  <script src="js/admin-activity.js"></script>
+</body>
+</html>

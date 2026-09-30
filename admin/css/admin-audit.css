@@ -1,0 +1,43 @@
+/* XeroAI Admin Audit — uses the existing XeroAI admin visual language */
+:root{
+  --bg:#08090c;--surface:#0d1016;--surface2:#11151d;--line:rgba(255,255,255,.08);
+  --text:#f5f7fb;--muted:#8d96a8;--blue:#5e8eff;--green:#5dd39e;--danger:#ff6f7d;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Plus Jakarta Sans",sans-serif}
+.admin-shell{min-height:100vh;display:flex}
+.admin-sidebar{width:238px;border-right:1px solid var(--line);background:#090b10;padding:24px 16px;display:flex;flex-direction:column}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-family:"Space Grotesk";font-size:21px;font-weight:700;padding:8px 10px 26px}
+.brand-mark{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#5e8eff,#8fb1ff);color:#08101e;font-weight:800}
+.admin-sidebar nav{display:grid;gap:6px}
+.admin-sidebar nav a{color:#9aa3b5;text-decoration:none;padding:11px 12px;border-radius:10px;font-size:13px}
+.admin-sidebar nav a:hover,.admin-sidebar nav a.active{background:rgba(94,142,255,.11);color:#fff}
+.sidebar-foot{margin-top:auto;border-top:1px solid var(--line);padding:18px 10px 6px;display:grid;gap:10px}
+.sidebar-foot span{font:500 10px "JetBrains Mono";color:#667085}
+.sidebar-foot button{border:0;background:transparent;color:#aab2c2;text-align:left;padding:0;cursor:pointer}
+.admin-main{flex:1;min-width:0;padding:34px 38px}
+.page-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:28px}
+.eyebrow{font:600 10px "JetBrains Mono";letter-spacing:.14em;color:var(--blue);margin-bottom:8px}
+h1{font:600 32px "Space Grotesk";margin:0 0 7px}
+.page-head p{margin:0;color:var(--muted);font-size:13px}
+.admin-pill{border:1px solid var(--line);background:var(--surface);padding:10px 13px;border-radius:10px;font:500 11px "JetBrains Mono";color:#9ea8b9}
+.audit-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.stat-card{border:1px solid var(--line);background:var(--surface);border-radius:13px;padding:18px}
+.stat-card span{display:block;color:var(--muted);font-size:11px;margin-bottom:9px}
+.stat-card strong{font:600 22px "Space Grotesk";letter-spacing:-.02em}
+.toolbar{display:grid;grid-template-columns:minmax(260px,1fr) 180px 180px 160px;gap:10px;margin-bottom:14px}
+.toolbar input,.toolbar select{width:100%;height:42px;border:1px solid var(--line);background:var(--surface);color:#eef2f8;border-radius:10px;padding:0 12px;outline:none}
+.toolbar input:focus,.toolbar select:focus{border-color:rgba(94,142,255,.65);box-shadow:0 0 0 3px rgba(94,142,255,.08)}
+.audit-card{border:1px solid var(--line);background:var(--surface);border-radius:14px;overflow:hidden}
+.table-head{height:52px;padding:0 17px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);font-size:12px}
+.table-head span:last-child{color:var(--muted);font:500 10px "JetBrains Mono"}
+.table-scroll{overflow:auto}
+table{width:100%;border-collapse:collapse;min-width:900px}
+th,td{text-align:left;padding:13px 15px;border-bottom:1px solid rgba(255,255,255,.055);font-size:11px}
+th{color:#697386;font:500 10px "JetBrains Mono";text-transform:uppercase;letter-spacing:.08em;background:#0b0e13}
+td{color:#dce1ea}
+td.mono{font-family:"JetBrains Mono";font-size:10px}
+.action-badge{display:inline-flex;border:1px solid rgba(94,142,255,.22);background:rgba(94,142,255,.08);color:#9bb8ff;border-radius:999px;padding:4px 7px;font:500 9px "JetBrains Mono"}
+.empty{text-align:center;color:var(--muted);padding:34px}
+@media(max-width:1050px){.audit-stats{grid-template-columns:repeat(2,1fr)}.toolbar{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.admin-sidebar{display:none}.admin-main{padding:22px 16px}.page-head{display:block}.admin-pill{display:inline-block;margin-top:15px}.audit-stats{grid-template-columns:1fr 1fr}.toolbar{grid-template-columns:1fr}.stat-card strong{font-size:19px}}

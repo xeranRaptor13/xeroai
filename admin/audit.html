@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XeroAI — Admin Audit Log</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin-dashboard.css">
+  <link rel="stylesheet" href="css/admin-audit.css">
+</head>
+<body>
+  <div class="admin-shell">
+    <aside class="admin-sidebar">
+      <a class="brand" href="dashboard.html" aria-label="XeroAI Admin">
+        <span class="brand-mark">X</span><span>XeroAI</span>
+      </a>
+      <nav>
+        <a href="dashboard.html">Overview</a>
+        <a href="users.html">Users</a>
+        <a href="payments.html">Payments</a>
+        <a href="subscriptions.html">Subscriptions</a>
+        <a class="active" href="audit.html">Audit Log</a>
+      </nav>
+      <div class="sidebar-foot">
+        <span>ADMIN CONSOLE</span>
+        <button id="signOutBtn" type="button">Sign out</button>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <header class="page-head">
+        <div>
+          <div class="eyebrow">SECURITY / ADMIN</div>
+          <h1>Audit Log</h1>
+          <p>Review administrative actions recorded across XeroAI.</p>
+        </div>
+        <div class="admin-pill"><span id="adminEmail">Checking session…</span></div>
+      </header>
+
+      <section class="audit-stats">
+        <div class="stat-card"><span>Total actions</span><strong id="totalActions">—</strong></div>
+        <div class="stat-card"><span>Today</span><strong id="todayActions">—</strong></div>
+        <div class="stat-card"><span>Admins active</span><strong id="activeAdmins">—</strong></div>
+        <div class="stat-card"><span>Latest action</span><strong id="latestAction">—</strong></div>
+      </section>
+
+      <section class="toolbar">
+        <div class="search-wrap">
+          <input id="searchInput" type="search" placeholder="Search action, admin, email, user ID…">
+        </div>
+        <select id="adminFilter">
+          <option value="">All admins</option>
+        </select>
+        <select id="actionFilter">
+          <option value="">All actions</option>
+        </select>
+        <select id="timeFilter">
+          <option value="all">All time</option>
+          <option value="today">Today</option>
+          <option value="7">Last 7 days</option>
+          <option value="30" selected>Last 30 days</option>
+          <option value="90">Last 90 days</option>
+        </select>
+      </section>
+
+      <section class="audit-card">
+        <div class="table-head">
+          <span>Administrative activity</span>
+          <span id="resultCount">Loading…</span>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Date / time</th>
+                <th>Admin</th>
+                <th>Action</th>
+                <th>Target</th>
+                <th>Target email</th>
+                <th>User ID</th>
+              </tr>
+            </thead>
+            <tbody id="auditBody">
+              <tr><td colspan="6" class="empty">Loading audit events…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+  <script src="../js/firebase-init.js"></script>
+  <script src="js/admin-audit.js"></script>
+</body>
+</html>

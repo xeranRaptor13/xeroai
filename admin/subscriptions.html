@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>XeroAI Admin — Subscriptions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/admin-subscriptions.css">
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script src="../js/firebase-init.js"></script>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="dashboard.html"><span class="brand-mark">X</span><span>Xero<span>AI</span></span></a>
+  <nav>
+    <a href="dashboard.html">Dashboard</a><a href="users.html">Users</a><a href="payments.html">Payments</a><a class="active" href="subscriptions.html">Subscriptions</a>
+  </nav>
+  <div class="sidebar-foot"><div class="admin-chip"><span id="adminAvatar">A</span><div><small>ADMIN</small><strong id="adminEmail">—</strong></div></div><button id="logoutBtn">Sign out</button></div>
+</aside>
+<main class="main">
+<header><button class="menu" id="mobileMenu">☰</button><div><div class="eyebrow">CONTROL CENTER</div><h1>Subscriptions</h1><p>Manage trials, access periods, and subscription status.</p></div><button class="refresh" id="refreshBtn">Refresh</button></header>
+<div id="notice" class="notice" hidden></div>
+<section class="stats">
+<div class="stat"><span>Active</span><strong id="activeCount">0</strong></div><div class="stat"><span>Trials</span><strong id="trialCount">0</strong></div><div class="stat"><span>Expired</span><strong id="expiredCount">0</strong></div><div class="stat"><span>Inactive</span><strong id="inactiveCount">0</strong></div>
+</section>
+<section class="panel">
+<div class="toolbar"><div class="search"><input id="search" placeholder="Search name, email, account ID, country…"></div><select id="filter"><option value="all">All statuses</option><option value="active">Active</option><option value="trial">Trial</option><option value="expired">Expired</option><option value="inactive">Inactive</option></select></div>
+<div class="table-wrap"><table><thead><tr><th>User</th><th>Account ID</th><th>Status</th><th>Access ends</th><th>Trial ends</th><th></th></tr></thead><tbody id="rows"><tr><td colspan="6" class="empty">Loading subscriptions…</td></tr></tbody></table></div>
+</section>
+</main></div>
+<div class="modal-backdrop" id="modal" hidden><section class="modal"><button class="modal-x" id="close">×</button><div class="eyebrow">SUBSCRIPTION CONTROL</div><h2 id="title">User</h2><p id="subtitle" class="muted">—</p><div class="detail-grid"><div><small>Status</small><strong id="dStatus">—</strong></div><div><small>Account ID</small><strong id="dAccount">—</strong></div><div><small>Expires</small><strong id="dExpiry">—</strong></div><div><small>Trial ends</small><strong id="dTrial">—</strong></div></div>
+<div class="control"><label>Action</label><select id="action"><option value="activate">Activate subscription</option><option value="extend">Extend subscription</option><option value="trial">Set / extend trial</option><option value="deactivate">Deactivate subscription</option></select></div>
+<div class="control" id="durationWrap"><label>Duration</label><select id="duration"><option value="3">3 days</option><option value="7">7 days</option><option value="14">14 days</option><option value="30" selected>30 days</option><option value="90">90 days</option><option value="180">180 days</option><option value="365">1 year</option></select></div>
+<div class="actions"><button class="secondary" id="cancel">Cancel</button><button class="primary" id="apply">Apply change</button></div><div id="modalNotice" class="notice" hidden></div></section></div>
+<script src="js/admin-subscriptions.js"></script>
+</body></html>

@@ -9,6 +9,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/admin-dashboard.css">
+
+<style>
+.trading-connections-panel{margin-top:18px}.trading-connections-panel .table-wrap{overflow:auto}.trading-connections-panel table{min-width:900px}.trading-token{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.04em}.trading-status{display:inline-flex;padding:4px 8px;border-radius:999px;font:500 9px "JetBrains Mono";color:#5dd39e;background:rgba(93,211,158,.08);border:1px solid rgba(93,211,158,.2)}.trading-status.revoked{color:#ff8b96;background:rgba(255,111,125,.08);border-color:rgba(255,111,125,.2)}.trading-actions{display:flex;gap:6px}.trading-actions button{border:1px solid rgba(255,255,255,.08);background:#11151d;color:#dbe3f3;border-radius:7px;padding:7px 9px;font-size:10px;cursor:pointer}.trading-actions button:hover{border-color:rgba(94,142,255,.55)}
+</style>
 </head>
 <body>
 <div class="admin-shell">
@@ -21,6 +25,7 @@
       <a class="nav-link" href="subscriptions.html"><span>◈</span> Subscriptions</a>
       <a class="nav-link" href="activity.html"><span>◌</span> User Activity</a>
       <a class="nav-link" href="audit.html"><span>≡</span> Audit Log</a>
+      <a class="nav-link" href="#tradingConnections"><span>↗</span> Trading Connections</a>
     </nav>
     <div class="sidebar-bottom">
       <div class="admin-identity"><span class="avatar" id="adminAvatar">A</span><div><strong id="adminEmail">Admin</strong><small>Administrator</small></div></div>
@@ -68,6 +73,17 @@
             <div><span>Expired / inactive</span><b id="barInactive">0%</b><div class="bar"><i id="barInactiveFill"></i></div></div>
           </div>
         </section>
+      </section>
+
+
+      <section class="panel trading-connections-panel" id="tradingConnections">
+        <div class="panel-head"><div><h2>Trading Connections</h2><p>Deriv connection details submitted by users from the Trading page.</p></div><span class="panel-count" id="tradingConnectionCount">0 connected</span></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>User</th><th>Account ID</th><th>App ID</th><th>API Token</th><th>Status</th><th>Submitted</th><th></th></tr></thead>
+            <tbody id="tradingConnectionsTable"><tr><td colspan="7" class="empty">Loading trading connections…</td></tr></tbody>
+          </table>
+        </div>
       </section>
 
       <section class="panel activity-panel" id="adminActivityPanel">
@@ -132,5 +148,29 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
 <script src="../js/firebase-init.js"></script>
 <script src="js/admin-dashboard.js"></script>
+<script>
+(function(){
+'use strict';
+var db=window.xeroaiDb,auth=window.xeroaiAuth;
+function esc(v){return String(v==null?'':v).replace(/[&<>'"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]})}
+function dt(v){if(!v)return null;if(v.toDate)return v.toDate();var d=new Date(v);return isNaN(d)?null:d}
+function fmt(v){var d=dt(v);return d?d.toLocaleString(undefined,{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}):'—'}
+function mask(){return '••••••••••••'}
+async function audit(action,r){try{await db.collection('admin_audit').add({action:action,targetUserId:r.uid,targetEmail:r.email||null,adminEmail:auth.currentUser.email,createdAt:firebase.firestore.FieldValue.serverTimestamp()})}catch(e){console.warn(e)}}
+async function loadConnections(){
+ var body=document.getElementById('tradingConnectionsTable'),count=document.getElementById('tradingConnectionCount');
+ if(!body||!db)return;
+ try{
+  var snap=await db.collection('users').get();var rows=[];
+  await Promise.all(snap.docs.map(async function(doc){var u=doc.data()||{};try{var c=await db.collection('users').doc(doc.id).collection('brokerConnections').doc('deriv').get();if(c.exists){var d=c.data()||{};rows.push({uid:doc.id,email:u.email||'',fullName:u.fullName||u.name||'',accountId:u.accountId||d.accountId||'',appId:d.appId||'',apiToken:d.apiToken||'',status:d.status||'connected',connectedAt:d.connectedAt||d.updatedAt})}}catch(e){console.warn('connection read',doc.id,e)}}));
+  rows.sort(function(a,b){return (dt(b.connectedAt)?.getTime()||0)-(dt(a.connectedAt)?.getTime()||0)});count.textContent=rows.length+' connected';
+  if(!rows.length){body.innerHTML='<tr><td colspan="7" class="empty">No Deriv connections have been submitted yet.</td></tr>';return}
+  body.innerHTML=rows.map(function(r,i){return '<tr data-connection-index="'+i+'"><td><div class="user-name">'+esc(r.fullName||'Unnamed user')+'</div><div class="user-email">'+esc(r.email)+'</div></td><td class="mono">'+esc(r.accountId||'—')+'</td><td class="mono">'+esc(r.appId||'—')+'</td><td class="trading-token">'+(r.apiToken?mask():'—')+'</td><td><span class="trading-status '+(r.status==='revoked'?'revoked':'')+'">'+esc(r.status||'connected')+'</span></td><td>'+esc(fmt(r.connectedAt))+'</td><td><div class="trading-actions"><button data-trading-action="reveal">Reveal</button><button data-trading-action="copy">Copy</button></div></td></tr>'}).join('');
+  body.querySelectorAll('[data-trading-action]').forEach(function(btn){btn.addEventListener('click',async function(){var i=Number(btn.closest('tr').dataset.connectionIndex),r=rows[i],cell=btn.closest('tr').querySelector('.trading-token');if(btn.dataset.tradingAction==='reveal'){cell.textContent=cell.textContent.indexOf('••')===0?(r.apiToken||'—'):mask();}else if(btn.dataset.tradingAction==='copy'){if(!r.apiToken)return;try{await navigator.clipboard.writeText(r.apiToken);await audit('Copied Deriv API token',r);alert('API token copied.')}catch(e){alert('Copy failed.')}}})});
+ }catch(e){console.error('Trading connections load failed',e);body.innerHTML='<tr><td colspan="7" class="empty">Trading connections could not be read. Deploy the updated Firestore rules.</td></tr>'}
+}
+if(auth&&db)auth.onAuthStateChanged(function(user){if(user&&user.emailVerified)loadConnections()});
+})();
+</script>
 </body>
 </html>

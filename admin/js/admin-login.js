@@ -1,143 +1,120 @@
-/* ==========================================================
-   XeroAI Admin — Login
-   Step 1: administrator authentication only.
-
-   IMPORTANT:
-   This page intentionally does not grant Firestore admin powers.
-   Admin-only database operations will be protected by server-side
-   authorization in the later admin/backend steps.
-   ========================================================== */
+/* XeroAI Admin — Google/Gmail-only authentication */
 (function () {
   'use strict';
 
-  // Exact administrator allowlist supplied by the project owner.
-  const ADMIN_EMAILS = new Set([
+  var ADMIN_EMAILS = new Set([
     'ezemariaezemaria77@gmail.com',
-    'xeranraptor@gmail.com'
+    'xeranraptor@gmail.com',
+    'iamnnenna1@gmail.com'
   ]);
 
-  const form = document.getElementById('adminLoginForm');
-  const emailInput = document.getElementById('adminEmail');
-  const passwordInput = document.getElementById('adminPassword');
-  const togglePassword = document.getElementById('togglePassword');
-  const submitBtn = document.getElementById('submitBtn');
-  const submitLabel = document.getElementById('submitLabel');
-  const submitSpinner = document.getElementById('submitSpinner');
-  const formStatus = document.getElementById('formStatus');
-  const emailError = document.getElementById('emailError');
-  const passwordError = document.getElementById('passwordError');
+  var button = document.getElementById('googleAdminSignIn');
+  var label = document.getElementById('googleButtonLabel');
+  var spinner = document.getElementById('googleButtonSpinner');
+  var status = document.getElementById('formStatus');
 
   function normalizeEmail(value) {
     return String(value || '').trim().toLowerCase();
   }
 
   function setStatus(message, type) {
-    formStatus.textContent = message || '';
-    formStatus.className = 'form-status' + (type ? ' is-' + type : '');
-  }
-
-  function clearErrors() {
-    emailError.textContent = '';
-    passwordError.textContent = '';
-    emailInput.classList.remove('has-error');
-    passwordInput.classList.remove('has-error');
+    if (!status) return;
+    status.textContent = message || '';
+    status.className = 'form-status' + (type ? ' is-' + type : '');
   }
 
   function setLoading(loading) {
-    submitBtn.disabled = loading;
-    submitBtn.setAttribute('aria-busy', String(loading));
-    submitSpinner.hidden = !loading;
-    submitLabel.textContent = loading ? 'Authenticating…' : 'Sign In';
+    if (!button) return;
+    button.disabled = loading;
+    if (label) label.textContent = loading ? 'Connecting to Google…' : 'Continue with Google';
+    if (spinner) spinner.hidden = !loading;
   }
 
   function friendlyError(error) {
-    switch (error && error.code) {
-      case 'auth/invalid-credential':
-      case 'auth/wrong-password':
-      case 'auth/user-not-found':
-        return 'The email or password is incorrect.';
-      case 'auth/too-many-requests':
-        return 'Too many unsuccessful attempts. Please wait and try again later.';
-      case 'auth/network-request-failed':
-        return 'A network error occurred. Check your connection and try again.';
-      default:
-        return 'Unable to sign in right now. Please try again.';
-    }
+    var code = error && error.code;
+    var messages = {
+      'auth/popup-closed-by-user': 'Google sign-in was cancelled.',
+      'auth/popup-blocked': 'Your browser blocked the Google sign-in window. Allow pop-ups for xeroai.live and try again.',
+      'auth/unauthorized-domain': 'xeroai.live is not authorized in Firebase Authentication. Add the domain in Firebase Authentication settings.',
+      'auth/network-request-failed': 'A network error occurred. Check your connection and try again.',
+      'auth/account-exists-with-different-credential': 'This Gmail already has a different Firebase sign-in method. The admin account must use Google authentication.'
+    };
+    return messages[code] || 'Google sign-in could not be completed. Please try again.';
   }
 
-  togglePassword.addEventListener('click', function () {
-    const showing = passwordInput.type === 'text';
-    passwordInput.type = showing ? 'password' : 'text';
-    togglePassword.textContent = showing ? 'Show' : 'Hide';
-    togglePassword.setAttribute('aria-pressed', String(!showing));
-    togglePassword.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
-  });
+  if (!button) return;
 
-  form.addEventListener('submit', function (event) {
-    event.preventDefault();
-    clearErrors();
+  button.addEventListener('click', function () {
     setStatus('', '');
-
-    const email = normalizeEmail(emailInput.value);
-    const password = passwordInput.value;
-
-    if (!email) {
-      emailInput.classList.add('has-error');
-      emailError.textContent = 'Enter your administrator email.';
-      emailInput.focus();
-      return;
-    }
-
-    if (!ADMIN_EMAILS.has(email)) {
-      emailInput.classList.add('has-error');
-      emailError.textContent = 'This account is not authorized for admin access.';
-      emailInput.focus();
-      return;
-    }
-
-    if (!password) {
-      passwordInput.classList.add('has-error');
-      passwordError.textContent = 'Enter your password.';
-      passwordInput.focus();
-      return;
-    }
-
     setLoading(true);
 
-    window.xeroaiAuth.signInWithEmailAndPassword(email, password)
-      .then(function (credential) {
-        const user = credential.user;
-        const signedInEmail = normalizeEmail(user && user.email);
+    if (!window.firebase || !window.xeroaiAuth) {
+      setLoading(false);
+      setStatus('Firebase Authentication is not available. Please refresh the page.', 'error');
+      return;
+    }
 
-        // Defense in depth: check the actual Firebase account email too.
-        if (!user || !ADMIN_EMAILS.has(signedInEmail)) {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({
+      prompt: 'select_account'
+    });
+
+    window.xeroaiAuth.signInWithPopup(provider)
+      .then(function (result) {
+        var user = result && result.user;
+        var email = normalizeEmail(user && user.email);
+
+        if (!user || !ADMIN_EMAILS.has(email)) {
           return window.xeroaiAuth.signOut().then(function () {
             throw { code: 'admin/not-authorized' };
           });
         }
 
-        if (!user.emailVerified) {
+        /*
+         * Defense in depth:
+         * Admin must have authenticated through Google, not password.
+         */
+        var isGoogleProvider = (user.providerData || []).some(function (providerInfo) {
+          return providerInfo && providerInfo.providerId === 'google.com';
+        });
+
+        if (!isGoogleProvider) {
+          return window.xeroaiAuth.signOut().then(function () {
+            throw { code: 'admin/google-required' };
+          });
+        }
+
+        if (user.emailVerified === false) {
           return window.xeroaiAuth.signOut().then(function () {
             throw { code: 'admin/email-not-verified' };
           });
         }
 
-        setStatus('Admin authentication successful.', 'success');
+        if (typeof window.xeroaiLogActivity === 'function') {
+          window.xeroaiLogActivity(user.uid, 'Admin signed in with Google.', 'success');
+        }
 
-        // The admin dashboard will be added in the next step.
-        // Keep this redirect isolated to the admin area.
-        window.location.href = 'dashboard.html';
+        setStatus('Google authentication successful. Opening admin…', 'success');
+
+        setTimeout(function () {
+          window.location.href = 'dashboard.html';
+        }, 350);
       })
       .catch(function (error) {
         setLoading(false);
 
         if (error && error.code === 'admin/not-authorized') {
-          setStatus('This Firebase account is not authorized for admin access.', 'error');
+          setStatus('This Google account is not authorized for XeroAI admin access.', 'error');
+          return;
+        }
+
+        if (error && error.code === 'admin/google-required') {
+          setStatus('Admin access requires Google/Gmail sign-in.', 'error');
           return;
         }
 
         if (error && error.code === 'admin/email-not-verified') {
-          setStatus('Verify the administrator email before signing in.', 'error');
+          setStatus('The Google account email must be verified before admin access is allowed.', 'error');
           return;
         }
 

@@ -80,6 +80,17 @@
         </button>
 
         <button id="forgotPassword" class="forgot-password" type="button">Forgot / reset backup password?</button>
+        <button id="setupBackupPassword" class="setup-password" type="button">Set up backup password with Google</button>
+
+        <div id="backupSetupPanel" class="backup-setup-panel" hidden>
+          <div class="backup-setup-title">Set up your backup password</div>
+          <p>First sign in with the authorized Google account. Then choose the password you want to use for backup admin login.</p>
+          <label class="field-label" for="backupPassword">New backup password</label>
+          <input id="backupPassword" class="auth-input" type="password" autocomplete="new-password" placeholder="Create a backup password" minlength="6">
+          <label class="field-label" for="backupPasswordConfirm">Confirm backup password</label>
+          <input id="backupPasswordConfirm" class="auth-input" type="password" autocomplete="new-password" placeholder="Confirm your password" minlength="6">
+          <button id="saveBackupPassword" class="password-button" type="button">Save backup password</button>
+        </div>
       </form>
 
       <div id="formStatus" class="form-status" role="status" aria-live="polite"></div>

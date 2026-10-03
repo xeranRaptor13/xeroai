@@ -347,3 +347,38 @@ button{font:inherit}
 }
 .forgot-password:hover{color:var(--signal-2)}
 .forgot-password:disabled{opacity:.6;cursor:wait}
+
+
+/* Backup password setup */
+.setup-password {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  border: 0;
+  background: transparent;
+  color: #8eaefc;
+  font: 600 12px/1.4 "Plus Jakarta Sans", sans-serif;
+  cursor: pointer;
+}
+.setup-password:hover { text-decoration: underline; }
+.backup-setup-panel {
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid rgba(94,142,255,.24);
+  border-radius: 12px;
+  background: rgba(94,142,255,.045);
+}
+.backup-setup-panel[hidden] { display: none; }
+.backup-setup-title {
+  font: 700 13px/1.3 "Space Grotesk", sans-serif;
+  color: #f5f7fb;
+  margin-bottom: 5px;
+}
+.backup-setup-panel p {
+  margin: 0 0 12px;
+  color: #7f8ba3;
+  font-size: 11px;
+  line-height: 1.55;
+}
+.backup-setup-panel .auth-input { margin-bottom: 10px; }
+.backup-setup-panel .password-button { margin-top: 2px; }

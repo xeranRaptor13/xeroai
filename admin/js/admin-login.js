@@ -186,6 +186,132 @@
     });
   }
 
+
+  var setupButton = document.getElementById('setupBackupPassword');
+  var setupPanel = document.getElementById('backupSetupPanel');
+  var backupPasswordInput = document.getElementById('backupPassword');
+  var backupPasswordConfirmInput = document.getElementById('backupPasswordConfirm');
+  var saveBackupPasswordButton = document.getElementById('saveBackupPassword');
+
+  if (setupButton) {
+    setupButton.addEventListener('click', function () {
+      setStatus('', '');
+      if (setupPanel) setupPanel.hidden = false;
+      setStatus('Sign in with the authorized Google account to set up its backup password.', 'info');
+      setGoogleLoading(true);
+
+      var provider = new firebase.auth.GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account' });
+
+      window.xeroaiAuth.signInWithPopup(provider)
+        .then(function (result) {
+          var user = result && result.user;
+          var isGoogleProvider = (user && user.providerData || []).some(function (providerInfo) {
+            return providerInfo && providerInfo.providerId === 'google.com';
+          });
+
+          if (!user || !isGoogleProvider) {
+            return window.xeroaiAuth.signOut().then(function () {
+              throw { code: 'admin/google-required' };
+            });
+          }
+
+          var email = normalizeEmail(user.email);
+          if (!isAuthorizedEmail(email)) {
+            return window.xeroaiAuth.signOut().then(function () {
+              throw { code: 'admin/not-authorized' };
+            });
+          }
+
+          if (user.emailVerified === false) {
+            return window.xeroaiAuth.signOut().then(function () {
+              throw { code: 'admin/email-not-verified' };
+            });
+          }
+
+          var hasPassword = (user.providerData || []).some(function (providerInfo) {
+            return providerInfo && providerInfo.providerId === 'password';
+          });
+
+          if (hasPassword) {
+            setStatus('This admin account already has a backup password. Use the reset link if you need to change it.', 'success');
+            setGoogleLoading(false);
+            return;
+          }
+
+          setStatus('Google verified. Enter and save the backup password below.', 'success');
+          setGoogleLoading(false);
+          if (setupPanel) setupPanel.hidden = false;
+          if (backupPasswordInput) backupPasswordInput.focus();
+        })
+        .catch(function (error) {
+          setGoogleLoading(false);
+          setStatus(friendlyError(error), 'error');
+        });
+    });
+  }
+
+  if (saveBackupPasswordButton) {
+    saveBackupPasswordButton.addEventListener('click', function () {
+      setStatus('', '');
+      var user = window.xeroaiAuth.currentUser;
+      var password = backupPasswordInput ? backupPasswordInput.value : '';
+      var confirmation = backupPasswordConfirmInput ? backupPasswordConfirmInput.value : '';
+
+      if (!user || !isAuthorizedEmail(user.email)) {
+        setStatus('Sign in with the authorized Google account first.', 'error');
+        return;
+      }
+
+      if (user.emailVerified === false) {
+        setStatus('The admin email must be verified before a backup password can be added.', 'error');
+        return;
+      }
+
+      if (!password || password.length < 6) {
+        setStatus('Use a backup password with at least 6 characters.', 'error');
+        return;
+      }
+
+      if (password !== confirmation) {
+        setStatus('The two backup passwords do not match.', 'error');
+        return;
+      }
+
+      var alreadyLinked = (user.providerData || []).some(function (providerInfo) {
+        return providerInfo && providerInfo.providerId === 'password';
+      });
+
+      if (alreadyLinked) {
+        setStatus('This admin already has a password credential. Use the reset link instead.', 'error');
+        return;
+      }
+
+      saveBackupPasswordButton.disabled = true;
+      var credential = firebase.auth.EmailAuthProvider.credential(user.email, password);
+
+      user.linkWithCredential(credential)
+        .then(function (result) {
+          if (backupPasswordInput) backupPasswordInput.value = '';
+          if (backupPasswordConfirmInput) backupPasswordConfirmInput.value = '';
+          setStatus('Backup password created successfully. You can now use this email + password at the admin login.', 'success');
+          if (typeof window.xeroaiLogActivity === 'function') {
+            window.xeroaiLogActivity(user.uid, 'Admin backup password configured.', 'success');
+          }
+        })
+        .catch(function (error) {
+          if (error && error.code === 'auth/credential-already-in-use') {
+            setStatus('That email/password credential is already attached to another Firebase account. Do not create another admin account; contact the project administrator to resolve the duplicate account.', 'error');
+          } else {
+            setStatus(friendlyError(error), 'error');
+          }
+        })
+        .finally(function () {
+          saveBackupPasswordButton.disabled = false;
+        });
+    });
+  }
+
   if (forgotButton) {
     forgotButton.addEventListener('click', function () {
       setStatus('', '');

@@ -9,7 +9,122 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/dashboard.css">
-\n<style id="trial-countdown-inline-styles">\n  .trial-countdown-card {\n    display: flex;\n    align-items: center;\n    gap: 18px;\n    min-width: 326px;\n    padding: 8px 12px 8px 14px;\n    margin-left: 14px;\n    border: 1px solid rgba(94, 142, 255, 0.22);\n    border-radius: 12px;\n    background: linear-gradient(180deg, rgba(94, 142, 255, 0.09), rgba(94, 142, 255, 0.035));\n    box-shadow: 0 0 22px rgba(94, 142, 255, 0.06);\n    white-space: nowrap;\n  }\n\n  .trial-countdown-copy {\n    display: flex;\n    flex-direction: column;\n    gap: 2px;\n    min-width: 96px;\n  }\n\n  .trial-countdown-label {\n    color: #f5f7fb;\n    font-size: 12px;\n    font-weight: 700;\n    line-height: 1.15;\n  }\n\n  .trial-countdown-end {\n    color: #8e9bb2;\n    font-size: 10px;\n    font-weight: 600;\n    letter-spacing: 0.02em;\n  }\n\n  .trial-countdown-values {\n    display: flex;\n    align-items: center;\n    gap: 5px;\n    font-family: "JetBrains Mono", monospace;\n  }\n\n  .trial-countdown-unit {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    min-width: 30px;\n  }\n\n  .trial-countdown-unit strong {\n    color: #5e8eff;\n    font-size: 15px;\n    font-weight: 700;\n    line-height: 1.05;\n    font-variant-numeric: tabular-nums;\n  }\n\n  .trial-countdown-unit span {\n    margin-top: 3px;\n    color: #6f7c93;\n    font-size: 7px;\n    font-weight: 700;\n    letter-spacing: 0.09em;\n    line-height: 1;\n  }\n\n  .trial-countdown-values > i {\n    color: #4d5a70;\n    font-style: normal;\n    font-size: 13px;\n    line-height: 1;\n    transform: translateY(-2px);\n  }\n\n  @media (max-width: 1180px) {\n    .trial-countdown-card {\n      min-width: 288px;\n      gap: 12px;\n      margin-left: 10px;\n      padding-left: 11px;\n    }\n    .trial-countdown-copy { min-width: 86px; }\n    .trial-countdown-unit { min-width: 26px; }\n  }\n\n  @media (max-width: 980px) {\n    .trial-countdown-card {\n      min-width: 0;\n      flex: 1 1 auto;\n      max-width: 330px;\n    }\n    .trial-countdown-copy { min-width: 82px; }\n  }\n\n  @media (max-width: 760px) {\n    .trial-countdown-card {\n      order: 3;\n      width: 100%;\n      max-width: none;\n      margin: 8px 0 0;\n    }\n    .trial-countdown-values { margin-left: auto; }\n  }\n</style>\n<link rel="manifest" href="manifest.json">
+\n<style id="trial-countdown-inline-styles">
+  /* Compact topbar trial card, matching the supplied reference screenshot. */
+  .trial-countdown-card {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex: 0 0 165px;
+    width: 165px;
+    min-width: 165px;
+    height: 39px;
+    box-sizing: border-box;
+    padding: 4px 7px 4px 9px;
+    margin-left: 25px;
+    border: 1px solid rgba(94, 142, 255, 0.30);
+    border-left: 2px solid #5e8eff;
+    border-radius: 7px;
+    background: linear-gradient(180deg, rgba(20, 24, 34, 0.98), rgba(12, 14, 20, 0.98));
+    box-shadow: 0 0 12px rgba(94, 142, 255, 0.07);
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .trial-countdown-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .trial-countdown-label {
+    color: #8291aa;
+    font-size: 7px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .trial-countdown-end {
+    color: #e3e8f2;
+    font-size: 9px;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: 0;
+  }
+
+  .trial-countdown-values {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    flex: 0 0 auto;
+    font-family: "JetBrains Mono", monospace;
+  }
+
+  .trial-countdown-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 19px;
+  }
+
+  .trial-countdown-unit strong {
+    color: #e3e9f5;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .trial-countdown-unit span {
+    margin-top: 2px;
+    color: #7f8ca2;
+    font-size: 5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+
+  .trial-countdown-values > i {
+    color: #71809a;
+    font-style: normal;
+    font-size: 9px;
+    line-height: 1;
+    transform: translateY(-2px);
+  }
+
+  /* The compact reference card shows days and hours; minutes/seconds still
+     update in the countdown logic but are intentionally not displayed. */
+  .trial-countdown-values > i:nth-of-type(n+2),
+  .trial-countdown-unit:nth-of-type(n+3) {
+    display: none;
+  }
+
+  @media (max-width: 1180px) {
+    .trial-countdown-card {
+      flex-basis: 165px;
+      width: 165px;
+      min-width: 165px;
+      gap: 7px;
+      margin-left: 14px;
+      padding-left: 8px;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .trial-countdown-card {
+      order: 3;
+      flex: 0 0 165px;
+      width: 165px;
+      min-width: 165px;
+      margin: 0 0 0 10px;
+    }
+  }
+</style>\n<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#08090c">
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="icons/favicon-16.png" sizes="16x16" type="image/png">

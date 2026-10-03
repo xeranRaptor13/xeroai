@@ -30,7 +30,7 @@
 
       <header class="admin-header">
         <h1 id="adminTitle">Admin Sign In</h1>
-        <p>Use an authorized Google account to access the XeroAI administration system.</p>
+        <p>Use an authorized Google account or your admin email and password to access the XeroAI administration system.</p>
       </header>
 
       <div class="google-panel">
@@ -61,6 +61,27 @@
         <span id="googleButtonSpinner" class="spinner" hidden></span>
       </button>
 
+
+      <div class="auth-divider"><span>OR USE BACKUP PASSWORD</span></div>
+
+      <form id="passwordAdminForm" class="password-form" novalidate>
+        <label class="field-label" for="adminEmail">Admin email</label>
+        <input id="adminEmail" class="auth-input" type="email" autocomplete="username" placeholder="admin@example.com" required>
+
+        <label class="field-label" for="adminPassword">Password</label>
+        <div class="password-wrap">
+          <input id="adminPassword" class="auth-input" type="password" autocomplete="current-password" placeholder="Enter your admin password" required>
+          <button id="togglePassword" class="password-toggle" type="button" aria-label="Show password">Show</button>
+        </div>
+
+        <button id="passwordAdminSignIn" class="password-button" type="submit">
+          <span id="passwordButtonLabel">Sign in with email &amp; password</span>
+          <span id="passwordButtonSpinner" class="spinner spinner-dark" hidden></span>
+        </button>
+
+        <button id="forgotPassword" class="forgot-password" type="button">Forgot / reset backup password?</button>
+      </form>
+
       <div id="formStatus" class="form-status" role="status" aria-live="polite"></div>
 
       <div class="divider"><span>AUTHORIZED ACCOUNTS</span></div>
@@ -82,7 +103,7 @@
 
       <div class="security-note">
         <span class="lock-icon" aria-hidden="true">⌁</span>
-        <span>Admin access is restricted to the authorized XeroAI Google accounts. Password login is disabled.</span>
+        <span>Admin access is restricted to the authorized XeroAI administrator emails. Google sign-in is the primary method; email/password is available as a backup.</span>
       </div>
 
       <p class="footer-note">XeroAI Administration · Secure authentication</p>

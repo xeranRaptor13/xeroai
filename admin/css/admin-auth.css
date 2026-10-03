@@ -1,4 +1,4 @@
-/* XeroAI Admin — Google-only authentication */
+/* XeroAI Admin — Google primary + email/password backup authentication */
 :root{
   --void:#08090c;
   --void-2:#0d0f14;
@@ -255,3 +255,95 @@ button{font:inherit}
   .brand{margin-bottom:24px}
   .authorized-row{font-size:10px}
 }
+
+.auth-divider{
+  display:flex;align-items:center;gap:12px;
+  margin:20px 0 14px;
+  color:var(--muted);
+  font:600 9px/1 var(--font-mono);
+  letter-spacing:.14em;
+}
+.auth-divider::before,.auth-divider::after{
+  content:"";height:1px;flex:1;background:var(--border);
+}
+.password-form{
+  display:grid;
+  gap:9px;
+}
+.field-label{
+  color:#aeb6c5;
+  font-size:11px;
+  font-weight:600;
+  margin-top:2px;
+}
+.auth-input{
+  width:100%;
+  min-height:46px;
+  padding:0 13px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:10px;
+  outline:none;
+  background:rgba(255,255,255,.035);
+  color:var(--ink);
+  font:500 13px var(--font-body);
+  transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;
+}
+.auth-input::placeholder{color:#596274}
+.auth-input:focus{
+  border-color:rgba(94,142,255,.55);
+  background:rgba(94,142,255,.045);
+  box-shadow:0 0 0 3px rgba(94,142,255,.09);
+}
+.password-wrap{position:relative}
+.password-wrap .auth-input{padding-right:62px}
+.password-toggle{
+  position:absolute;
+  right:8px;
+  top:50%;
+  transform:translateY(-50%);
+  border:0;
+  background:transparent;
+  color:var(--signal-2);
+  font:600 10px var(--font-mono);
+  cursor:pointer;
+  padding:7px 5px;
+}
+.password-toggle:hover{color:#fff}
+.password-button{
+  width:100%;
+  min-height:48px;
+  margin-top:4px;
+  border:1px solid rgba(94,142,255,.42);
+  border-radius:11px;
+  background:linear-gradient(180deg,rgba(94,142,255,.20),rgba(94,142,255,.10));
+  color:#eaf0ff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  cursor:pointer;
+  font-size:12px;
+  font-weight:700;
+  transition:transform .18s ease,border-color .18s ease,background .18s ease;
+}
+.password-button:hover{
+  transform:translateY(-1px);
+  border-color:rgba(94,142,255,.72);
+  background:linear-gradient(180deg,rgba(94,142,255,.26),rgba(94,142,255,.13));
+}
+.password-button:disabled{opacity:.65;cursor:wait;transform:none}
+.spinner-dark{
+  border-color:rgba(255,255,255,.20);
+  border-top-color:#fff;
+}
+.forgot-password{
+  justify-self:center;
+  border:0;
+  padding:4px 6px;
+  background:transparent;
+  color:#788296;
+  cursor:pointer;
+  font:500 10px var(--font-body);
+}
+.forgot-password:hover{color:var(--signal-2)}
+.forgot-password:disabled{opacity:.6;cursor:wait}

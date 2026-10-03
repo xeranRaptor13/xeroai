@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/dashboard.css">
-<link rel="manifest" href="manifest.json">
+\n<style id="trial-countdown-inline-styles">\n  .trial-countdown-card {\n    display: flex;\n    align-items: center;\n    gap: 18px;\n    min-width: 326px;\n    padding: 8px 12px 8px 14px;\n    margin-left: 14px;\n    border: 1px solid rgba(94, 142, 255, 0.22);\n    border-radius: 12px;\n    background: linear-gradient(180deg, rgba(94, 142, 255, 0.09), rgba(94, 142, 255, 0.035));\n    box-shadow: 0 0 22px rgba(94, 142, 255, 0.06);\n    white-space: nowrap;\n  }\n\n  .trial-countdown-copy {\n    display: flex;\n    flex-direction: column;\n    gap: 2px;\n    min-width: 96px;\n  }\n\n  .trial-countdown-label {\n    color: #f5f7fb;\n    font-size: 12px;\n    font-weight: 700;\n    line-height: 1.15;\n  }\n\n  .trial-countdown-end {\n    color: #8e9bb2;\n    font-size: 10px;\n    font-weight: 600;\n    letter-spacing: 0.02em;\n  }\n\n  .trial-countdown-values {\n    display: flex;\n    align-items: center;\n    gap: 5px;\n    font-family: "JetBrains Mono", monospace;\n  }\n\n  .trial-countdown-unit {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    min-width: 30px;\n  }\n\n  .trial-countdown-unit strong {\n    color: #5e8eff;\n    font-size: 15px;\n    font-weight: 700;\n    line-height: 1.05;\n    font-variant-numeric: tabular-nums;\n  }\n\n  .trial-countdown-unit span {\n    margin-top: 3px;\n    color: #6f7c93;\n    font-size: 7px;\n    font-weight: 700;\n    letter-spacing: 0.09em;\n    line-height: 1;\n  }\n\n  .trial-countdown-values > i {\n    color: #4d5a70;\n    font-style: normal;\n    font-size: 13px;\n    line-height: 1;\n    transform: translateY(-2px);\n  }\n\n  @media (max-width: 1180px) {\n    .trial-countdown-card {\n      min-width: 288px;\n      gap: 12px;\n      margin-left: 10px;\n      padding-left: 11px;\n    }\n    .trial-countdown-copy { min-width: 86px; }\n    .trial-countdown-unit { min-width: 26px; }\n  }\n\n  @media (max-width: 980px) {\n    .trial-countdown-card {\n      min-width: 0;\n      flex: 1 1 auto;\n      max-width: 330px;\n    }\n    .trial-countdown-copy { min-width: 82px; }\n  }\n\n  @media (max-width: 760px) {\n    .trial-countdown-card {\n      order: 3;\n      width: 100%;\n      max-width: none;\n      margin: 8px 0 0;\n    }\n    .trial-countdown-values { margin-left: auto; }\n  }\n</style>\n<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#08090c">
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="icons/favicon-16.png" sizes="16x16" type="image/png">
@@ -84,6 +84,23 @@
           <span class="topbar-account-id-value" id="topbarAccountId">—</span>
           <svg class="topbar-account-id-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
         </button>
+
+        <!-- Trial countdown: independent of the dashboard data and hidden after the deadline. -->
+        <div class="trial-countdown-card" id="trialCountdownCard" aria-label="Trial countdown">
+          <div class="trial-countdown-copy">
+            <span class="trial-countdown-label">Trial version</span>
+            <span class="trial-countdown-end">Ends on 12-10-2026</span>
+          </div>
+          <div class="trial-countdown-values" aria-live="polite">
+            <div class="trial-countdown-unit"><strong id="trialDays">00</strong><span>DAYS</span></div>
+            <i>:</i>
+            <div class="trial-countdown-unit"><strong id="trialHours">00</strong><span>HRS</span></div>
+            <i>:</i>
+            <div class="trial-countdown-unit"><strong id="trialMinutes">00</strong><span>MIN</span></div>
+            <i>:</i>
+            <div class="trial-countdown-unit"><strong id="trialSeconds">00</strong><span>SEC</span></div>
+          </div>
+        </div>
 
         <div class="topbar-right">
           <button type="button" class="pwa-install-btn" data-pwa-install hidden>
@@ -300,5 +317,5 @@
   <script src="js/require-onboarded.js"></script>
   <script src="js/dashboard.js"></script>
   <script src="js/pwa.js"></script>
-</body>
+\n  <script>\n    (function () {\n      var card = document.getElementById('trialCountdownCard');\n      if (!card) return;\n\n      // 12 October 2026, 23:59:59.999 WAT = 22:59:59.999 UTC.\n      var deadline = Date.UTC(2026, 9, 12, 22, 59, 59, 999);\n      var days = document.getElementById('trialDays');\n      var hours = document.getElementById('trialHours');\n      var minutes = document.getElementById('trialMinutes');\n      var seconds = document.getElementById('trialSeconds');\n      var timerId = null;\n\n      function pad(value) {\n        return String(value).padStart(2, '0');\n      }\n\n      function updateTrialCountdown() {\n        var remaining = deadline - Date.now();\n\n        if (remaining <= 0) {\n          card.hidden = true;\n          if (timerId) window.clearInterval(timerId);\n          return;\n        }\n\n        var totalSeconds = Math.floor(remaining / 1000);\n        var dayCount = Math.floor(totalSeconds / 86400);\n        var hourCount = Math.floor((totalSeconds % 86400) / 3600);\n        var minuteCount = Math.floor((totalSeconds % 3600) / 60);\n        var secondCount = totalSeconds % 60;\n\n        days.textContent = pad(dayCount);\n        hours.textContent = pad(hourCount);\n        minutes.textContent = pad(minuteCount);\n        seconds.textContent = pad(secondCount);\n        card.hidden = false;\n      }\n\n      updateTrialCountdown();\n      timerId = window.setInterval(updateTrialCountdown, 1000);\n    }());\n  </script>\n</body>
 </html>

@@ -14,6 +14,17 @@
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="icons/favicon-16.png" sizes="16x16" type="image/png">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
+
+  <style id="xeroai-trial-countdown-style">
+    .xai-trial-countdown{display:flex;align-items:center;gap:22px;min-height:52px;padding:7px 14px 7px 16px;margin-left:18px;border:1px solid rgba(94,142,255,.24);border-radius:12px;background:linear-gradient(135deg,rgba(17,22,32,.96),rgba(10,13,19,.96));box-shadow:0 8px 24px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.025);position:relative;overflow:hidden;white-space:nowrap}
+    .xai-trial-countdown:before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:#5e8eff;box-shadow:0 0 14px rgba(94,142,255,.7)}
+    .xai-trial-copy{display:flex;flex-direction:column;gap:2px}.xai-trial-copy span{color:#8f9aad;font:600 9px/1 Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase}.xai-trial-copy strong{color:#f2f5fa;font:600 12px/1.2 Inter,sans-serif}
+    .xai-trial-timer{display:flex;align-items:center;gap:6px}.xai-trial-unit{display:grid;justify-items:center;min-width:31px}.xai-trial-unit b{color:#f4f7ff;font:600 16px/1 "JetBrains Mono",monospace;letter-spacing:-.04em}.xai-trial-unit small{margin-top:3px;color:#687386;font:500 7px/1 Inter,sans-serif;letter-spacing:.08em}.xai-trial-sep{color:#5e8eff;font:600 13px/1 "JetBrains Mono",monospace;transform:translateY(-3px)}
+    .xai-trial-countdown.is-expired{display:none}
+    @media(max-width:1180px){.xai-trial-countdown{gap:12px;margin-left:12px}.xai-trial-copy strong{font-size:11px}.xai-trial-unit{min-width:27px}.xai-trial-unit b{font-size:14px}}
+    @media(max-width:900px){.xai-trial-countdown{display:none}}
+  </style>
+
 </head>
 <body class="dash-body app-body">
 
@@ -85,6 +96,23 @@
           <svg class="topbar-account-id-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
         </button>
 
+
+        <div class="xai-trial-countdown" id="trialCountdownCard" aria-label="XeroAI trial countdown">
+          <div class="xai-trial-copy">
+            <span>Trial version</span>
+            <strong>Ends on 12-10-2026</strong>
+          </div>
+          <div class="xai-trial-timer" aria-label="Time remaining">
+            <div class="xai-trial-unit"><b id="trialDays">00</b><small>DAYS</small></div>
+            <span class="xai-trial-sep">:</span>
+            <div class="xai-trial-unit"><b id="trialHours">00</b><small>HRS</small></div>
+            <span class="xai-trial-sep">:</span>
+            <div class="xai-trial-unit"><b id="trialMinutes">00</b><small>MIN</small></div>
+            <span class="xai-trial-sep">:</span>
+            <div class="xai-trial-unit"><b id="trialSeconds">00</b><small>SEC</small></div>
+          </div>
+        </div>
+
         <div class="topbar-right">
           <button type="button" class="pwa-install-btn" data-pwa-install hidden>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
@@ -127,15 +155,6 @@
             <span class="status-card-label">Today's Signals</span>
             <span class="status-card-value">&mdash; <small>Awaiting first signal</small></span>
           </div>
-
-          <div class="status-card reveal-dash" style="--d:240ms">
-            <div class="status-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
-            </div>
-            <span class="status-card-label">Subscription</span>
-            <span class="status-card-value">Trial Active <small>2 days left</small></span>
-          </div>
-
         </section>
         <!-- ============ TRADING OVERVIEW (Module 2A) ============ -->
 
@@ -382,6 +401,25 @@
 
   </div>
 
+
+  <script>
+    (() => {
+      const card = document.getElementById("trialCountdownCard");
+      if (!card) return;
+      const end = new Date("2026-10-12T23:59:59+01:00").getTime();
+      const els = ["trialDays","trialHours","trialMinutes","trialSeconds"].map(id => document.getElementById(id));
+      const pad = value => String(Math.max(0, value)).padStart(2, "0");
+      function updateTrialCountdown() {
+        const remaining = end - Date.now();
+        if (remaining <= 0) { card.classList.add("is-expired"); clearInterval(timer); return; }
+        const total = Math.floor(remaining / 1000);
+        const values = [Math.floor(total / 86400), Math.floor((total % 86400) / 3600), Math.floor((total % 3600) / 60), total % 60];
+        values.forEach((value, i) => { els[i].textContent = pad(value); });
+      }
+      updateTrialCountdown();
+      const timer = setInterval(updateTrialCountdown, 1000);
+    })();
+  </script>
   <script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore-compat.js"></script>

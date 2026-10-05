@@ -5,7 +5,8 @@
   var ADMIN_EMAILS = new Set([
     'ezemariaezemaria77@gmail.com',
     'xeranraptor@gmail.com',
-    'iamnnenna1@gmail.com'
+    'iamnnenna1@gmail.com',
+    'ezechiemeriejohn@gmail.com'
   ]);
 
   var googleButton = document.getElementById('googleAdminSignIn');

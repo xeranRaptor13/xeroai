@@ -1,7 +1,7 @@
 (function(){
   'use strict';
 
-  const ADMIN_EMAILS = new Set(['ezemariaezemaria77@gmail.com','xeranraptor@gmail.com']);
+  const ADMIN_EMAILS = new Set(['ezemariaezemaria77@gmail.com','xeranraptor@gmail.com','iamnnenna1@gmail.com','ezechiemeriejohn@gmail.com']);
   const auth = window.xeroaiAuth;
   const db = window.xeroaiDb;
   const $ = id => document.getElementById(id);

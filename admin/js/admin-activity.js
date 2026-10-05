@@ -1,6 +1,6 @@
 (function(){
   'use strict';
-  const ADMINS=['ezemariaezemaria77@gmail.com','xeranraptor@gmail.com'];
+  const ADMINS=['ezemariaezemaria77@gmail.com','xeranraptor@gmail.com','iamnnenna1@gmail.com','ezechiemeriejohn@gmail.com'];
   const auth=window.xeroaiAuth, db=window.xeroaiDb;
   const $=id=>document.getElementById(id);
   let users=[], selectedUid=null, unsubscribe=null;

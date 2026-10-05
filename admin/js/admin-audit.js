@@ -3,7 +3,7 @@
 
   var AUTH_EMAILS = [
     'ezemariaezemaria77@gmail.com',
-    'xeranraptor@gmail.com'
+    'xeranraptor@gmail.com','iamnnenna1@gmail.com','ezechiemeriejohn@gmail.com'
   ];
 
   var db = window.xeroaiDb;

@@ -1,5 +1,5 @@
 (function(){'use strict';
-const ADMINS=new Set(['ezemariaezemaria77@gmail.com','xeranraptor@gmail.com']);
+const ADMINS=new Set(['ezemariaezemaria77@gmail.com','xeranraptor@gmail.com','iamnnenna1@gmail.com','ezechiemeriejohn@gmail.com']);
 const auth=window.xeroaiAuth,db=window.xeroaiDb,$=id=>document.getElementById(id);let adminEmail='',users=[],selected=null;
 const esc=v=>String(v==null?'':v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
 const dt=v=>v&&typeof v.toDate==='function'?v.toDate():(v?new Date(v):null);const fmt=v=>{const d=dt(v);return d&&!isNaN(d)?d.toLocaleDateString(undefined,{day:'2-digit',month:'short',year:'numeric'}):'—'};

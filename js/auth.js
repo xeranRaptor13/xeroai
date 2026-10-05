@@ -75,6 +75,10 @@
       'auth/user-not-found': 'No account found with that email.',
       'auth/too-many-requests': 'Too many attempts — please wait a moment and try again.',
       'auth/popup-closed-by-user': 'Sign-in was cancelled.',
+      'auth/cancelled-popup-request': 'Sign-in was cancelled.',
+      'auth/popup-blocked': 'Your browser blocked the Google pop-up. Allow pop-ups for this site and try again.',
+      'auth/unauthorized-domain': 'This domain is not authorised for Google sign-in yet. Please contact support.',
+      'auth/account-exists-with-different-credential': 'An account with this email already exists. Please continue with Google using that email.',
       'auth/network-request-failed': 'Network error — check your connection and try again.'
     };
     return (code && map[code]) || (err && err.message) || 'Something went wrong. Please try again.';

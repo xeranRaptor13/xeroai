@@ -73,7 +73,7 @@
 
         <div class="ob2-actions">
           <a href="onboarding-step2.html" class="btn btn-secondary ob2-btn">&larr; Back</a>
-          <button type="button" class="btn btn-primary ob2-btn ob2-continue" id="ob2Continue" disabled aria-disabled="true" data-next="onboarding-step4.html">
+          <button type="button" class="btn btn-primary ob2-btn ob2-continue" id="ob2Continue" data-next="onboarding-step4.html">
             <span class="btn-label">Continue &rarr;</span>
             <span class="btn-spinner" aria-hidden="true"></span>
             <span class="btn-success" aria-hidden="true">
@@ -81,7 +81,7 @@
             </span>
           </button>
         </div>
-        <p class="ob2-connect-hint" id="ob2ConnectHint">Connect at least one account to continue.</p>
+        <p class="ob2-connect-hint" id="ob2ConnectHint" hidden>Connect at least one account to continue.</p>
 
       </div>
     </main>
@@ -95,5 +95,22 @@
   <script src="js/require-auth.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/pwa.js"></script>
+  <script>
+  /* Step 3: Continue always goes to step 4 (connect forms were removed). */
+  (function(){
+    var btn = document.getElementById('ob2Continue');
+    if(!btn) return;
+    function enable(){
+      if(btn.disabled) btn.disabled = false;
+      btn.removeAttribute('aria-disabled');
+    }
+    enable();
+    new MutationObserver(enable).observe(btn,{attributes:true,attributeFilter:['disabled','aria-disabled']});
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      window.location.href = btn.getAttribute('data-next') || 'onboarding-step4.html';
+    });
+  })();
+  </script>
 </body>
 </html>

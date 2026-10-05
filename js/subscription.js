@@ -27,6 +27,15 @@
   const DAY_MS = 24 * 60 * 60 * 1000;
   const DEFAULT_TRIAL_DAYS = 3;
 
+  /* The free trial ends for everyone (old and new members) at this moment,
+     even if their saved trial end date is later. */
+  const TRIAL_CUTOFF = new Date('2026-10-09T23:59:59+01:00');
+
+  function cappedTrialEnd(d){
+    if(!d) return null;
+    return d > TRIAL_CUTOFF ? TRIAL_CUTOFF : d;
+  }
+
   /* ---- elements ---- */
   const el = {
     accountId:      document.getElementById('subAccountId'),
@@ -87,7 +96,7 @@
   function computeState(){
     if(!userData) return null;
     const now = new Date();
-    const trialEnd = toDate(userData.trialEndDate);
+    const trialEnd = cappedTrialEnd(toDate(userData.trialEndDate));
     const expiresAt = toDate(userData.subscriptionExpiresAt);
 
     const paidActive = userData.subscriptionStatus === 'active' && (!expiresAt || expiresAt > now);
@@ -109,7 +118,7 @@
     if(!state) return;
 
     const trialStart = toDate(userData.trialStartDate);
-    const trialEnd = toDate(userData.trialEndDate);
+    const trialEnd = cappedTrialEnd(toDate(userData.trialEndDate));
     const now = new Date();
 
     setText(el.accountId, userData.accountId || '\u2014');

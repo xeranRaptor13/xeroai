@@ -9,6 +9,10 @@
 (function(){
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // The free trial ends for EVERYONE (old and new members) at this moment.
+  // After it, new sign-ups get no trial at all.
+  const TRIAL_CUTOFF = new Date('2026-10-09T23:59:59+01:00');
+
   /* ============ PASSWORD SHOW / HIDE ============ */
   (function(){
     const toggles = document.querySelectorAll('.toggle-password');
@@ -83,7 +87,7 @@
     const db = window.xeroaiDb;
     const accountId = generateAccountId();
     const now = new Date();
-    const trialEnd = new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000);
+    const trialAvailable = now < TRIAL_CUTOFF;
 
     const profile = Object.assign({
       fullName: user.displayName || '',
@@ -91,12 +95,18 @@
       phone: '',
       accountId: accountId,
       authProvider: 'password',
-      subscriptionStatus: 'trial',
+      subscriptionStatus: trialAvailable ? 'trial' : 'inactive',
       onboardingComplete: false,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      trialStartDate: firebase.firestore.FieldValue.serverTimestamp(),
-      trialEndDate: firebase.firestore.Timestamp.fromDate(trialEnd)
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
     }, extra);
+
+    if (trialAvailable) {
+      // 3 days from sign-up, but never later than the trial cutoff date.
+      const threeDays = new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000);
+      const trialEnd = threeDays < TRIAL_CUTOFF ? threeDays : TRIAL_CUTOFF;
+      profile.trialStartDate = firebase.firestore.FieldValue.serverTimestamp();
+      profile.trialEndDate = firebase.firestore.Timestamp.fromDate(trialEnd);
+    }
 
     return db.collection('users').doc(user.uid).set(profile).then(() => accountId);
   }
@@ -676,11 +686,13 @@
     const expiryEl = document.getElementById('trialExpiry');
     if(!expiryEl) return;
 
-    const expiryDate = new Date();
-    expiryDate.setDate(expiryDate.getDate() + 5);
-    const formatted = expiryDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    // No free trial after the cutoff — skip this page and continue onboarding.
+    if (new Date() >= TRIAL_CUTOFF) {
+      window.location.replace('onboarding-step1.html');
+      return;
+    }
 
-    expiryEl.textContent = 'Trial ends ' + formatted + ' — no charges until then.';
+    expiryEl.textContent = 'Trial ends on 09-10-2026 — no charges until then.';
   })();
 
   /* ============ ONBOARDING STEP 1 (v2) ============ */

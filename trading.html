@@ -24,29 +24,37 @@
 .xeroai-deriv-status.is-error .xeroai-deriv-status-dot{background:#ff6f7d;box-shadow:0 0 0 3px rgba(255,111,125,.12)}
 .xeroai-deriv-status.is-pending{color:#9bb8ff;border-color:rgba(94,142,255,.2);background:rgba(94,142,255,.05)}
 .xeroai-deriv-status.is-pending .xeroai-deriv-status-dot{background:#5e8eff;box-shadow:0 0 0 3px rgba(94,142,255,.12)}
-/* Deriv setup guide card — sits in the 3rd column; grid items align to
-   the top so the short Deriv card and the connect card are not stretched
-   to the guide's height. */
-.platform-cards-grid{align-items:start}
-.deriv-guide h3{line-height:1.3;margin-bottom:8px}
-.deriv-guide-intro{font-size:12.5px;line-height:1.6;color:var(--dim);margin:0 0 16px}
-.deriv-guide-intro strong,.deriv-guide-step strong,.deriv-guide-help strong{color:var(--ink);font-weight:600}
-.deriv-guide-step{margin:0 0 16px;padding-top:14px;border-top:1px solid var(--border)}
-.deriv-guide-step h4,.deriv-guide-help h4{display:flex;align-items:center;gap:9px;margin:0 0 8px;font-family:var(--font-display);font-size:13.5px;font-weight:600;color:var(--ink)}
-.deriv-guide-num{display:inline-flex;align-items:center;justify-content:center;flex:0 0 22px;width:22px;height:22px;border-radius:50%;background:rgba(94,142,255,.14);border:1px solid rgba(94,142,255,.35);color:var(--signal-2);font-family:var(--font-mono);font-size:11px;font-weight:600}
-.deriv-guide-step p,.deriv-guide-help p{font-size:12.5px;line-height:1.6;color:var(--dim);margin:0 0 8px}
-.deriv-guide-step ol{margin:0 0 12px;padding-left:18px;font-size:12.5px;line-height:1.7;color:var(--dim)}
-.deriv-guide-step li{padding-left:2px}
+/* Deriv setup guide — full-width card below the platform cards */
+.deriv-guide{margin-top:16px;padding:26px 28px 24px;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.015));border:1px solid var(--border)}
+.deriv-guide-head{display:flex;align-items:center;gap:16px;margin-bottom:22px}
+.deriv-guide-head .platform-conn-logo{flex:0 0 38px}
+.deriv-guide-head h3{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--ink);margin:0 0 4px}
+.deriv-guide-head p{font-size:13px;line-height:1.6;color:var(--dim);margin:0;max-width:720px}
+.deriv-guide strong{color:var(--ink);font-weight:600}
+.deriv-guide-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.deriv-guide-step{display:flex;flex-direction:column;padding:18px 18px 16px;border-radius:14px;background:var(--surface);border:1px solid var(--border)}
+.deriv-guide-step h4{display:flex;align-items:center;gap:10px;margin:0 0 12px;font-family:var(--font-display);font-size:14px;font-weight:600;color:var(--ink)}
+.deriv-guide-num{display:inline-flex;align-items:center;justify-content:center;flex:0 0 24px;width:24px;height:24px;border-radius:50%;background:rgba(94,142,255,.14);border:1px solid rgba(94,142,255,.35);color:var(--signal-2);font-family:var(--font-mono);font-size:11.5px;font-weight:600}
+.deriv-guide-step ol{margin:0 0 16px;padding-left:18px;font-size:12.5px;line-height:1.7;color:var(--dim)}
+.deriv-guide-step ol li{padding-left:2px}
 .deriv-guide-step li::marker{color:var(--signal-2);font-size:11.5px}
+.deriv-guide-step p{font-size:12.5px;line-height:1.6;color:var(--dim);margin:0 0 10px}
+.deriv-guide-creds{list-style:none;margin:0 0 12px;padding:0;display:flex;flex-direction:column;gap:6px}
+.deriv-guide-creds li{font-size:12.5px;line-height:1.5;color:var(--dim);padding:9px 11px;border-radius:9px;background:var(--surface-strong);border:1px solid var(--border)}
 .deriv-guide-step code{font-family:var(--font-mono);font-size:11px;padding:1px 6px;border-radius:5px;background:var(--surface-strong);color:var(--signal-2);word-break:break-all}
-.deriv-guide-link{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--signal-2);text-decoration:none;padding:8px 12px;border-radius:9px;border:1px solid rgba(94,142,255,.28);background:rgba(94,142,255,.07);transition:background .2s ease,color .2s ease,border-color .2s ease}
+.deriv-guide-link{display:inline-flex;align-items:center;align-self:flex-start;gap:6px;margin-top:auto;font-size:12px;font-weight:600;color:var(--signal-2);text-decoration:none;padding:8px 12px;border-radius:9px;border:1px solid rgba(94,142,255,.28);background:rgba(94,142,255,.07);transition:background .2s ease,color .2s ease,border-color .2s ease}
 .deriv-guide-link:hover{background:rgba(94,142,255,.15);border-color:rgba(94,142,255,.5);color:#fff}
-.deriv-guide-notice{display:flex;gap:10px;margin:4px 0 16px;padding:12px 13px;border-radius:11px;border:1px solid rgba(217,166,92,.28);background:rgba(217,166,92,.07);font-size:12px;line-height:1.6;color:var(--dim)}
-.deriv-guide-notice svg{flex:0 0 16px;width:16px;height:16px;margin-top:2px;color:var(--gold)}
-.deriv-guide-notice strong{color:var(--gold);font-weight:600}
-.deriv-guide-help{padding-top:14px;border-top:1px solid var(--border)}
-.deriv-guide-help .deriv-guide-link{margin-top:4px}
+.deriv-guide-foot{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.deriv-guide-notice{display:flex;gap:11px;padding:16px 18px;border-radius:14px;border:1px solid rgba(217,166,92,.28);background:rgba(217,166,92,.07);font-size:12.5px;line-height:1.6;color:var(--dim)}
+.deriv-guide-notice svg{flex:0 0 18px;width:18px;height:18px;margin-top:1px;color:var(--gold)}
+.deriv-guide-notice strong{color:var(--gold)}
+.deriv-guide-help{display:flex;flex-direction:column;align-items:flex-start;padding:16px 18px;border-radius:14px;background:var(--surface);border:1px solid var(--border)}
+.deriv-guide-help h4{margin:0 0 6px;font-family:var(--font-display);font-size:14px;font-weight:600;color:var(--ink)}
+.deriv-guide-help p{font-size:12.5px;line-height:1.6;color:var(--dim);margin:0 0 12px}
+@media (max-width:1024px){.deriv-guide-steps{grid-template-columns:1fr}.deriv-guide-foot{grid-template-columns:1fr}}
+@media (max-width:640px){.deriv-guide{padding:20px 16px}.deriv-guide-head{align-items:flex-start}}
 </style>
+
 </head>
 <body class="dash-body app-body">
 
@@ -230,59 +238,69 @@
                 </div>
               </div>
 
-              <div class="platform-conn-card deriv-guide reveal-dash" data-platform="deriv-guide">
-                <div class="platform-conn-top">
-                  <span class="platform-conn-logo" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2V5z"/><path d="M8 7h6M8 11h6"/></svg></span>
-                </div>
+            </div>
+
+          <!-- Deriv setup guide (full width, below the cards) -->
+          <div class="deriv-guide reveal-dash" id="derivSetupGuide">
+            <div class="deriv-guide-head">
+              <span class="platform-conn-logo" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2V5z"/><path d="M8 7h6M8 11h6"/></svg></span>
+              <div>
                 <h3>Connect Your Deriv Account to XeroAI</h3>
-                <p class="deriv-guide-intro">To connect your Deriv account, you will need two credentials: your <strong>Deriv App ID</strong> and your <strong>API Token</strong>. Follow the steps below carefully.</p>
+                <p>To connect your Deriv account, you will need two credentials: your <strong>Deriv App ID</strong> and your <strong>API Token</strong>. Follow the steps below carefully.</p>
+              </div>
+            </div>
 
-                <div class="deriv-guide-step">
-                  <h4><span class="deriv-guide-num">1</span>Create Your Deriv App ID</h4>
-                  <ol>
-                    <li>Sign in to your Deriv account.</li>
-                    <li>Enter <strong>XeroAI Trading Bot</strong> as the app name.</li>
-                    <li>Keep Markup at <strong>0%</strong>.</li>
-                    <li>Enter <code>https://xeroai.live</code> as your website URL.</li>
-                    <li>Accept the Deriv terms and conditions.</li>
-                    <li>Click <strong>Create application</strong>.</li>
-                    <li>Copy and securely save your App ID.</li>
-                  </ol>
-                  <a class="deriv-guide-link" href="https://developers.deriv.com/dashboard/create/?mode=new&amp;type=pat" target="_blank" rel="noopener noreferrer">Create Deriv App ID <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
-                </div>
-
-                <div class="deriv-guide-step">
-                  <h4><span class="deriv-guide-num">2</span>Create Your Deriv API Token</h4>
-                  <p>Once your App ID has been created:</p>
-                  <ol>
-                    <li>Enter <strong>XeroAI Trading Bot</strong> as the token name.</li>
-                    <li>Select your preferred expiration date.</li>
-                    <li>Select the <strong>Trade</strong> authorization scope.</li>
-                    <li>Click <strong>Create Token</strong>.</li>
-                    <li>Copy and securely save your API Token.</li>
-                  </ol>
-                  <a class="deriv-guide-link" href="https://developers.deriv.com/dashboard/tokens/create/" target="_blank" rel="noopener noreferrer">Create Deriv API Token <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
-                </div>
-
-                <div class="deriv-guide-step">
-                  <h4><span class="deriv-guide-num">3</span>Enter Your Credentials in XeroAI</h4>
-                  <p>You should now have your <strong>App ID</strong> (your Deriv application ID) and your <strong>API Token</strong> (your Deriv personal access token). Enter both in the Deriv connection fields beside this guide.</p>
-                </div>
-
-                <div class="deriv-guide-notice" role="note">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 16H3L12 3z"/><path d="M12 10v4M12 17v.1"/></svg>
-                  <span><strong>Security Notice:</strong> Never share your API Token publicly or with anyone you do not trust. Your API Token provides access to your Deriv account according to the permissions you selected.</span>
-                </div>
-
-                <div class="deriv-guide-help">
-                  <h4>Need Help?</h4>
-                  <p>If you are unable to create your App ID or API Token, or you encounter an error during the process, please contact Deriv Support for assistance before proceeding.</p>
-                  <p>XeroAI Support can also assist you with connecting your credentials to XeroAI after they have been successfully created.</p>
-                  <a class="deriv-guide-link" href="https://wa.me/message/RUHRBAGRTGOFH1" target="_blank" rel="noopener noreferrer">Contact XeroAI Support <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
-                </div>
+            <div class="deriv-guide-steps">
+              <div class="deriv-guide-step">
+                <h4><span class="deriv-guide-num">1</span>Create Your Deriv App ID</h4>
+                <ol>
+                  <li>Sign in to your Deriv account.</li>
+                  <li>Enter <strong>XeroAI Trading Bot</strong> as the app name.</li>
+                  <li>Keep Markup at <strong>0%</strong>.</li>
+                  <li>Enter <code>https://xeroai.live</code> as your website URL.</li>
+                  <li>Accept the Deriv terms and conditions.</li>
+                  <li>Click <strong>Create application</strong>.</li>
+                  <li>Copy and securely save your App ID.</li>
+                </ol>
+                <a class="deriv-guide-link" href="https://developers.deriv.com/dashboard/create/?mode=new&amp;type=pat" target="_blank" rel="noopener noreferrer">Create Deriv App ID <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
               </div>
 
+              <div class="deriv-guide-step">
+                <h4><span class="deriv-guide-num">2</span>Create Your Deriv API Token</h4>
+                <ol>
+                  <li>Once your App ID has been created, open the token page.</li>
+                  <li>Enter <strong>XeroAI Trading Bot</strong> as the token name.</li>
+                  <li>Select your preferred expiration date.</li>
+                  <li>Select the <strong>Trade</strong> authorization scope.</li>
+                  <li>Click <strong>Create Token</strong>.</li>
+                  <li>Copy and securely save your API Token.</li>
+                </ol>
+                <a class="deriv-guide-link" href="https://developers.deriv.com/dashboard/tokens/create/" target="_blank" rel="noopener noreferrer">Create Deriv API Token <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+              </div>
+
+              <div class="deriv-guide-step">
+                <h4><span class="deriv-guide-num">3</span>Enter Your Credentials in XeroAI</h4>
+                <p>You should now have:</p>
+                <ul class="deriv-guide-creds">
+                  <li><strong>App ID</strong> &mdash; your Deriv application ID</li>
+                  <li><strong>API Token</strong> &mdash; your Deriv personal access token</li>
+                </ul>
+                <p>Enter both credentials in the <strong>Connect Your Deriv Account</strong> fields above, then click <strong>Connect Deriv</strong>.</p>
+              </div>
             </div>
+
+            <div class="deriv-guide-foot">
+              <div class="deriv-guide-notice" role="note">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 16H3L12 3z"/><path d="M12 10v4M12 17v.1"/></svg>
+                <span><strong>Security Notice:</strong> Never share your API Token publicly or with anyone you do not trust. Your API Token provides access to your Deriv account according to the permissions you selected.</span>
+              </div>
+              <div class="deriv-guide-help">
+                <h4>Need Help?</h4>
+                <p>If you are unable to create your App ID or API Token, or you encounter an error during the process, please contact Deriv Support before proceeding. XeroAI Support can also help you connect your credentials after they have been created.</p>
+                <a class="deriv-guide-link" href="https://wa.me/message/RUHRBAGRTGOFH1" target="_blank" rel="noopener noreferrer">Contact XeroAI Support <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+              </div>
+            </div>
+          </div>
           </div>
 
         </section>

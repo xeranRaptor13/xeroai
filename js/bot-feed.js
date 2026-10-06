@@ -31,7 +31,7 @@
     }, function () { XeroAISignals.update([]); });
 
     /* ---- Trend + Decision rings from the last 7 daily docs ---- */
-    db.collection('bot_daily').orderBy(firebase.firestore.FieldPath.documentId(), 'desc').limit(7)
+    db.collection('bot_daily').orderBy('date', 'desc').limit(7)
       .onSnapshot(function (snap) {
         var days = [];
         snap.forEach(function (doc) { days.push({ id: doc.id, d: doc.data() }); });
@@ -49,7 +49,7 @@
         });
         if (window.XeroAITrend) XeroAITrend.update(trend);
         if (window.XeroAIDecisions) XeroAIDecisions.update({ buy: buy, sell: sell, hold: hold });
-      }, function () {});
+      }, function (e) { console.warn('bot_daily feed error:', e && e.code, e && e.message); });
 
     /* ---- LIVE / OFFLINE from the bot heartbeat ---- */
     var online = false, lastSeen = 0, lastHb = null, first = true;

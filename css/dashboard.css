@@ -1857,40 +1857,6 @@
   .direction-sell{ color: var(--red); background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3); }
 
   /* ---- live market watch ---- */
-  .market-watch-group{ margin-bottom: 24px; }
-
-  .market-watch-grid{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
-
-  .market-watch-card{
-    padding: 20px 22px;
-    border-radius: 16px;
-    background: rgba(255,255,255,0.025);
-    border: 1px solid var(--border);
-    transition: border-color .3s ease, box-shadow .3s ease, transform .2s ease;
-  }
-  .market-watch-card:hover{
-    border-color: rgba(94,142,255,0.3);
-    box-shadow: 0 18px 40px -26px rgba(94,142,255,0.4);
-    transform: translateY(-2px);
-  }
-
-  .market-watch-top{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-  }
-  .market-watch-top h3{
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 14.5px;
-    color: var(--ink);
-  }
-
   .live-pulse-dot{
     width: 8px;
     height: 8px;
@@ -1901,23 +1867,12 @@
     flex-shrink: 0;
   }
 
-  .market-watch-row{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 6px 0;
-    font-size: 12.5px;
-    color: var(--dim);
-  }
-  .market-watch-row span:last-child{ font-weight: 500; color: var(--ink); }
-
   .trend-up{ color: var(--green) !important; }
   .trend-down{ color: var(--red) !important; }
   .trend-neutral{ color: var(--gold) !important; }
 
   @media (prefers-reduced-motion: reduce){
     .badge-running .dot, .badge-monitoring .dot, .live-pulse-dot{ animation: none !important; }
-    .market-watch-card{ transform: none !important; }
   }
 
   /* ============ AI DECISION CENTER & TRADE HISTORY (Module 2C.2) ============ */

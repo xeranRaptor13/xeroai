@@ -598,7 +598,7 @@
           a.innerHTML = '<div class="xmk-ico"><span class="xmk-tag"><i>' + m[2] + '</i>' + (m[3] ? '<i class="s">1s</i>' : '') + '</span>' + CANDLES + '</div>' +
             '<div class="xmk-name">' + m[1] + '</div><div class="xmk-price">&mdash;</div>' +
             '<div class="xmk-foot"><svg class="xmk-spark" viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true"><polyline points=""/></svg>' +
-            '<div class="xmk-chg"><b>&mdash;</b> <span>(5m)</span></div></div>';
+            '<div class="xmk-chg"><b>&mdash;</b> <span>(5 ticks)</span></div></div>';
           grid.appendChild(a);
           cards[m[0]] = { a: a, price: a.querySelector('.xmk-price'), line: a.querySelector('polyline'), chg: a.querySelector('.xmk-chg b'), pts: [], dirty: false };
         });
@@ -620,28 +620,31 @@
         }
         setInterval(function () { Object.keys(cards).forEach(function (k) { if (cards[k].dirty) { cards[k].dirty = false; render(cards[k]); } }); }, 1000);
 
-        function connect() {
-          try { ws = new WebSocket('wss://ws.derivws.com/websockets/v3?app_id=1089'); } catch (e) { return; }
-          ws.onopen = function () {
-            var now = Math.floor(Date.now() / 1000);
-            Object.keys(cards).forEach(function (sym) { ws.send(JSON.stringify({ ticks_history: sym, end: 'latest', start: now - WINDOW, style: 'ticks', count: 5000, adjust_start_time: 1, subscribe: 1 })); });
-            clearInterval(pingT); pingT = setInterval(function () { if (ws.readyState === 1) ws.send(JSON.stringify({ ping: 1 })); }, 30000);
-          };
-          ws.onmessage = function (ev) {
-            var d; try { d = JSON.parse(ev.data); } catch (e) { return; }
-            if (d.error) { console.warn('[markets]', d.echo_req && d.echo_req.ticks_history, d.error.message); return; }
-            if (d.msg_type === 'history' && d.history && d.echo_req) {
-              var c = cards[d.echo_req.ticks_history]; if (!c) return;
-              c.pts = d.history.times.map(function (t, i) { return [t, Number(d.history.prices[i])]; }); c.dirty = true;
-            } else if (d.msg_type === 'tick' && d.tick) {
-              var c2 = cards[d.tick.symbol]; if (!c2) return;
-              c2.pts.push([d.tick.epoch, Number(d.tick.quote)]); c2.dirty = true;
-            }
-          };
-          ws.onclose = function () { clearInterval(pingT); setTimeout(connect, 4000); };
-          ws.onerror = function () { try { ws.close(); } catch (e) {} };
+        /* Fed by the XeroAI bot via Firestore (bot_markets/current). No direct Deriv connection. */
+        function applyData(json) {
+          var d; try { d = JSON.parse(json); } catch (e) { return; }
+          Object.keys(d).forEach(function (sym) {
+            var c = cards[sym], m = d[sym]; if (!c || !m || !m.s || !m.s.length) return;
+            c.price.textContent = fmt(m.p);
+            c.chg.textContent = (m.c >= 0 ? '+' : '') + m.c.toFixed(2) + '%';
+            c.a.classList.toggle('up', m.c >= 0); c.a.classList.toggle('down', m.c < 0);
+            var v = m.s, min = Math.min.apply(null, v), max = Math.max.apply(null, v), rng = (max - min) || 1;
+            c.line.setAttribute('points', v.map(function (x, i) { return (i / Math.max(1, v.length - 1) * 100).toFixed(1) + ',' + (28 - (x - min) / rng * 26).toFixed(1); }).join(' '));
+          });
         }
-        connect();
+        function labelTicks(n) { document.querySelectorAll('.xmk-chg span').forEach(function (s) { s.textContent = '(' + n + ' ticks)'; }); }
+        function start() {
+          if (!(window.firebase && firebase.apps && firebase.apps.length && firebase.auth)) { return setTimeout(start, 400); }
+          firebase.auth().onAuthStateChanged(function (u) {
+            if (!u) return;
+            firebase.firestore().doc('bot_markets/current').onSnapshot(function (snap) {
+              if (!snap.exists) return;
+              var x = snap.data(); if (x.changeTicks) labelTicks(x.changeTicks);
+              applyData(x.data);
+            }, function (err) { console.warn('[markets]', err.message); });
+          });
+        }
+        start();
       })();
     })();
   </script>

@@ -94,8 +94,6 @@
     .xmk-chg span{color:var(--dim-2)}
     .xmk-card.up .xmk-spark polyline{stroke:var(--green)}.xmk-card.up .xmk-chg b{color:var(--green)}
     .xmk-card.down .xmk-spark polyline{stroke:var(--red)}.xmk-card.down .xmk-chg b{color:var(--red)}
-    .xmk-all{align-items:center;justify-content:center;gap:10px;font-size:13px;color:var(--dim)}
-    .xmk-all svg{width:22px;height:22px}
     @media (prefers-reduced-motion:reduce){
       .xsig-live-dot,.xsig-row.is-flash,.xsig-bar.is-top,.xtr-ring{animation:none!important}
       .xsig-row,.xsig-bar{transition:none!important}
@@ -604,9 +602,6 @@
           grid.appendChild(a);
           cards[m[0]] = { a: a, price: a.querySelector('.xmk-price'), line: a.querySelector('polyline'), chg: a.querySelector('.xmk-chg b'), pts: [], dirty: false };
         });
-        var all = document.createElement('a'); all.className = 'xmk-card xmk-all'; all.href = 'trading.html';
-        all.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span>View all</span>';
-        grid.appendChild(all);
 
         function fmt(n) { return n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
         function render(c) {
@@ -634,6 +629,7 @@
           };
           ws.onmessage = function (ev) {
             var d; try { d = JSON.parse(ev.data); } catch (e) { return; }
+            if (d.error) { console.warn('[markets]', d.echo_req && d.echo_req.ticks_history, d.error.message); return; }
             if (d.msg_type === 'history' && d.history && d.echo_req) {
               var c = cards[d.echo_req.ticks_history]; if (!c) return;
               c.pts = d.history.times.map(function (t, i) { return [t, Number(d.history.prices[i])]; }); c.dirty = true;

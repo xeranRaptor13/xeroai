@@ -21,7 +21,7 @@
 (function(){
 
   const statusBadge = document.getElementById('subStatusBadge');
-  if(!statusBadge) return;                       // only run on subscription.html
+  if(!document.getElementById('paymentSection')) return;   // only run on subscription.html
   if(!window.xeroaiAuth || !window.xeroaiDb) return;
 
   const DAY_MS = 24 * 60 * 60 * 1000;
@@ -133,20 +133,22 @@
       : DEFAULT_TRIAL_DAYS;
     const usedDays = Math.min(totalDays, Math.max(0, totalDays - remaining));
 
-    /* badge */
-    statusBadge.classList.remove('badge-online', 'badge-waiting', 'badge-closed');
-    if(state === 'trial'){
-      statusBadge.classList.add('badge-online');
-      statusBadge.innerHTML = '<span class="dot"></span>Free Trial Active';
-    }else if(state === 'pending'){
-      statusBadge.classList.add('badge-waiting');
-      statusBadge.innerHTML = '<span class="dot"></span>Payment Under Review';
-    }else if(state === 'active'){
-      statusBadge.classList.add('badge-online');
-      statusBadge.innerHTML = '<span class="dot"></span>Subscription Active';
-    }else{
-      statusBadge.classList.add('badge-closed');
-      statusBadge.innerHTML = '<span class="dot"></span>Trial Expired \u2014 Payment Required';
+    /* badge (status card may not exist on the page) */
+    if(statusBadge){
+      statusBadge.classList.remove('badge-online', 'badge-waiting', 'badge-closed');
+      if(state === 'trial'){
+        statusBadge.classList.add('badge-online');
+        statusBadge.innerHTML = '<span class="dot"></span>Free Trial Active';
+      }else if(state === 'pending'){
+        statusBadge.classList.add('badge-waiting');
+        statusBadge.innerHTML = '<span class="dot"></span>Payment Under Review';
+      }else if(state === 'active'){
+        statusBadge.classList.add('badge-online');
+        statusBadge.innerHTML = '<span class="dot"></span>Subscription Active';
+      }else{
+        statusBadge.classList.add('badge-closed');
+        statusBadge.innerHTML = '<span class="dot"></span>Trial Expired \u2014 Payment Required';
+      }
     }
 
     /* trial progress bar: only while the trial is running */

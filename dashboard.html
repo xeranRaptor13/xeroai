@@ -442,7 +442,7 @@
           r.bars = [];
           for (var i = 0; i < BARS; i++) { var b = el('span', 'xsig-bar'); b.style.height = (7 + i * 4) + 'px'; r.meter.appendChild(b); r.bars.push(b); }
           r.conf = el('span', 'xsig-conf');
-          top.appendChild(id); top.appendChild(r.badge); top.appendChild(r.meter); top.appendChild(r.conf);
+          top.appendChild(id); top.appendChild(r.badge); top.appendChild(r.meter);
           r.el.appendChild(top); listEl.appendChild(r.el);
           void r.el.offsetWidth; requestAnimationFrame(function () { r.el.classList.add('is-in'); });
           return r;

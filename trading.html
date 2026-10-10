@@ -55,6 +55,24 @@
 @media (max-width:640px){.deriv-guide{padding:20px 16px}.deriv-guide-head{align-items:flex-start}}
 </style>
 
+  <style id="xeroai-trade-history-style">
+    /* Recent Trade History: live rows + mobile cards */
+    #tradeHistoryCard .th-empty td{padding:26px 0;text-align:center;color:var(--dim);font-size:13px}
+    #tradeHistoryCard .th-flash{animation:th-flash 1.2s ease}
+    @keyframes th-flash{0%{background:rgba(94,142,255,.16)}100%{background:transparent}}
+    @media (prefers-reduced-motion:reduce){#tradeHistoryCard .th-flash{animation:none}}
+    @media (max-width:640px){
+      #tradeHistoryCard{padding:18px 16px 6px}
+      #tradeHistoryCard .monitor-table{min-width:0}
+      #tradeHistoryCard .monitor-table thead{display:none}
+      #tradeHistoryCard .monitor-table,#tradeHistoryCard .monitor-table tbody{display:block}
+      #tradeHistoryCard .monitor-table tbody tr.th-row{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px;padding:14px 0;border-bottom:1px solid var(--border)}
+      #tradeHistoryCard .monitor-table tbody tr.th-row:last-child{border-bottom:none}
+      #tradeHistoryCard .monitor-table tbody tr.th-row td{display:block;padding:0;border:none;min-width:0;overflow-wrap:anywhere}
+      #tradeHistoryCard .monitor-table tbody tr.th-row td::before{content:attr(data-label);display:block;margin-bottom:4px;font-family:var(--font-mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--dim-2)}
+      #tradeHistoryCard .monitor-table tbody tr.th-empty,#tradeHistoryCard .monitor-table tbody tr.th-empty td{display:block}
+    }
+  </style>
 </head>
 <body class="dash-body app-body">
 
@@ -309,7 +327,7 @@
         <section class="ai-decision-center" id="aiDecisionCenter">
 
           <!-- Recent Trade History -->
-          <div class="monitor-table-card reveal-dash">
+          <div class="monitor-table-card reveal-dash" id="tradeHistoryCard">
             <h3>Recent Trade History</h3>
             <div class="monitor-table-scroll">
               <table class="monitor-table">
@@ -323,31 +341,8 @@
                     <th>Profit/Loss</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td class="mono-cell">09:10</td>
-                    <td>Deriv</td>
-                    <td>Volatility 75</td>
-                    <td><span class="direction-badge direction-buy">BUY</span></td>
-                    <td><span class="badge-pill badge-closed">Closed</span></td>
-                    <td class="mono-cell pnl-positive">+$8.50</td>
-                  </tr>
-                  <tr>
-                    <td class="mono-cell">09:18</td>
-                    <td>Deriv</td>
-                    <td>BTC/USDT</td>
-                    <td><span class="direction-badge direction-sell">SELL</span></td>
-                    <td><span class="badge-pill badge-open"><span class="dot"></span>Open</span></td>
-                    <td class="mono-cell">&mdash;</td>
-                  </tr>
-                  <tr>
-                    <td class="mono-cell">09:26</td>
-                    <td>Deriv</td>
-                    <td>EUR/USD</td>
-                    <td><span class="direction-badge direction-buy">BUY</span></td>
-                    <td><span class="badge-pill badge-closed">Closed</span></td>
-                    <td class="mono-cell pnl-positive">+$5.20</td>
-                  </tr>
+                <tbody id="tradeHistoryBody">
+                  <tr class="th-empty"><td colspan="6">Loading trades&hellip;</td></tr>
                 </tbody>
               </table>
             </div>
@@ -395,6 +390,7 @@
   <script src="js/firebase-init.js"></script>
   <script src="js/require-onboarded.js"></script>
   <script src="js/dashboard.js"></script>
+  <script src="js/trade-feed.js"></script>
   <script src="js/pwa.js"></script>
 <script>
 (function(){

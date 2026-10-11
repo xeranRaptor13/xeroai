@@ -100,6 +100,25 @@
     }
   </style>
 
+  <style id="xeroai-trade-history-style">
+    /* Recent Trade History: live rows + mobile cards */
+    #tradeHistoryCard{margin-top:20px}
+    #tradeHistoryCard .th-empty td{padding:26px 0;text-align:center;color:var(--dim);font-size:13px}
+    #tradeHistoryCard .th-flash{animation:th-flash 1.2s ease}
+    @keyframes th-flash{0%{background:rgba(94,142,255,.16)}100%{background:transparent}}
+    @media (prefers-reduced-motion:reduce){#tradeHistoryCard .th-flash{animation:none}}
+    @media (max-width:640px){
+      #tradeHistoryCard{padding:18px 16px 6px}
+      #tradeHistoryCard .monitor-table{min-width:0}
+      #tradeHistoryCard .monitor-table thead{display:none}
+      #tradeHistoryCard .monitor-table,#tradeHistoryCard .monitor-table tbody{display:block}
+      #tradeHistoryCard .monitor-table tbody tr.th-row{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px;padding:14px 0;border-bottom:1px solid var(--border)}
+      #tradeHistoryCard .monitor-table tbody tr.th-row:last-child{border-bottom:none}
+      #tradeHistoryCard .monitor-table tbody tr.th-row td{display:block;padding:0;border:none;min-width:0;overflow-wrap:anywhere}
+      #tradeHistoryCard .monitor-table tbody tr.th-row td::before{content:attr(data-label);display:block;margin-bottom:4px;font-family:var(--font-mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--dim-2)}
+      #tradeHistoryCard .monitor-table tbody tr.th-empty,#tradeHistoryCard .monitor-table tbody tr.th-empty td{display:block}
+    }
+  </style>
 </head>
 <body class="dash-body app-body">
 
@@ -308,6 +327,28 @@
           <div class="xmk-block reveal-dash" id="mostTradedMarkets">
             <h3 class="xmk-title">Most traded markets</h3>
             <div class="xmk-grid" id="xmkGrid"></div>
+          </div>
+
+          <!-- Recent Trade History (live from the trading bot) -->
+          <div class="monitor-table-card reveal-dash" id="tradeHistoryCard">
+            <h3>Recent Trade History</h3>
+            <div class="monitor-table-scroll">
+              <table class="monitor-table">
+                <thead>
+                  <tr>
+                    <th>Time</th>
+                    <th>Platform</th>
+                    <th>Market</th>
+                    <th>Action</th>
+                    <th>Result</th>
+                    <th>Profit/Loss</th>
+                  </tr>
+                </thead>
+                <tbody id="tradeHistoryBody">
+                  <tr class="th-empty"><td colspan="6">Loading trades&hellip;</td></tr>
+                </tbody>
+              </table>
+            </div>
           </div>
 
         </section>
@@ -655,6 +696,7 @@
   <script src="js/require-onboarded.js"></script>
   <script src="js/dashboard.js"></script>
   <script src="js/bot-feed.js"></script>
+  <script src="js/trade-feed.js"></script>
   <script src="js/pwa.js"></script>
 </body>
 </html>

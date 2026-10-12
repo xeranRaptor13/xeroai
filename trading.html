@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/dashboard.css?v=2">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#08090c">
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
@@ -147,32 +147,6 @@
 
           <div class="overview-row">
 
-            <!-- AI Engine Status -->
-            <div class="engine-status-card reveal-dash">
-              <div class="engine-status-head">
-                <h3>AI Engine</h3>
-                <span class="badge-pill badge-online"><span class="dot"></span>Online</span>
-              </div>
-              <div class="engine-status-grid">
-                <div class="engine-stat">
-                  <span class="engine-stat-label">Trading Model</span>
-                  <span class="engine-stat-value">XeroAI V1</span>
-                </div>
-                <div class="engine-stat">
-                  <span class="engine-stat-label">Mode</span>
-                  <span class="engine-stat-value">Automatic</span>
-                </div>
-                <div class="engine-stat">
-                  <span class="engine-stat-label">Signal Quality</span>
-                  <span class="engine-stat-value engine-stat-good">Excellent</span>
-                </div>
-                <div class="engine-stat">
-                  <span class="engine-stat-label">Version</span>
-                  <span class="engine-stat-value">1.0</span>
-                </div>
-              </div>
-            </div>
-
             <!-- Quick actions -->
             <div class="quick-actions reveal-dash">
               <button type="button" class="quick-action-btn rippleable" id="qaStartAi" data-action="start">
@@ -198,18 +172,6 @@
           <div class="platform-group">
             <h4 class="platform-group-title">Forex Brokers</h4>
             <div class="platform-cards-grid">
-
-              <div class="platform-conn-card reveal-dash" data-platform="deriv">
-                <div class="platform-conn-top">
-                  <span class="platform-conn-logo">DRV</span>
-                </div>
-                <h3>Deriv</h3>
-                <ul class="platform-conn-tags">
-                  <li>Synthetic Indices</li>
-                  <li>Forex</li>
-                  <li>Multipliers</li>
-                </ul>
-              </div>
 
               <div class="platform-conn-card reveal-dash" data-platform="connect-deriv">
                 <div class="platform-conn-top">

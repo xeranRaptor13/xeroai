@@ -48,6 +48,15 @@
 .platform-conn-card[data-platform="connect-deriv"]{padding:16px 18px;border-radius:14px;border:1px solid rgba(217,166,92,.28);background:rgba(217,166,92,.07);font-size:12.5px;line-height:1.6;color:var(--dim)}
 .platform-conn-card[data-platform="connect-deriv"]:hover{border-color:rgba(217,166,92,.45);box-shadow:none;transform:none}
 .platform-conn-card[data-platform="connect-deriv"] h3{color:var(--gold)}
+.platform-conn-card[data-platform="connect-deriv"]{grid-column:1/-1;display:flex;align-items:flex-start;gap:32px;padding:22px 24px}
+.platform-conn-card[data-platform="connect-deriv"] .connect-info{flex:0 0 300px;max-width:300px}
+.platform-conn-card[data-platform="connect-deriv"] .connect-form{flex:1;min-width:0}
+.platform-conn-card[data-platform="connect-deriv"] .connect-fields{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.platform-conn-card[data-platform="connect-deriv"] .platform-connect-field{margin-top:0}
+.platform-conn-card[data-platform="connect-deriv"] .connect-actions{display:flex;align-items:center;gap:14px;margin-top:16px}
+.platform-conn-card[data-platform="connect-deriv"] .platform-connect-btn{width:auto;min-width:180px;margin-top:0}
+.platform-conn-card[data-platform="connect-deriv"] .xeroai-deriv-status{flex:1;margin-top:0}
+@media(max-width:900px){.platform-conn-card[data-platform="connect-deriv"]{flex-direction:column;gap:18px}.platform-conn-card[data-platform="connect-deriv"] .connect-info{flex:none;max-width:none}.platform-conn-card[data-platform="connect-deriv"] .connect-fields{grid-template-columns:1fr}.platform-conn-card[data-platform="connect-deriv"] .connect-actions{flex-direction:column;align-items:stretch}.platform-conn-card[data-platform="connect-deriv"] .platform-connect-btn{width:100%}}
 .deriv-guide-notice{display:flex;gap:11px;padding:16px 18px;border-radius:14px;border:1px solid rgba(217,166,92,.28);background:rgba(217,166,92,.07);font-size:12.5px;line-height:1.6;color:var(--dim)}
 .deriv-guide-notice svg{flex:0 0 18px;width:18px;height:18px;margin-top:1px;color:var(--gold)}
 .deriv-guide-notice strong{color:var(--gold)}
@@ -153,12 +162,16 @@
             <div class="platform-cards-grid">
 
               <div class="platform-conn-card reveal-dash" data-platform="connect-deriv">
-                <div class="platform-conn-top">
-                  <span class="platform-conn-logo">DRV</span>
+                <div class="connect-info">
+                  <div class="platform-conn-top">
+                    <span class="platform-conn-logo">DRV</span>
+                  </div>
+                  <h3>Connect Your Deriv Account</h3>
+                  <p class="platform-connect-subtext">Connect your own Deriv account. Credentials are encrypted and used only to execute trades on your behalf.</p>
                 </div>
-                <h3>Connect Your Deriv Account</h3>
-                <p class="platform-connect-subtext">Connect your own Deriv account. Credentials are encrypted and used only to execute trades on your behalf.</p>
 
+                <div class="connect-form">
+                <div class="connect-fields">
                 <div class="settings-field platform-connect-field">
                   <label for="tradingDerivAppId">App ID</label>
                   <input type="text" id="tradingDerivAppId" value="1089">
@@ -170,12 +183,16 @@
                   <input type="password" id="tradingDerivToken" autocomplete="off" placeholder="Enter your Deriv API token">
                   <p class="platform-connect-hint">Your Deriv Personal Access Token, with the trade scope enabled.</p>
                 </div>
+                </div>
 
+                <div class="connect-actions">
                 <button type="button" class="btn-settings-save platform-connect-btn" id="connectDerivBtn">Connect Deriv</button>
 
                 <div id="derivAdminConnectionStatus" class="xeroai-deriv-status" aria-live="polite">
                   <span class="xeroai-deriv-status-dot"></span>
                   <span class="xeroai-deriv-status-text">Not connected</span>
+                </div>
+                </div>
                 </div>
               </div>
 

@@ -21,6 +21,18 @@
     .hero-connect-btn:hover{border-color:rgba(94,142,255,.7);transform:translateY(-1px);box-shadow:0 6px 20px rgba(94,142,255,.18)}
     .hero-connect-btn svg{width:16px;height:16px;flex:0 0 16px;color:#8ab4ff}
     @media(max-width:900px){.hero-connect-btn{margin-right:0}}
+    /* Connect-your-account dropdown (Deriv / HFM) */
+    .hero-connect-wrap{position:relative;margin-right:40px}
+    .hero-connect-wrap .hero-connect-btn{margin-right:0;cursor:pointer}
+    .hero-connect-caret{width:12px!important;height:12px!important;flex:0 0 12px!important;transition:transform .2s}
+    .hero-connect-btn[aria-expanded="true"] .hero-connect-caret{transform:rotate(180deg)}
+    .hero-connect-menu{position:absolute;top:calc(100% + 10px);right:0;z-index:60;display:none;gap:10px;padding:10px;border-radius:14px;border:1px solid rgba(94,142,255,.28);background:linear-gradient(180deg,rgba(17,22,32,.98),rgba(10,13,19,.98));box-shadow:0 16px 40px rgba(0,0,0,.45)}
+    .hero-connect-menu.is-open{display:flex}
+    .hero-connect-option{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;width:110px;padding:16px 10px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:#f3f4f6;text-decoration:none;transition:border-color .2s,background .2s,transform .2s}
+    .hero-connect-option:hover,.hero-connect-option:focus-visible{border-color:rgba(94,142,255,.7);background:rgba(94,142,255,.12);transform:translateY(-1px);outline:none}
+    .hero-connect-option-logo{display:grid;place-items:center;width:38px;height:38px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#8ab4ff;font:600 11px/1 "JetBrains Mono",monospace;letter-spacing:.04em}
+    .hero-connect-option-name{font:600 13px/1 Inter,sans-serif}
+    @media(max-width:900px){.hero-connect-wrap{margin-right:0}.hero-connect-menu{right:auto;left:0}}
   </style>
 
   <style id="xeroai-trial-countdown-style">
@@ -233,10 +245,23 @@
             <p>Your AI trading assistant is ready.</p>
           </div>
 
-          <a class="hero-connect-btn" href="trading.html#connectedPlatforms">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07L11.5 4.43"/><path d="M14 11a5 5 0 0 0-7.07 0L4.1 13.83a5 5 0 0 0 7.07 7.07l1.33-1.33"/></svg>
-            Connect your account
-          </a>
+          <div class="hero-connect-wrap" id="heroConnectWrap">
+            <button type="button" class="hero-connect-btn" id="heroConnectBtn" aria-haspopup="true" aria-expanded="false" aria-controls="heroConnectMenu">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07L11.5 4.43"/><path d="M14 11a5 5 0 0 0-7.07 0L4.1 13.83a5 5 0 0 0 7.07 7.07l1.33-1.33"/></svg>
+              Connect your account
+              <svg class="hero-connect-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="hero-connect-menu" id="heroConnectMenu" role="menu" aria-label="Choose a platform to connect">
+              <a class="hero-connect-option" role="menuitem" href="trading.html#connectedPlatforms">
+                <span class="hero-connect-option-logo">DRV</span>
+                <span class="hero-connect-option-name">Deriv</span>
+              </a>
+              <a class="hero-connect-option" role="menuitem" href="https://my.hfm.com/en/copy-trading/provider-details?provider=153236541" target="_blank" rel="noopener noreferrer">
+                <span class="hero-connect-option-logo">HFM</span>
+                <span class="hero-connect-option-name">HFM</span>
+              </a>
+            </div>
+          </div>
         </section>
 
         <!-- ============ TRADING OVERVIEW (Module 2A) ============ -->
@@ -260,6 +285,42 @@
                 <li><span class="sys-dot"></span>Server Status <em>Online</em></li>
                 <li><span class="sys-dot"></span>Database Status <em>Connected</em></li>
               </ul>
+            </div>
+
+            <!-- Connection Health -->
+            <div class="connection-health-card reveal-dash">
+              <h3>Connection Health</h3>
+
+              <div class="health-row">
+                <span class="health-name">Deriv</span>
+                <div class="progress-bar-track"><div class="progress-bar-fill progress-bar-green" data-bar-target="100"></div></div>
+                <span class="health-status">Healthy</span>
+              </div>
+              <div class="health-row">
+                <span class="health-name">HFM</span>
+                <div class="progress-bar-track"><div class="progress-bar-fill progress-bar-red" data-bar-target="0"></div></div>
+                <span class="health-status health-status-offline">Offline</span>
+              </div>
+              <div class="health-row">
+                <span class="health-name">Exness</span>
+                <div class="progress-bar-track"><div class="progress-bar-fill progress-bar-red" data-bar-target="0"></div></div>
+                <span class="health-status health-status-offline">Offline</span>
+              </div>
+              <div class="health-row">
+                <span class="health-name">Binance</span>
+                <div class="progress-bar-track"><div class="progress-bar-fill progress-bar-red" data-bar-target="0"></div></div>
+                <span class="health-status health-status-offline">Offline</span>
+              </div>
+              <div class="health-row">
+                <span class="health-name">Bybit</span>
+                <div class="progress-bar-track"><div class="progress-bar-fill progress-bar-red" data-bar-target="0"></div></div>
+                <span class="health-status health-status-offline">Offline</span>
+              </div>
+              <div class="health-row">
+                <span class="health-name">OKX</span>
+                <div class="progress-bar-track"><div class="progress-bar-fill progress-bar-red" data-bar-target="0"></div></div>
+                <span class="health-status health-status-offline">Offline</span>
+              </div>
             </div>
 
           </div>
@@ -677,5 +738,39 @@
   <script src="js/bot-feed.js"></script>
   <script src="js/trade-feed.js"></script>
   <script src="js/pwa.js"></script>
+
+  <script id="xeroai-connect-dropdown">
+    (function(){
+      var wrap = document.getElementById('heroConnectWrap');
+      var btn = document.getElementById('heroConnectBtn');
+      var menu = document.getElementById('heroConnectMenu');
+      if(!wrap || !btn || !menu) return;
+
+      function setOpen(open){
+        menu.classList.toggle('is-open', open);
+        btn.setAttribute('aria-expanded', String(open));
+      }
+
+      btn.addEventListener('click', function(e){
+        e.stopPropagation();
+        setOpen(!menu.classList.contains('is-open'));
+      });
+
+      document.addEventListener('click', function(e){
+        if(!wrap.contains(e.target)) setOpen(false);
+      });
+
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape' && menu.classList.contains('is-open')){
+          setOpen(false);
+          btn.focus();
+        }
+      });
+
+      menu.querySelectorAll('a').forEach(function(a){
+        a.addEventListener('click', function(){ setOpen(false); });
+      });
+    })();
+  </script>
 </body>
 </html>

@@ -34,7 +34,10 @@
     .hero-connect-option-logo img{display:block;width:100%;height:100%;object-fit:cover}
     .hero-connect-option-logo.is-deriv img{width:72%;height:72%;object-fit:contain}
     .hero-connect-option-name{font:600 13px/1 Inter,sans-serif}
-    @media(max-width:900px){.hero-connect-wrap{margin-right:0}.hero-connect-menu{right:auto;left:0}}
+    /* Fix: .reveal-dash cards use transform, so each makes its own stacking context; lift the hero above the cards below it */
+    .dash-hero{position:relative;z-index:20}
+    /* Mobile: open the menu in the page flow so it pushes the cards down instead of covering them */
+    @media(max-width:900px){.hero-connect-wrap{margin-right:0}.hero-connect-menu{position:static;margin-top:10px;width:max-content;max-width:100%}}
   </style>
 
   <style id="xeroai-trial-countdown-style">

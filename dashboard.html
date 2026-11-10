@@ -671,7 +671,12 @@
           ['R_100', 'Volatility 100 Index', '100', false],
           ['R_10', 'Volatility 10 Index', '10', false],
           ['R_75', 'Volatility 75 Index', '75', false],
-          ['1HZ10V', 'Volatility 10 (1s) Index', '10', true]
+          ['1HZ10V', 'Volatility 10 (1s) Index', '10', true],
+          ['CRASH500', 'Crash 500 Index', '500', false],
+          ['frxEURUSD', 'EUR/USD', 'FX', false, 5],
+          ['frxGBPUSD', 'GBP/USD', 'FX', false, 5],
+          ['frxUSDJPY', 'USD/JPY', 'FX', false, 3],
+          ['frxUSDCAD', 'USD/CAD', 'FX', false, 5]
         ], cards = {}, ws, pingT;
         var CANDLES = '<svg viewBox="0 0 28 20" aria-hidden="true"><path d="M4 3v14M4 6h0M14 1v12M24 5v13" stroke="#2bb3a3" stroke-width="1.5"/><rect x="2" y="6" width="4" height="7" fill="#2bb3a3"/><rect x="12" y="3" width="4" height="7" fill="#e5484d"/><rect x="22" y="8" width="4" height="7" fill="#2bb3a3"/></svg>';
         M.forEach(function (m) {
@@ -681,16 +686,16 @@
             '<div class="xmk-foot"><svg class="xmk-spark" viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true"><polyline points=""/></svg>' +
             '<div class="xmk-chg"><b>&mdash;</b> <span>(5 ticks)</span></div></div>';
           grid.appendChild(a);
-          cards[m[0]] = { a: a, price: a.querySelector('.xmk-price'), line: a.querySelector('polyline'), chg: a.querySelector('.xmk-chg b'), pts: [], dirty: false };
+          cards[m[0]] = { dec: (m[4] == null ? 2 : m[4]), a: a, price: a.querySelector('.xmk-price'), line: a.querySelector('polyline'), chg: a.querySelector('.xmk-chg b'), pts: [], dirty: false };
         });
 
-        function fmt(n) { return n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+        function fmt(n, d) { d = (d == null ? 2 : d); return n.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d }); }
         function render(c) {
           var p = c.pts, now = Date.now() / 1000;
           while (p.length && p[0][0] < now - WINDOW) p.shift();
           if (!p.length) return;
           var first = p[0][1], last = p[p.length - 1][1], pct = first ? (last - first) / first * 100 : 0;
-          c.price.textContent = fmt(last);
+          c.price.textContent = fmt(last, c.dec);
           c.chg.textContent = (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
           c.a.classList.toggle('up', pct >= 0); c.a.classList.toggle('down', pct < 0);
           var step = Math.max(1, Math.floor(p.length / 60)), min = Infinity, max = -Infinity, v = [];
@@ -706,7 +711,7 @@
           var d; try { d = JSON.parse(json); } catch (e) { return; }
           Object.keys(d).forEach(function (sym) {
             var c = cards[sym], m = d[sym]; if (!c || !m || !m.s || !m.s.length) return;
-            c.price.textContent = fmt(m.p);
+            c.price.textContent = fmt(m.p, c.dec);
             c.chg.textContent = (m.c >= 0 ? '+' : '') + m.c.toFixed(2) + '%';
             c.a.classList.toggle('up', m.c >= 0); c.a.classList.toggle('down', m.c < 0);
             var v = m.s, min = Math.min.apply(null, v), max = Math.max.apply(null, v), rng = (max - min) || 1;

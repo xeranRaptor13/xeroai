@@ -995,21 +995,12 @@
       position: fixed;
       top: 0; left: 0;
       height: 100vh;
-      height: 100dvh;
-      width: 260px;
-      max-width: 85vw;
+      width: 240px;
       z-index: 50;
-      /* solid background so page content never shows through the open drawer */
-      background: #0b0c10 !important;
-      background-image: none !important;
-      -webkit-backdrop-filter: none;
-      backdrop-filter: none;
-      box-shadow: 8px 0 32px rgba(0,0,0,0.6);
       transform: translateX(-100%);
-      visibility: hidden;
-      transition: transform .35s cubic-bezier(.16,1,.3,1), visibility 0s linear .35s;
+      transition: transform .35s cubic-bezier(.16,1,.3,1);
     }
-    .app-sidebar.open{ transform: translateX(0); visibility: visible; transition-delay: 0s; }
+    .app-sidebar.open{ transform: translateX(0); }
     .sidebar-collapse-btn{ display: none; }
 
     .mobile-menu-btn{ display: flex; }
@@ -1866,6 +1857,40 @@
   .direction-sell{ color: var(--red); background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3); }
 
   /* ---- live market watch ---- */
+  .market-watch-group{ margin-bottom: 24px; }
+
+  .market-watch-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .market-watch-card{
+    padding: 20px 22px;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--border);
+    transition: border-color .3s ease, box-shadow .3s ease, transform .2s ease;
+  }
+  .market-watch-card:hover{
+    border-color: rgba(94,142,255,0.3);
+    box-shadow: 0 18px 40px -26px rgba(94,142,255,0.4);
+    transform: translateY(-2px);
+  }
+
+  .market-watch-top{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .market-watch-top h3{
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 14.5px;
+    color: var(--ink);
+  }
+
   .live-pulse-dot{
     width: 8px;
     height: 8px;
@@ -1876,12 +1901,23 @@
     flex-shrink: 0;
   }
 
+  .market-watch-row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 12.5px;
+    color: var(--dim);
+  }
+  .market-watch-row span:last-child{ font-weight: 500; color: var(--ink); }
+
   .trend-up{ color: var(--green) !important; }
   .trend-down{ color: var(--red) !important; }
   .trend-neutral{ color: var(--gold) !important; }
 
   @media (prefers-reduced-motion: reduce){
     .badge-running .dot, .badge-monitoring .dot, .live-pulse-dot{ animation: none !important; }
+    .market-watch-card{ transform: none !important; }
   }
 
   /* ============ AI DECISION CENTER & TRADE HISTORY (Module 2C.2) ============ */
@@ -2869,6 +2905,25 @@
     .platform-cards-grid{
       grid-template-columns: repeat(2, 1fr);
     }
+
+    /* Trading page: Live Market Watch (3 fixed columns), and Analytics
+       page: the 6-card performance summary row. Neither had a mobile
+       override, so on a narrow screen the cards' own content (e.g.
+       "Average Profit per Trade") couldn't shrink to fit — CSS Grid's
+       1fr columns don't prevent overflow by themselves, since a grid
+       item's default min-width is its content's width, not 0. That
+       forced the ENTIRE page wider than the viewport, which is also
+       what was throwing off the centered loading-logo overlay on these
+       two specific pages (a mobile browser auto-zooms out to fit
+       overflowing content, and the fixed-position overlay was being
+       positioned relative to that wider, zoomed-out layout instead of
+       the screen actually visible on screen). */
+    .market-watch-grid{
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .performance-summary-grid{
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   @media (max-width: 640px){
@@ -2890,6 +2945,8 @@
     /* Trading page: down to a single column on phones. */
     .trading-stats-grid{ grid-template-columns: 1fr; }
     .platform-cards-grid{ grid-template-columns: 1fr; }
+    .market-watch-grid{ grid-template-columns: 1fr; }
+    .performance-summary-grid{ grid-template-columns: 1fr; }
 
     /* Comfortable touch targets */
     .sidebar-link{ padding: 12px 12px; }
@@ -3466,3 +3523,54 @@
     .demo-controls-actions{ flex-direction: column; }
     .demo-controls-actions button{ width: 100%; }
   }
+
+
+  /* ============ LIVE MARKET CHART (replaces Connection Health) ============ */
+  .market-chart-card{
+    display: flex; flex-direction: column; min-width: 0;
+    padding: 20px 22px 16px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+    border: 1px solid var(--border);
+  }
+  .mc-head{ display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+  .mc-head h3{ font-family: var(--font-display); font-weight: 600; font-size: 15px; color: var(--ink); }
+  .mc-status{ display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 10.5px; color: var(--dim); }
+  .mc-dot{ width: 6px; height: 6px; border-radius: 50%; background: var(--dim); }
+  .mc-status.is-live{ color: var(--green); }
+  .mc-status.is-live .mc-dot{ background: var(--green); }
+  .mc-status.is-off{ color: var(--red); }
+  .mc-status.is-off .mc-dot{ background: var(--red); }
+  .mc-status.is-closed{ color: var(--gold); }
+  .mc-status.is-closed .mc-dot{ background: var(--gold); }
+
+  .mc-symbols{ display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; scrollbar-width: none; }
+  .mc-symbols::-webkit-scrollbar{ display: none; }
+  .mc-chip, .mc-tf{
+    font-family: var(--font-body); font-weight: 500; color: var(--dim);
+    background: transparent; border: 1px solid var(--border); cursor: pointer; white-space: nowrap;
+    transition: color .15s, background .15s, border-color .15s;
+  }
+  .mc-chip{ font-size: 12px; padding: 6px 11px; border-radius: 999px; }
+  .mc-chip:hover, .mc-tf:hover{ color: var(--ink); }
+  .mc-chip[aria-selected="true"]{ color: var(--ink); background: var(--surface-strong); border-color: var(--border-strong); }
+  .mc-chip:focus-visible, .mc-tf:focus-visible{ outline: 2px solid var(--signal); outline-offset: 2px; }
+
+  .mc-readout{ display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+  .mc-price{ font-family: var(--font-mono); font-weight: 600; font-size: 22px; color: var(--ink); }
+  .mc-chg{ font-family: var(--font-mono); font-size: 12px; margin-left: 6px; }
+  .mc-chg.up{ color: var(--green); }
+  .mc-chg.down{ color: var(--red); }
+  .mc-tfs{ display: inline-flex; gap: 2px; padding: 2px; border-radius: 8px; border: 1px solid var(--border); }
+  .mc-tf{ font-size: 11px; padding: 4px 8px; border: 0; border-radius: 6px; }
+  .mc-tf[aria-selected="true"]{ color: var(--ink); background: var(--surface-strong); }
+
+  .mc-chart{ position: relative; flex: 1; min-height: 250px; }
+  .mc-msg{
+    position: absolute; inset: 0; z-index: 2; display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 0 20px; font-size: 12.5px; color: var(--dim); background: rgba(8,9,12,0.55);
+  }
+  .mc-msg[hidden]{ display: none; }
+
+  .mc-tfs{ align-items: center; }
+  .mc-tf-label{ font-size: 11px; color: var(--dim); padding: 0 6px 0 8px; }

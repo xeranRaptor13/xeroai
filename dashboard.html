@@ -144,6 +144,56 @@
       #tradeHistoryCard .monitor-table tbody tr.th-empty,#tradeHistoryCard .monitor-table tbody tr.th-empty td{display:block}
     }
   </style>
+  <style id="xeroai-trading-hours-style">
+  .xth{ margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--border); container-type: inline-size; }
+  .xth-head{ display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+  .xth-title{ font-family: var(--font-display); font-weight: 600; font-size: 14px; color: var(--ink); margin: 0 0 4px; }
+  .xth-sub{ font-size: 11.5px; color: var(--dim-2); margin: 0; }
+  .xth-live{ display: inline-flex; align-items: center; gap: 6px; flex: 0 0 auto; padding: 4px 10px; border-radius: 100px; font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; letter-spacing: .06em; color: var(--green); background: rgba(74,222,128,.1); border: 1px solid rgba(74,222,128,.28); }
+  .xth-dot{ width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 6px currentColor; animation: xth-pulse 2s ease-in-out infinite; }
+  .xth-live[data-status="loading"]{ color: var(--dim); background: var(--surface); border-color: var(--border); }
+  .xth-live[data-status="stale"]{ color: var(--gold); background: rgba(217,166,92,.1); border-color: rgba(217,166,92,.3); }
+  .xth-live[data-status="offline"]{ color: var(--red); background: rgba(248,113,113,.1); border-color: rgba(248,113,113,.3); }
+  .xth-live[data-status="offline"] .xth-dot{ animation: none; box-shadow: none; }
+  @keyframes xth-pulse{ 0%,100%{ opacity: 1; transform: scale(1); } 50%{ opacity: .45; transform: scale(.8); } }
+  .xth-summary{ display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; font-size: 12px; color: var(--dim); margin-bottom: 12px; }
+  .xth-summary b{ font-family: var(--font-mono); font-weight: 600; color: var(--ink); }
+  .xth-summary .xth-open b{ color: var(--green); }
+  .xth-summary .xth-closed b{ color: var(--red); }
+  .xth-updated{ margin-left: auto; font-family: var(--font-mono); font-size: 11px; color: var(--dim-2); }
+  .xth-error{ display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; padding: 10px 12px; border-radius: 10px; font-size: 12px; line-height: 1.4; color: var(--gold); background: rgba(217,166,92,.08); border: 1px solid rgba(217,166,92,.25); }
+  .xth-error[hidden]{ display: none; }
+  .xth-retry{ flex: 0 0 auto; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border-strong); background: var(--surface-strong); color: var(--ink); font: 600 11.5px/1 var(--font-body); cursor: pointer; transition: border-color .2s; }
+  .xth-retry:hover{ border-color: var(--signal); }
+  .xth-list{ display: flex; flex-direction: column; gap: 8px; }
+  .xth-row{ display: grid; grid-template-columns: minmax(0,1.5fr) 92px minmax(0,1fr) minmax(0,1fr) minmax(0,1fr); align-items: center; gap: 12px; padding: 11px 14px; border-radius: 12px; background: rgba(255,255,255,.025); border: 1px solid var(--border); border-left: 3px solid var(--dim-2); transition: border-color .3s ease, background .3s ease; }
+  .xth-row[data-state="open"]{ border-left-color: var(--green); background: linear-gradient(90deg, rgba(74,222,128,.06), rgba(255,255,255,.025) 60%); }
+  .xth-row[data-state="closed"]{ border-left-color: var(--red); background: linear-gradient(90deg, rgba(248,113,113,.05), rgba(255,255,255,.025) 60%); }
+  .xth-name{ min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+  .xth-name-txt{ font-family: var(--font-display); font-weight: 600; font-size: 13px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .xth-avail{ font-size: 11px; color: var(--dim-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .xth-status{ display: flex; }
+  .xth-pill{ display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px; border-radius: 100px; font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; letter-spacing: .05em; white-space: nowrap; color: var(--dim); background: var(--surface); border: 1px solid var(--border); }
+  .xth-pill::before{ content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .xth-row[data-state="open"] .xth-pill{ color: var(--green); background: rgba(74,222,128,.1); border-color: rgba(74,222,128,.28); }
+  .xth-row[data-state="closed"] .xth-pill{ color: var(--red); background: rgba(248,113,113,.1); border-color: rgba(248,113,113,.28); }
+  .xth-cell{ display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .xth-lbl{ font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--dim-2); }
+  .xth-val{ font-family: var(--font-mono); font-weight: 500; font-size: 12px; color: var(--ink); white-space: nowrap; }
+  .xth-foot{ margin-top: 12px; font-size: 11px; color: var(--dim-2); }
+  @container (max-width: 560px){
+    .xth-row{ grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .xth-name{ grid-column: 1 / span 2; }
+    .xth-status{ grid-column: 3; justify-self: end; }
+  }
+  @media (max-width: 640px){
+    .xth-row{ grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .xth-name{ grid-column: 1 / span 2; }
+    .xth-status{ grid-column: 3; justify-self: end; }
+    .xth-updated{ margin-left: 0; width: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce){ .xth-dot{ animation: none; } .xth-row{ transition: none; } }
+  </style>
 </head>
 <body class="dash-body app-body">
 
@@ -285,6 +335,26 @@
                 <li><span class="sys-dot"></span>Server Status <em>Online</em></li>
                 <li><span class="sys-dot"></span>Database Status <em>Connected</em></li>
               </ul>
+              <div class="xth" id="xeroTradingHours">
+                <div class="xth-head">
+                  <div>
+                    <h4 class="xth-title">Market Hours</h4>
+                    <p class="xth-sub">Official Deriv trading schedule</p>
+                  </div>
+                  <span class="xth-live" data-status="loading" role="status"><i class="xth-dot"></i><span class="xth-live-txt">CONNECTING</span></span>
+                </div>
+                <div class="xth-summary">
+                  <span class="xth-open"><b data-sum="open">0</b> open</span>
+                  <span class="xth-closed"><b data-sum="closed">0</b> closed</span>
+                  <span class="xth-updated" data-upd>Loading…</span>
+                </div>
+                <div class="xth-error" hidden>
+                  <span class="xth-error-msg"></span>
+                  <button type="button" class="xth-retry">Retry</button>
+                </div>
+                <div class="xth-list"></div>
+                <p class="xth-foot">Times shown in <span data-tz>your local time</span>. Refreshes automatically.</p>
+              </div>
             </div>
 
             <!-- Live Chart (replaces Connection Health) -->
@@ -767,6 +837,362 @@
         a.addEventListener('click', function(){ setOpen(false); });
       });
     })();
+  </script>
+  <script id="xeroai-trading-hours">
+(function () {
+  'use strict';
+
+  var root = document.getElementById('xeroTradingHours');
+  if (!root || typeof WebSocket === 'undefined') return;
+
+  // XeroAI's Deriv App ID, configured here. Visitors never enter it.
+  var DERIV_APP_ID = '33PM0MztXv5E95pevRorY';
+  var WS_URL = 'wss://ws.derivws.com/websockets/v3?app_id=' + encodeURIComponent(DERIV_APP_ID);
+
+  var MARKETS = [
+    { symbol: 'R_10',      name: 'Volatility 10 Index' },
+    { symbol: 'R_25',      name: 'Volatility 25 Index' },
+    { symbol: 'R_50',      name: 'Volatility 50 Index' },
+    { symbol: 'R_75',      name: 'Volatility 75 Index' },
+    { symbol: 'R_100',     name: 'Volatility 100 Index' },
+    { symbol: 'BOOM500',   name: 'Boom 500 Index' },
+    { symbol: 'BOOM1000',  name: 'Boom 1000 Index' },
+    { symbol: 'CRASH500',  name: 'Crash 500 Index' },
+    { symbol: 'CRASH1000', name: 'Crash 1000 Index' },
+    { symbol: 'stpRNG',    name: 'Step Index' }
+  ];
+
+  var DAY_MS = 86400000;
+  var MERGE_GAP_MS = 1000;
+  var SCHEDULE_DAYS = [-1, 0, 1, 2];
+  var REQUEST_TIMEOUT_MS = 15000;
+  var REFRESH_MS = 10 * 60 * 1000;
+  var RETRY_STEPS_MS = [30000, 60000, 120000, 300000];
+
+  var els = {
+    live: root.querySelector('.xth-live'),
+    liveTxt: root.querySelector('.xth-live-txt'),
+    open: root.querySelector('[data-sum="open"]'),
+    closed: root.querySelector('[data-sum="closed"]'),
+    updated: root.querySelector('[data-upd]'),
+    error: root.querySelector('.xth-error'),
+    errorMsg: root.querySelector('.xth-error-msg'),
+    retry: root.querySelector('.xth-retry'),
+    list: root.querySelector('.xth-list'),
+    tz: root.querySelector('[data-tz]')
+  };
+
+  var state = { schedules: null, lastUpdated: 0, loading: false, rows: {} };
+  var retryIdx = 0;
+  var retryTimer = null;
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  function utcDateStr(offsetDays) {
+    var d = new Date();
+    var utc = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + offsetDays);
+    return new Date(utc).toISOString().slice(0, 10);
+  }
+
+  function dayStartMs(dateStr) {
+    var p = dateStr.split('-');
+    return Date.UTC(+p[0], +p[1] - 1, +p[2]);
+  }
+
+  function hmsToSec(s) {
+    if (typeof s !== 'string') return null;
+    var m = /^(\d{1,2}):(\d{2})(?::(\d{2}))?$/.exec(s.trim());
+    if (!m) return null;
+    return (+m[1]) * 3600 + (+m[2]) * 60 + (+m[3] || 0);
+  }
+
+  function fmtLocal(ms) {
+    var d = new Date(ms);
+    var time = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return d.toDateString() === new Date().toDateString()
+      ? time
+      : d.toLocaleDateString([], { weekday: 'short' }) + ' ' + time;
+  }
+
+  function fmtClock(ms) {
+    return new Date(ms).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  }
+
+  function fmtCountdown(ms) {
+    if (ms <= 0) return 'Now';
+    var s = Math.floor(ms / 1000);
+    var d = Math.floor(s / 86400);
+    var h = Math.floor((s % 86400) / 3600);
+    var m = Math.floor((s % 3600) / 60);
+    var sec = s % 60;
+    var p = function (n) { return (n < 10 ? '0' : '') + n; };
+    return (d ? d + 'd ' : '') + p(h) + ':' + p(m) + ':' + p(sec);
+  }
+
+  function intervalsFor(dateStr, times) {
+    var out = [];
+    if (!times || !times.open || !times.close) return out;
+    var base = dayStartMs(dateStr);
+    for (var i = 0; i < times.open.length; i++) {
+      var o = hmsToSec(times.open[i]);
+      var c = hmsToSec(times.close[i]);
+      if (o == null || c == null) continue;
+      var start = base + o * 1000;
+      var end = base + c * 1000;
+      if (end <= start) end += DAY_MS;
+      out.push({ start: start, end: end });
+    }
+    return out;
+  }
+
+  function mergeIntervals(list) {
+    list.sort(function (a, b) { return a.start - b.start; });
+    var out = [];
+    list.forEach(function (iv) {
+      var last = out[out.length - 1];
+      if (last && iv.start - last.end <= MERGE_GAP_MS) {
+        if (iv.end > last.end) last.end = iv.end;
+      } else {
+        out.push({ start: iv.start, end: iv.end });
+      }
+    });
+    return out;
+  }
+
+  function findSymbol(markets, symbol) {
+    for (var i = 0; i < markets.length; i++) {
+      var subs = markets[i].submarkets || [];
+      for (var j = 0; j < subs.length; j++) {
+        var syms = subs[j].symbols || [];
+        for (var k = 0; k < syms.length; k++) {
+          if (syms[k].symbol === symbol) return syms[k];
+        }
+      }
+    }
+    return null;
+  }
+
+  function isAlwaysOpen(times) {
+    if (!times || !times.open || !times.close) return false;
+    return times.open.length === 1 && times.close.length === 1 &&
+      hmsToSec(times.open[0]) === 0 && hmsToSec(times.close[0]) >= 86340;
+  }
+
+  function buildSchedules(days) {
+    var out = {};
+    MARKETS.forEach(function (m) {
+      var intervals = [], listed = false, always = true;
+      days.forEach(function (day) {
+        var entry = findSymbol(day.markets, m.symbol);
+        if (!entry) return;
+        listed = true;
+        if (!isAlwaysOpen(entry.times)) always = false;
+        intervals = intervals.concat(intervalsFor(day.date, entry.times));
+      });
+      out[m.symbol] = { listed: listed, is247: listed && always, intervals: mergeIntervals(intervals) };
+    });
+    return out;
+  }
+
+  function evaluate(sched, now) {
+    var cur = null, next = null;
+    for (var i = 0; i < sched.intervals.length; i++) {
+      var iv = sched.intervals[i];
+      if (iv.start <= now && now < iv.end) {
+        cur = iv;
+      } else if (iv.start > now) {
+        next = iv;
+        break;
+      }
+    }
+    if (cur) return { status: 'open', opensAt: cur.start, closesAt: cur.end, nextOpenAt: next ? next.start : null };
+    if (next) return { status: 'closed', opensAt: next.start, closesAt: next.end, nextOpenAt: next.start };
+    return { status: 'unknown', opensAt: null, closesAt: null, nextOpenAt: null };
+  }
+
+  function fetchTradingTimes() {
+    return new Promise(function (resolve, reject) {
+      var ws = null, settled = false, pending = {}, remaining = 0, days = [], lastError = null;
+      var timer = setTimeout(function () { finish(new Error('Deriv did not respond in time')); }, REQUEST_TIMEOUT_MS);
+
+      function finish(err) {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        if (ws) {
+          ws.onopen = ws.onmessage = ws.onerror = ws.onclose = null;
+          try { ws.close(); } catch (e) { /* already closed */ }
+        }
+        if (days.length) resolve(days);
+        else reject(err || lastError || new Error('No schedule returned'));
+      }
+
+      try { ws = new WebSocket(WS_URL); } catch (e) { return finish(e); }
+
+      ws.onopen = function () {
+        SCHEDULE_DAYS.forEach(function (off, i) {
+          var date = utcDateStr(off);
+          var reqId = i + 1;
+          pending[reqId] = date;
+          remaining++;
+          ws.send(JSON.stringify({ trading_times: date, req_id: reqId }));
+        });
+      };
+
+      ws.onmessage = function (ev) {
+        var msg;
+        try { msg = JSON.parse(ev.data); } catch (e) { return; }
+        if (!msg || msg.req_id == null || !(msg.req_id in pending)) return;
+        var date = pending[msg.req_id];
+        delete pending[msg.req_id];
+        if (msg.error) {
+          lastError = new Error(msg.error.message || 'Deriv returned an error');
+        } else if (msg.trading_times && msg.trading_times.markets) {
+          days.push({ date: date, markets: msg.trading_times.markets });
+        }
+        remaining--;
+        if (remaining <= 0) finish();
+      };
+
+      ws.onerror = function () { finish(new Error('Could not connect to Deriv')); };
+      ws.onclose = function () { finish(new Error('Connection to Deriv closed early')); };
+    });
+  }
+
+  function cell(label) {
+    var wrap = el('div', 'xth-cell');
+    wrap.appendChild(el('span', 'xth-lbl', label));
+    var val = el('span', 'xth-val', '\u2014');
+    wrap.appendChild(val);
+    return { wrap: wrap, val: val };
+  }
+
+  function buildRows() {
+    MARKETS.forEach(function (m) {
+      var row = el('div', 'xth-row');
+      row.setAttribute('data-state', 'loading');
+      var name = el('div', 'xth-name');
+      name.appendChild(el('span', 'xth-name-txt', m.name));
+      var avail = el('span', 'xth-avail', 'Loading');
+      name.appendChild(avail);
+      var statusWrap = el('div', 'xth-status');
+      var pill = el('span', 'xth-pill', '\u2026');
+      statusWrap.appendChild(pill);
+      var opens = cell('Opens');
+      var closes = cell('Closes');
+      var next = cell('Next open in');
+      row.appendChild(name);
+      row.appendChild(statusWrap);
+      row.appendChild(opens.wrap);
+      row.appendChild(closes.wrap);
+      row.appendChild(next.wrap);
+      els.list.appendChild(row);
+      state.rows[m.symbol] = { row: row, avail: avail, pill: pill, opens: opens.val, closes: closes.val, next: next.val };
+    });
+  }
+
+  function setRow(r, st, pill, avail, opens, closes, next) {
+    r.row.setAttribute('data-state', st);
+    r.pill.textContent = pill;
+    r.avail.textContent = avail;
+    r.opens.textContent = opens;
+    r.closes.textContent = closes;
+    r.next.textContent = next;
+  }
+
+  function setLive(status) {
+    var labels = { live: 'LIVE', stale: 'STALE', offline: 'OFFLINE', loading: 'CONNECTING' };
+    els.live.setAttribute('data-status', status);
+    els.liveTxt.textContent = labels[status] || 'LIVE';
+  }
+
+  function setError(err, retryDelayMs) {
+    if (!err) { els.error.hidden = true; return; }
+    var secs = Math.round(retryDelayMs / 1000);
+    var base = state.schedules
+      ? 'Could not refresh Deriv hours. Showing the last known schedule.'
+      : 'Could not load Deriv trading hours.';
+    els.errorMsg.textContent = base + ' Retrying in ' + secs + 's.';
+    els.error.hidden = false;
+  }
+
+  function render() {
+    if (!state.schedules) return;
+    var now = Date.now();
+    var counts = { open: 0, closed: 0 };
+    MARKETS.forEach(function (m) {
+      var r = state.rows[m.symbol];
+      var s = state.schedules[m.symbol];
+      if (!s || !s.listed) {
+        setRow(r, 'unlisted', 'N/A', 'Not listed', '\u2014', '\u2014', '\u2014');
+        return;
+      }
+      if (s.is247) {
+        counts.open++;
+        setRow(r, 'open', 'OPEN', 'Available \u00b7 24/7', 'Always', 'Always', '\u2014');
+        return;
+      }
+      var ev = evaluate(s, now);
+      if (ev.status === 'open') counts.open++;
+      if (ev.status === 'closed') counts.closed++;
+      setRow(
+        r,
+        ev.status,
+        ev.status === 'open' ? 'OPEN' : (ev.status === 'closed' ? 'CLOSED' : 'N/A'),
+        'Available \u00b7 Scheduled',
+        ev.opensAt ? fmtLocal(ev.opensAt) : '\u2014',
+        ev.closesAt ? fmtLocal(ev.closesAt) : '\u2014',
+        ev.nextOpenAt ? fmtCountdown(ev.nextOpenAt - now) : '\u2014'
+      );
+    });
+    els.open.textContent = counts.open;
+    els.closed.textContent = counts.closed;
+    els.updated.textContent = state.lastUpdated ? 'Updated ' + fmtClock(state.lastUpdated) : 'Loading\u2026';
+  }
+
+  function load() {
+    if (state.loading) return;
+    state.loading = true;
+    clearTimeout(retryTimer);
+    if (!state.schedules) setLive('loading');
+
+    fetchTradingTimes().then(function (days) {
+      var todayStr = utcDateStr(0);
+      var hasToday = days.some(function (d) { return d.date === todayStr; });
+      if (!hasToday) throw new Error("Today's schedule was not returned");
+      state.schedules = buildSchedules(days);
+      state.lastUpdated = Date.now();
+      retryIdx = 0;
+      setError(null);
+      setLive('live');
+      render();
+      state.loading = false;
+    }).catch(function (err) {
+      var delay = RETRY_STEPS_MS[Math.min(retryIdx, RETRY_STEPS_MS.length - 1)];
+      retryIdx++;
+      setError(err, delay);
+      setLive(state.schedules ? 'stale' : 'offline');
+      retryTimer = setTimeout(load, delay);
+      state.loading = false;
+    });
+  }
+
+  buildRows();
+  els.tz.textContent = (Intl.DateTimeFormat().resolvedOptions().timeZone) || 'your local time';
+  els.retry.addEventListener('click', function () {
+    clearTimeout(retryTimer);
+    retryIdx = 0;
+    load();
+  });
+  load();
+  setInterval(render, 1000);
+  setInterval(load, REFRESH_MS);
+})();
   </script>
 </body>
 </html>

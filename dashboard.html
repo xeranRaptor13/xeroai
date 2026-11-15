@@ -144,32 +144,14 @@
       #tradeHistoryCard .monitor-table tbody tr.th-empty,#tradeHistoryCard .monitor-table tbody tr.th-empty td{display:block}
     }
   </style>
-  <style id="xeroai-session-clock-style">
-  .xsc{ margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--border); container-type: inline-size; }
-  .xsc-head{ display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
-  .xsc-title{ font-family: var(--font-display); font-weight: 600; font-size: 14px; color: var(--ink); margin: 0 0 4px; }
-  .xsc-sub{ font-size: 11.5px; color: var(--dim-2); margin: 0; }
-  .xsc-list{ display: flex; flex-direction: column; gap: 8px; }
-  .xsc-row{ display: grid; grid-template-columns: minmax(0,1.4fr) 92px minmax(0,1fr) minmax(0,1fr); align-items: center; gap: 12px; padding: 10px 14px; border-radius: 12px; background: rgba(255,255,255,.025); border: 1px solid var(--border); border-left: 3px solid var(--dim-2); transition: border-color .3s ease, background .3s ease; }
-  .xsc-row[data-state="open"]{ border-left-color: var(--green); background: linear-gradient(90deg, rgba(74,222,128,.06), rgba(255,255,255,.025) 60%); }
-  .xsc-row[data-state="closed"]{ border-left-color: var(--red); background: linear-gradient(90deg, rgba(248,113,113,.05), rgba(255,255,255,.025) 60%); }
-  .xsc-name{ min-width: 0; display: flex; flex-direction: column; gap: 3px; }
-  .xsc-name b{ font-family: var(--font-display); font-weight: 600; font-size: 13px; color: var(--ink); white-space: nowrap; }
-  .xsc-name span{ font-family: var(--font-mono); font-size: 10.5px; color: var(--dim-2); white-space: nowrap; }
-  .xsc-status{ display: flex; }
-  .xsc-pill{ display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px; border-radius: 100px; font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; letter-spacing: .05em; white-space: nowrap; color: var(--dim); background: var(--surface); border: 1px solid var(--border); }
-  .xsc-pill::before{ content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-  .xsc-row[data-state="open"] .xsc-pill{ color: var(--green); background: rgba(74,222,128,.1); border-color: rgba(74,222,128,.28); }
-  .xsc-row[data-state="closed"] .xsc-pill{ color: var(--red); background: rgba(248,113,113,.1); border-color: rgba(248,113,113,.28); }
-  .xsc-cell{ display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-  .xsc-lbl{ font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--dim-2); }
-  .xsc-val{ font-family: var(--font-mono); font-weight: 500; font-size: 12px; color: var(--ink); white-space: nowrap; }
-  .xsc-foot{ margin-top: 12px; font-size: 11px; color: var(--dim-2); line-height: 1.5; }
-  @container (max-width: 460px){
-    .xsc-row{ grid-template-columns: repeat(3, minmax(0,1fr)); }
-    .xsc-name{ grid-column: 1 / span 2; }
-    .xsc-status{ grid-column: 3; justify-self: end; }
-  }
+  <style id="xeroai-stock-heatmap-style">
+  .xhm{ margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--border); }
+  .xhm-head{ margin-bottom: 14px; }
+  .xhm-title{ font-family: var(--font-display); font-weight: 600; font-size: 14px; color: var(--ink); margin: 0 0 4px; }
+  .xhm-sub{ font-size: 11.5px; color: var(--dim-2); margin: 0; }
+  .xhm-frame{ height: 420px; width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+  .xhm-frame .tradingview-widget-container{ height: 100%; width: 100%; }
+  @media (max-width: 640px){ .xhm-frame{ height: 360px; } }
   </style>
 </head>
 <body class="dash-body app-body">
@@ -312,40 +294,35 @@
                 <li><span class="sys-dot"></span>Server Status <em>Online</em></li>
                 <li><span class="sys-dot"></span>Database Status <em>Connected</em></li>
               </ul>
-              <div class="xsc" id="xeroSessionClock">
-                <div class="xsc-head">
-                  <div>
-                    <h4 class="xsc-title">Market Sessions</h4>
-                    <p class="xsc-sub">Forex trading centres</p>
+              <div class="xhm" id="xeroStockHeatmap">
+                <div class="xhm-head">
+                  <h4 class="xhm-title">Stock Heatmap</h4>
+                  <p class="xhm-sub">S&amp;P 500 performance by sector</p>
+                </div>
+                <div class="xhm-frame">
+                  <div class="tradingview-widget-container">
+                    <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+                    <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/heatmap/stock/" rel="noopener nofollow" target="_blank"><span class="blue-text">Stock Heatmap</span></a><span class="trademark"> by TradingView</span></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js" async>
+                    {
+                      "exchanges": [],
+                      "dataSource": "SPX500",
+                      "grouping": "sector",
+                      "blockSize": "market_cap_basic",
+                      "blockColor": "change",
+                      "locale": "en",
+                      "symbolUrl": "",
+                      "colorTheme": "dark",
+                      "hasTopBar": false,
+                      "isDataSetEnabled": false,
+                      "isZoomEnabled": true,
+                      "hasSymbolTooltip": true,
+                      "width": "100%",
+                      "height": "100%"
+                    }
+                    </script>
                   </div>
                 </div>
-                <div class="xsc-list">
-                  <div class="xsc-row" data-zone="london" data-state="closed">
-                    <div class="xsc-name"><b>London</b><span data-hours></span></div>
-                    <div class="xsc-status"><span class="xsc-pill">CLOSED</span></div>
-                    <div class="xsc-cell"><span class="xsc-lbl">Local time</span><span class="xsc-val" data-local>--:--</span></div>
-                    <div class="xsc-cell"><span class="xsc-lbl" data-cd-label>Opens in</span><span class="xsc-val" data-cd>--</span></div>
-                  </div>
-                  <div class="xsc-row" data-zone="newyork" data-state="closed">
-                    <div class="xsc-name"><b>New York</b><span data-hours></span></div>
-                    <div class="xsc-status"><span class="xsc-pill">CLOSED</span></div>
-                    <div class="xsc-cell"><span class="xsc-lbl">Local time</span><span class="xsc-val" data-local>--:--</span></div>
-                    <div class="xsc-cell"><span class="xsc-lbl" data-cd-label>Opens in</span><span class="xsc-val" data-cd>--</span></div>
-                  </div>
-                  <div class="xsc-row" data-zone="tokyo" data-state="closed">
-                    <div class="xsc-name"><b>Tokyo</b><span data-hours></span></div>
-                    <div class="xsc-status"><span class="xsc-pill">CLOSED</span></div>
-                    <div class="xsc-cell"><span class="xsc-lbl">Local time</span><span class="xsc-val" data-local>--:--</span></div>
-                    <div class="xsc-cell"><span class="xsc-lbl" data-cd-label>Opens in</span><span class="xsc-val" data-cd>--</span></div>
-                  </div>
-                  <div class="xsc-row" data-zone="sydney" data-state="closed">
-                    <div class="xsc-name"><b>Sydney</b><span data-hours></span></div>
-                    <div class="xsc-status"><span class="xsc-pill">CLOSED</span></div>
-                    <div class="xsc-cell"><span class="xsc-lbl">Local time</span><span class="xsc-val" data-local>--:--</span></div>
-                    <div class="xsc-cell"><span class="xsc-lbl" data-cd-label>Opens in</span><span class="xsc-val" data-cd>--</span></div>
-                  </div>
-                </div>
-                <p class="xsc-foot">Conventional session hours shown in each centre's local time. Forex is closed from Friday 17:00 to Sunday 17:00 New York time. Public holidays are not included.</p>
               </div>
             </div>
 
@@ -829,113 +806,6 @@
         a.addEventListener('click', function(){ setOpen(false); });
       });
     })();
-  </script>
-  <script id="xeroai-session-clock">
-(function () {
-  'use strict';
-
-  var root = document.getElementById('xeroSessionClock');
-  if (!root || typeof Intl === 'undefined') return;
-
-  // Conventional session hours in each centre's local time. Not exchange data.
-  var ZONES = [
-    { key: 'london',  tz: 'Europe/London',     open: 8 * 60, close: 17 * 60 },
-    { key: 'newyork', tz: 'America/New_York',  open: 8 * 60, close: 17 * 60 },
-    { key: 'tokyo',   tz: 'Asia/Tokyo',        open: 9 * 60, close: 18 * 60 },
-    { key: 'sydney',  tz: 'Australia/Sydney',  open: 8 * 60, close: 17 * 60 }
-  ];
-
-  var MINUTE = 60000;
-  var FX_WEEKEND_CLOSE = 17 * 60;       // New York time: Friday 17:00 to Sunday 17:00 is closed
-  var SEARCH_MINUTES = 8 * 24 * 60;     // look up to 8 days ahead for the next change
-  var RETRY_MS = 60 * 1000;
-
-  var fmtCache = {};
-  function getFmt(tz, kind) {
-    var k = tz + '|' + kind;
-    if (!fmtCache[k]) {
-      fmtCache[k] = kind === 'parts'
-        ? new Intl.DateTimeFormat('en-GB', { timeZone: tz, weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
-        : new Intl.DateTimeFormat('en-GB', { timeZone: tz, hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
-    }
-    return fmtCache[k];
-  }
-
-  function zoneParts(ms, tz) {
-    var p = {};
-    getFmt(tz, 'parts').formatToParts(new Date(ms)).forEach(function (x) { p[x.type] = x.value; });
-    return { wd: p.weekday, mins: ((+p.hour) % 24) * 60 + (+p.minute) };
-  }
-
-  function fxWeekendClosed(ms) {
-    var ny = zoneParts(ms, 'America/New_York');
-    if (ny.wd === 'Sat') return true;
-    if (ny.wd === 'Sun') return ny.mins < FX_WEEKEND_CLOSE;
-    if (ny.wd === 'Fri') return ny.mins >= FX_WEEKEND_CLOSE;
-    return false;
-  }
-
-  function isOpen(zone, ms) {
-    if (fxWeekendClosed(ms)) return false;
-    var p = zoneParts(ms, zone.tz);
-    if (p.wd === 'Sat' || p.wd === 'Sun') return false;
-    return p.mins >= zone.open && p.mins < zone.close;
-  }
-
-  // First whole minute after `now` where the centre's state differs from `currentOpen`.
-  function nextTransition(zone, now, currentOpen) {
-    var start = Math.ceil((now + 1) / MINUTE) * MINUTE;
-    for (var i = 0; i < SEARCH_MINUTES; i++) {
-      var t = start + i * MINUTE;
-      if (isOpen(zone, t) !== currentOpen) return t;
-    }
-    return null;
-  }
-
-  var cache = {};
-  function stateFor(zone, now) {
-    var c = cache[zone.key];
-    var stale = !c || (c.at !== null && now >= c.at) || (c.at === null && now >= c.retryAt);
-    if (stale) {
-      var open = isOpen(zone, now);
-      c = cache[zone.key] = { open: open, at: nextTransition(zone, now, open), retryAt: now + RETRY_MS };
-    }
-    return c;
-  }
-
-  function pad(n) { return (n < 10 ? '0' : '') + n; }
-  function fmtHours(mins) { return pad(Math.floor(mins / 60)) + ':' + pad(mins % 60); }
-
-  function fmtCountdown(ms) {
-    var s = Math.max(0, Math.floor(ms / 1000));
-    var d = Math.floor(s / 86400);
-    var h = Math.floor((s % 86400) / 3600);
-    var m = Math.floor((s % 3600) / 60);
-    var sec = s % 60;
-    return (d ? d + 'd ' : '') + pad(h) + ':' + pad(m) + ':' + pad(sec);
-  }
-
-  function render() {
-    var now = Date.now();
-    ZONES.forEach(function (z) {
-      var row = root.querySelector('[data-zone="' + z.key + '"]');
-      if (!row) return;
-      var s = stateFor(z, now);
-      row.setAttribute('data-state', s.open ? 'open' : 'closed');
-      row.querySelector('.xsc-pill').textContent = s.open ? 'OPEN' : 'CLOSED';
-      row.querySelector('[data-local]').textContent = getFmt(z.tz, 'time').format(new Date(now));
-      row.querySelector('[data-cd-label]').textContent = s.open ? 'Closes in' : 'Opens in';
-      row.querySelector('[data-cd]').textContent = s.at !== null ? fmtCountdown(s.at - now) : '\u2014';
-    });
-  }
-
-  ZONES.forEach(function (z) {
-    var row = root.querySelector('[data-zone="' + z.key + '"]');
-    if (row) row.querySelector('[data-hours]').textContent = fmtHours(z.open) + '\u2013' + fmtHours(z.close);
-  });
-  render();
-  setInterval(render, 1000);
-})();
   </script>
 </body>
 </html>
